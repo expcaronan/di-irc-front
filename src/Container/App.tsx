@@ -11,6 +11,9 @@ import Login from '../Pages/Login';
 import HomeLogin from '../Pages/HomeLogin';
 import { jwtDecode } from 'jwt-decode';
 import EmployeeUserModel from '../Interfaces/EmployeeUserModel';
+import HomeRegisterUser from '../Pages/HomeRegisterUser';
+import HomeEmployeeUser from '../Pages/HomeEmployeeUser';
+import HomeCreateTask from '../Pages/Task/HomeCreateTask';
 
 
 function App() {
@@ -32,7 +35,7 @@ function App() {
         const storedJsonData= jwtDecode<EmployeeUserModel>(storedJsonString);
        // console.log(storedData);
        // const storedJsonData  = JSON.parse(storedData); 
-        console.log(storedJsonData);
+        //console.log(storedJsonData);
        setUseId(storedJsonData.employeeId);
        //setShiftId(storedJsonData.shiftId);
        //setDeptId(storedJsonData.departmentId);
@@ -70,7 +73,9 @@ function App() {
         <>
             <Route path="/" element= {<HomeLogin  empId={useId} deptId={deptId}  shiftId={shiftId}/>} /> 
             <Route path="/login" element={<Login onLogin={isLoggedIn} />} />
+            <Route path="user/register" element={<HomeRegisterUser/>} />
         </>
+      
         </Routes>
         }
         
@@ -81,7 +86,8 @@ function App() {
      
       <div className="page-content d-flex flex-column flex-row-fluid">
         <Routes>
-                   
+          <Route path="employee/list" element={<HomeEmployeeUser/>} />  
+          <Route path="task/create" element={<HomeCreateTask/>} />      
           <Route path="*" element= {<NotFound/>} />
    
         </Routes>

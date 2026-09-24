@@ -166,7 +166,7 @@ function Login({onLogin}: props) {
                                            
                                             <div className="d-flex align-items-center pb-3">
 
-                                            <button className="w-100 btn btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">
+                                            <button className="w-100 btn btn-lg" type="button" onClick={() => navigate("/user/register")} >
                                                 Register Here
                                             </button>
                                                 {/* <span

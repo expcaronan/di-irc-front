@@ -98,13 +98,36 @@ function Sidebar({roleId}:props) {
               
             {
                 }
+
+
                <>
-                 <li className="nav-item">
-                <a href="#" onClick={() => navigate("/leaveapplication/status")} className="nav-link d-flex align-items-center text-truncate ">
+                <li className="nav-item">
+                <a href="#" onClick={() => navigate("task/create")} className="nav-link d-flex align-items-center text-truncate ">
                   <span className="sidebar-icon">
-                  <span className="bi bi-check2-square"></span>
+                  
+                    <span className="bi bi-card-list"></span>
                   </span>
-                  <span className="sidebar-text">Leave Status</span>
+                  <span className="sidebar-text">Create Task</span>
+                </a>
+              </li>
+
+                <li className="nav-item">
+                <a href="#" onClick={() => navigate("task/monitoring/list")} className="nav-link d-flex align-items-center text-truncate ">
+                  <span className="sidebar-icon">
+                  
+                    <span className="bi bi-card-list"></span>
+                  </span>
+                  <span className="sidebar-text">Daily Monitoring Task</span>
+                </a>
+              </li>
+              {/* //maintenance ////////////////////////////// */}
+                <li className="nav-item">
+                <a href="#" onClick={() => navigate("/employee/list")} className="nav-link d-flex align-items-center text-truncate ">
+                  <span className="sidebar-icon">
+                  
+                    <span className="bi bi-card-list"></span>
+                  </span>
+                  <span className="sidebar-text">Maintenance</span>
                 </a>
               </li>
                 </>
@@ -131,15 +154,14 @@ function Sidebar({roleId}:props) {
                 </a>
               </li>
 
-               <li className="nav-item">
-                <a href="#" onClick={() => navigate("/attendancemaintenance")} className="nav-link d-flex align-items-center text-truncate ">
-                  <span className="sidebar-icon">
-                  
-                    <span className="bi bi-card-list"></span>
-                  </span>
-                  <span className="sidebar-text">Attendance Maintenance</span>
-                </a>
-              </li>
+
+
+
+      
+              
+              
+
+
               <li className="nav-item">
                 <a href="#" onClick={() => navigate("/calendar")} className="nav-link d-flex align-items-center text-truncate ">
                   <span className="sidebar-icon">
