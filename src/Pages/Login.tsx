@@ -56,7 +56,7 @@ function Login({onLogin}: props) {
         userName: userInput.userName,
         passwordHash: userInput.passwordHash,
     });
-    console.log(userInput);
+    //console.log(userInput);
     if(response.data?.isSuccess == true){
      
       const jsonString = JSON.stringify(response.data.result);

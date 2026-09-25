@@ -1,10 +1,12 @@
 import React from 'react'
 import CreateTask from '../../Components/Page/Task/CreateTask'
-
-function HomeCreateTask() {
+interface props{
+  employeeId:number
+}
+function HomeCreateTask({employeeId}:props) {
   return (
     <div>
-      <CreateTask />
+      <CreateTask employeeId={employeeId}/>
     </div>
   )
 }
