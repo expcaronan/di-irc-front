@@ -19,10 +19,10 @@ const taskDocumentApi = createApi({
         invalidatesTags:['taskDocuments'],
     }),
     getAllTaskDocumentsWithAssignedEmployee:builder.query({
-            query: (empId)=> ({
+            query: (id:number)=> ({
                 url:'taskdocument/documents/list',
                   params: {
-                  empId
+                  id:id
               },
             }),
             providesTags:["taskDocuments"]

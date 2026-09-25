@@ -35,7 +35,7 @@ function App() {
         const storedJsonData= jwtDecode<EmployeeUserModel>(storedJsonString);
        // console.log(storedData);
        // const storedJsonData  = JSON.parse(storedData); 
-        console.log(storedJsonData);
+      //console.log(storedJsonData);
        setEmployeeId(storedJsonData.employeeId);
        //setShiftId(storedJsonData.shiftId);
        //setDeptId(storedJsonData.departmentId);
