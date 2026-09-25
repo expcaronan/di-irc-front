@@ -1,16 +1,21 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useCreateTaskDocumentMutation } from '../../../../Api/taskDocumentApi';
 import apiResponse from '../../../../Interfaces/apiResponse';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import EmployeeUserModel from '../../../../Interfaces/EmployeeUserModel';
+import { useGetEmpUserListQuery } from '../../../../Api/userEmpApi';
  interface props {
-        employeeId:number
+        employeeId:number,
+        dropdownListData:EmployeeUserModel[]
 }
-function TaskForm({employeeId}:props) {
+function TaskForm({employeeId,dropdownListData}:props) {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const [file, setFile] = useState<File | null>(null);
     const[createDocument] = useCreateTaskDocumentMutation();
+
+
     const [input, setInput] = useState({
        documentRefNumber:"",
        documentTitle:"",
@@ -20,9 +25,10 @@ function TaskForm({employeeId}:props) {
        isActive:true,
        createdByEmployeeId:employeeId,
        documentFilePath:"",
-      
+       assignedEmployeeIds:[] as number[]
     });
 
+   
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) =>{
         
         e.preventDefault();
@@ -39,12 +45,14 @@ function TaskForm({employeeId}:props) {
             formData.append( "dueDate", input.dueDate ); 
             formData.append( "isActive", input.isActive.toString() ); 
             formData.append( "createdByEmployeeId", input.createdByEmployeeId.toString() );
+            formData.append("assignedEmployeeIds", JSON.stringify(input.assignedEmployeeIds));
             if (file) { 
                 formData.append("file", file); 
             }
+            console.log(formData);
 
             const response:apiResponse =  await createDocument(formData) 
-            console.log(response);
+            
             if(response.data?.isSuccess == true){
                 toast.success('Task Document Created Successfully!', {
                     position: "top-right", 
@@ -59,7 +67,8 @@ function TaskForm({employeeId}:props) {
                 dueDate: today, 
                 isActive: true, 
                 createdByEmployeeId: 0,
-                documentFilePath: "" }); 
+                documentFilePath: "",
+                assignedEmployeeIds:[]}); 
                 setFile(null); 
                 navigate("/task/create");
             }else if(response.data?.exist == true){
@@ -151,6 +160,41 @@ function TaskForm({employeeId}:props) {
                     onChange={handleUserInput}
                   />
                 </div>
+                <div className="mb-3">
+                  <label htmlFor="assignedEmployeeIds" className="col-form-label">Assign Ressearchers</label>
+                  <select
+                      id="departments"
+                      required
+                      multiple
+                      className="form-select"
+                      name="assignedEmployeeIds"
+                      value={input.assignedEmployeeIds.map(String)}
+                      onChange={(e) => {
+                        const selectedIds = Array.from(
+                          e.target.selectedOptions,
+                          option => Number(option.value)
+                        );
+
+                        setInput(prev => ({
+                          ...prev,
+                          assignedEmployeeIds: selectedIds
+                        }));
+                      }}
+                    >
+                      {dropdownListData?.map(
+                        (option: EmployeeUserModel) => (
+                          <option
+                            key={option.id}
+                            value={option.id}
+                          >
+                            {option.firstName+" "+option.lastName+" "+option.id}
+                          </option>
+                        )
+                      )}
+                  </select> 
+                </div>
+
+
 
                 <div className="mb-3"> 
                     <label htmlFor="documentFile" className="form-label" > Document File </label> 

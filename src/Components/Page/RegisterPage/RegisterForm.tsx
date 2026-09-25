@@ -78,7 +78,7 @@ const handleUserInput = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectEleme
     <div>
       <div className="container mt-4">
       <h3>Registration Form</h3>
-      <form onSubmit={handleSubmit} className="p-3 border rounded">
+        <form onSubmit={handleSubmit} className="p-3 border rounded">
         <div className="mb-3">
           <label className="form-label">First Name</label>
           <input
@@ -225,7 +225,7 @@ const handleUserInput = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectEleme
         <button type="submit" className="btn btn-primary w-100">
           Submit
         </button>
-      </form>
+        </form>
     </div>
     </div>
  

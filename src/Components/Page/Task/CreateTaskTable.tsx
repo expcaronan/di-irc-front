@@ -7,7 +7,7 @@ interface props{
 }
 
 function CreateTaskTable({taskDocumentList}:props) {
-    console.log(taskDocumentList);
+    //console.log(taskDocumentList);
     const [documents, setDocuments] = useState<taskDocumentBaseModel[]>([]);
     const [isNotClick, setIsNotClick] = useState(false);
     const navigate = useNavigate();
