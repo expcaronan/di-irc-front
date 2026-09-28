@@ -2,12 +2,16 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { taskDocumentBaseModel } from '../../../Interfaces/BaseModel/taskDocumentBaseModel';
 import formatDate from '../../../Helpers/formatDate';
+import EmployeeUserModel from '../../../Interfaces/EmployeeUserModel';
+import { employeeUserBaseModel } from '../../../Interfaces/BaseModel/employeeUserBaseModel';
+import { taskDocumentAssignedEmployeeBaseModel } from '../../../Interfaces/BaseModel/taskDocumentAssignedEmployeeBaseModel';
+import HomeFileViewer from '../../../Pages/Viewer/HomeFileViewer';
 interface props{
     taskDocumentList:taskDocumentBaseModel[]
 }
 
 function CreateTaskTable({taskDocumentList}:props) {
-    //console.log(taskDocumentList);
+    console.log(taskDocumentList);
     const [documents, setDocuments] = useState<taskDocumentBaseModel[]>([]);
     const [isNotClick, setIsNotClick] = useState(false);
     const navigate = useNavigate();
@@ -26,6 +30,16 @@ function CreateTaskTable({taskDocumentList}:props) {
         //     currentDocuments.filter((document) => document.id !== id)
         // );
     }
+    const [expandedRows, setExpandedRows] = useState<number[]>([]);
+
+        const toggleRow = (id: number) => {
+            setExpandedRows(prev =>
+                prev.includes(id)
+                    ? prev.filter(rowId => rowId !== id)
+                    : [...prev, id]
+            );
+    };
+    const [selectedFile, setSelectedFile] = useState<string | null>(null);
 
   return (
     <div>
@@ -73,7 +87,161 @@ function CreateTaskTable({taskDocumentList}:props) {
                 <th>Remarks</th> */}
             </tr>
         </thead>
-         <tbody style={{whiteSpace:'nowrap'}} className='position-relative'>
+        <tbody
+    style={{ whiteSpace: "nowrap" }}
+    className="position-relative"
+>
+    {taskDocumentList.map((rowData, rowIndex) => {
+
+        const isExpanded = expandedRows.includes(rowData.id);
+
+        return (
+            <React.Fragment key={rowData.id}>
+
+                {/* ============================= */}
+                {/* PARENT ROW                     */}
+                {/* ============================= */}
+
+                <tr>
+
+                    {/* Expand / Delete */}
+                    <td>
+
+                        <button
+                            type="button"
+                            className="btn btn-sm btn-outline-primary me-2"
+                            onClick={() => toggleRow(rowData.id)}
+                        >
+                            <i
+                                className={
+                                    isExpanded
+                                        ? "bi bi-chevron-down"
+                                        : "bi bi-chevron-right"
+                                }
+                            ></i>
+                        </button>
+
+                        <a
+                            style={{ cursor: "pointer" }}
+                            onClick={() => handleDelete(rowData.id)}
+                        >
+                            <i className="bi bi-trash text-danger"></i>
+                        </a>
+
+                    </td>
+
+                    <td>
+                        {rowData?.documentRefNumber}
+                    </td>
+
+                    <td>
+                        {rowData?.documentDescription}
+                    </td>
+
+                    <td>
+                        {rowData?.documentTitle}
+                    </td>
+
+                    <td>
+                         {rowData.documentFilePath && (
+                        <button
+                            type="button"
+                            className="btn btn-sm btn-primary"
+                            onClick={() =>
+                                setSelectedFile(rowData.documentFilePath ?? null)
+                            }
+                        >
+                            {rowData.documentFilePath}
+                        </button>
+                        )}
+                    </td>
+
+                    <td>
+                        {formatDate(rowData.dueDate)}
+                    </td>
+
+                    <td>
+                        {formatDate(rowData.dateCreated)}
+                    </td>
+
+                </tr>
+
+
+                {/* ============================= */}
+                {/* CHILD ROW                      */}
+                {/* ============================= */}
+
+                {isExpanded && (
+                    <tr>
+
+                        {/* Empty space for first column */}
+                        <td></td>
+
+                        <td colSpan={6}>
+
+                            <div className="p-3 bg-light">
+
+                                <h6 className="mb-3">
+                                    Assigned Researchers
+                                </h6>
+
+                                <table className="table table-sm table-bordered mb-0">
+
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Employee</th>
+                                            <th>Status</th>
+                                            <th>Date Assigned</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+
+                                        {rowData.taskDocumentAssignedEmployee?.map(
+                                            (employee: taskDocumentAssignedEmployeeBaseModel) => (
+
+                                                <tr key={employee.id}>
+
+                                                    <td>
+                                                        {employee.id}
+                                                    </td>
+
+                                                    <td>
+                                                        {employee.employee?.firstName+" "+employee.employee?.lastName}
+                                                    </td>
+
+                                                    <td>
+                                                        {(employee.taskDocumentStatus?.length ?? 0) <= 0 ? "Not Yet Started" : ""}
+                                                    </td>
+
+                                                    <td>
+                                                        {formatDate(
+                                                            employee.assignedDate
+                                                        )}
+                                                    </td>
+
+                                                </tr>
+
+                                            )
+                                        )}
+
+                                    </tbody>
+
+                                </table>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+                )}
+                
+            </React.Fragment>
+        );
+    })}
+</tbody>
+         {/* <tbody style={{whiteSpace:'nowrap'}} className='position-relative'>
             {taskDocumentList.map((rowData, rowIndex) => (
                 <tr key={rowIndex}>
                     <td>
@@ -90,12 +258,18 @@ function CreateTaskTable({taskDocumentList}:props) {
                     <td>{formatDate(rowData.dateCreated)}</td>     
                 </tr>
                 
+                
             ))}
            
-           </tbody>
+           </tbody> */}
         </table>
     </div>
-
+            {selectedFile && (
+            <HomeFileViewer
+                filePath={selectedFile}
+                onClose={() => setSelectedFile(null)}
+            />
+)}
     </div>
   )
 }

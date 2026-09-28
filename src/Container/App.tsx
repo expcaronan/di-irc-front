@@ -16,6 +16,7 @@ import HomeEmployeeUser from '../Pages/HomeEmployeeUser';
 import HomeCreateTask from '../Pages/Task/HomeCreateTask';
 import TaskForm from '../Components/Page/Task/Actions/TaskForm';
 import UserEmpQuery from '../Components/Page/Task/Actions/UserEmpQuery';
+import HomeMonitoringTask from '../Pages/Task/HomeMonitoringTask';
 
 
 function App() {
@@ -28,16 +29,18 @@ function App() {
   const[deptId, setDeptId] = useState(0);
   const [getRoleId, setGetRoleId] = useState(0);
   const[employeeId, setEmployeeId]=useState(0);
+  const[userDetails, setUserDetails]=useState<EmployeeUserModel>();
   
   useEffect(() => {
     //console.log(isLoggedIn);
     if (hasLocalStorageData) {
       if (storedJsonString !== null) {
         const storedJsonData= jwtDecode<EmployeeUserModel>(storedJsonString);
+        setUserDetails(storedJsonData);
        // console.log(storedData);
        // const storedJsonData  = JSON.parse(storedData); 
       //console.log(storedJsonData);
-       setEmployeeId(storedJsonData.employeeId);
+       setEmployeeId(storedJsonData.id);
        //setShiftId(storedJsonData.shiftId);
        //setDeptId(storedJsonData.departmentId);
        //setGetRoleId(storedJsonData.roleId);
@@ -50,7 +53,7 @@ function App() {
                     userName:storedJsonData.userName,
                     rankName:storedJsonData.rankName,
                     designationName: storedJsonData.designationName, // typo preserved if backend sends "postitionName"
-                    employeeId: storedJsonData.employeeId
+                    employeeId: storedJsonData.id
              }))
      
       } else {
@@ -72,7 +75,12 @@ function App() {
        {!isLoggedIn && 
          <Routes>
         <>
-            <Route path="/" element= {<HomeLogin  empId={employeeId} deptId={deptId}  shiftId={shiftId}/>} /> 
+            {/* <Route path="/" element= {<HomeLogin  empId={employeeId} deptId={deptId}  shiftId={shiftId}/>} /> */}
+            {/* <Route
+              path="/"
+              element={userDetails ? <HomeMonitoringTask userDetails={userDetails} /> : null}
+            /> */}
+            
             <Route path="/login" element={<Login onLogin={isLoggedIn} />} />
             <Route path="user/register" element={<HomeRegisterUser/>} />
         </>
@@ -88,10 +96,13 @@ function App() {
       <div className="page-content d-flex flex-column flex-row-fluid">
         <Routes>
           <Route path="/employee/list" element={<HomeEmployeeUser/>} />  
-          <Route path="/task/create" element={<HomeCreateTask employeeId={employeeId}/>} /> 
+          <Route path="/task/document/list" element={<HomeCreateTask employeeId={employeeId}/>} /> 
           <Route path="/task/create/form" element={<UserEmpQuery employeeId={employeeId}/>} />      
           <Route path="*" element= {<NotFound/>} />
-   
+          <Route
+              path="/"
+              element={userDetails ? <HomeMonitoringTask userDetails={userDetails} /> : null}
+          />
         </Routes>
       </div>
       <Footer />

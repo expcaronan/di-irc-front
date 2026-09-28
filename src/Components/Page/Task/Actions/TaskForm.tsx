@@ -45,11 +45,17 @@ function TaskForm({employeeId,dropdownListData}:props) {
             formData.append( "dueDate", input.dueDate ); 
             formData.append( "isActive", input.isActive.toString() ); 
             formData.append( "createdByEmployeeId", input.createdByEmployeeId.toString() );
-            formData.append("assignedEmployeeIds", JSON.stringify(input.assignedEmployeeIds));
+            // formData.append("assignedEmployeeIds", JSON.stringify(input.assignedEmployeeIds));
+            input.assignedEmployeeIds.forEach((employeeId) => {
+            formData.append("assignedEmployeeIds", employeeId.toString());
+            });
             if (file) { 
                 formData.append("file", file); 
             }
-            console.log(formData);
+            for (const [key, value] of formData.entries()) {
+            console.log(key, value);
+}
+            //console.log(formData);
 
             const response:apiResponse =  await createDocument(formData) 
             
@@ -110,6 +116,8 @@ function TaskForm({employeeId,dropdownListData}:props) {
        [name]: processedValue
      }));
    };
+
+   
   return (
     <div>
          <h3>Document Creation</h3>
@@ -160,7 +168,96 @@ function TaskForm({employeeId,dropdownListData}:props) {
                     onChange={handleUserInput}
                   />
                 </div>
-                <div className="mb-3">
+
+
+<div className="mb-3">
+  <label
+    htmlFor="assignedEmployeeIds"
+    className="col-form-label"
+  >
+    Assign Researchers
+  </label>
+
+  {/* Dropdown */}
+  <select
+    id="assignedEmployeeIds"
+    className="form-select"
+    value=""
+    onChange={(e) => {
+      const selectedId = Number(e.target.value);
+
+      if (!selectedId) return;
+
+      setInput((prev) => ({
+        ...prev,
+        assignedEmployeeIds: [
+          ...prev.assignedEmployeeIds,
+          selectedId
+        ]
+      }));
+    }}
+  >
+    <option value="">Select researcher...</option>
+
+    {dropdownListData
+      ?.filter(
+        (employee: EmployeeUserModel) =>
+          !input.assignedEmployeeIds.includes(employee.id)
+      )
+      .map((employee: EmployeeUserModel) => (
+        <option
+          key={employee.id}
+          value={employee.id}
+        >
+          {employee.firstName} {employee.lastName}
+        </option>
+      ))}
+  </select>
+
+  {/* Selected researchers */}
+  <div className="mt-2 d-flex flex-wrap gap-2">
+    {input.assignedEmployeeIds.map((id) => {
+      const employee = dropdownListData?.find(
+        (employee: EmployeeUserModel) => employee.id === id
+      );
+
+      if (!employee) return null;
+
+      return (
+        <div
+          key={employee.id}
+          className="border rounded px-2 py-1 d-flex align-items-center bg-light"
+        >
+          {/* X button */}
+          <button
+            type="button"
+            className="btn btn-sm p-0 me-2 text-danger"
+            onClick={() => {
+              setInput((prev) => ({
+                ...prev,
+                assignedEmployeeIds:
+                  prev.assignedEmployeeIds.filter(
+                    (employeeId) => employeeId !== id
+                  )
+              }));
+            }}
+          >
+            ×
+          </button>
+
+          {/* Employee name */}
+          <span>
+            {employee.firstName} {employee.lastName}
+          </span>
+        </div>
+      );
+    })}
+  </div>
+</div>
+
+
+
+                {/* <div className="mb-3">
                   <label htmlFor="assignedEmployeeIds" className="col-form-label">Assign Ressearchers</label>
                   <select
                       id="departments"
@@ -192,7 +289,7 @@ function TaskForm({employeeId,dropdownListData}:props) {
                         )
                       )}
                   </select> 
-                </div>
+                </div> */}
 
 
 
