@@ -6,7 +6,7 @@ interface props{
 }
 function EmployeeUserTable({empUserList}:props) {
 
- console.log(empUserList);
+ //console.log(empUserList);
 
     function handleDelete(id: number): void {
         throw new Error('Function not implemented.')

@@ -18,9 +18,19 @@ const taskDocumentApi = createApi({
     }),
         invalidatesTags:['taskDocuments'],
     }),
-    getAllTaskDocumentsWithAssignedEmployee:builder.query({
+    getAllTaskDocumentsWithAssignedEmployeeCreatedBy:builder.query({
             query: (id:number)=> ({
                 url:'taskdocument/documents/list',
+                  params: {
+                  id:id
+              },
+            }),
+            providesTags:["taskDocuments"]
+    }),
+
+     getAllTaskDocumentsWithAssignedEmployeeById:builder.query({
+            query: (id:number)=> ({
+                url:'TaskDocumentStatus/assigned/list',
                   params: {
                   id:id
               },
@@ -36,6 +46,7 @@ const taskDocumentApi = createApi({
 
 export const {
 useCreateTaskDocumentMutation,
-useGetAllTaskDocumentsWithAssignedEmployeeQuery
+useGetAllTaskDocumentsWithAssignedEmployeeCreatedByQuery,
+useGetAllTaskDocumentsWithAssignedEmployeeByIdQuery
 } = taskDocumentApi;
 export default taskDocumentApi;

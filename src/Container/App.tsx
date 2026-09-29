@@ -36,25 +36,36 @@ function App() {
     if (hasLocalStorageData) {
       if (storedJsonString !== null) {
         const storedJsonData= jwtDecode<EmployeeUserModel>(storedJsonString);
-        setUserDetails(storedJsonData);
+      setUserDetails(storedJsonData);
        // console.log(storedData);
        // const storedJsonData  = JSON.parse(storedData); 
       //console.log(storedJsonData);
-       setEmployeeId(storedJsonData.id);
+       setEmployeeId(storedJsonData.employeeId);
        //setShiftId(storedJsonData.shiftId);
        //setDeptId(storedJsonData.departmentId);
        //setGetRoleId(storedJsonData.roleId);
         setIsLoggedIn(true)
               dispatch(setLoggedInUser({
-              firstName: storedJsonData.firstName,
+                    firstName: storedJsonData.firstName,
                     lastName: storedJsonData.lastName,
                     departmentName: storedJsonData.departmentName,
                     roleName: storedJsonData.roleName,  
                     userName:storedJsonData.userName,
                     rankName:storedJsonData.rankName,
                     designationName: storedJsonData.designationName, // typo preserved if backend sends "postitionName"
-                    employeeId: storedJsonData.id
+                    employeeId: storedJsonData.employeeId
              }))
+        // setUserDetails({
+        //   firstName: storedJsonData.firstName,
+        //   lastName: storedJsonData.lastName,
+        //   departmentName: storedJsonData.departmentName,
+        //   roleName: storedJsonData.roleName,  
+        //   userName:storedJsonData.userName,
+        //   rankName:storedJsonData.rankName,
+        //   designationName: storedJsonData.designationName, // typo preserved if backend sends "postitionName"
+        //   employeeId: storedJsonData.employeeId,
+        //   email:storedJsonData.email
+        // })
      
       } else {
         setIsLoggedIn(false)

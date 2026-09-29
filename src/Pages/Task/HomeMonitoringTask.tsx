@@ -1,11 +1,14 @@
 import React from 'react'
 import EmployeeUserModel from '../../Interfaces/EmployeeUserModel'
+import DocumentAssignedByQuery from '../../Components/Page/Task/HomeMonitoringPage/DocumentAssignedByQuery'
 interface props{
     userDetails:EmployeeUserModel
 }
 function HomeMonitoringTask({userDetails}:props) {
   return (
-    <div>HomeMonitoringTask</div>
+    <div>
+      <DocumentAssignedByQuery userDetails={userDetails}/>
+    </div>
   )
 }
 

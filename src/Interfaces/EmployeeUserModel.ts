@@ -1,5 +1,5 @@
 export default interface EmployeeUserModel {
-  id: number,
+  employeeId: number,
   lastName: string,
   firstName: string,
   roleName:string,
