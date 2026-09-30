@@ -1,5 +1,6 @@
 import departmentModel from "./BaseModel/departmentModel";
 import designationModel from "./BaseModel/designationModel";
+import groupModel from "./BaseModel/groupModel";
 import rankModel from "./BaseModel/rankModel";
 import roleModel from "./BaseModel/roleModel";
 
@@ -8,4 +9,5 @@ export default interface dropdownListDto {
     designations:designationModel[],
     ranks:rankModel[],
     roles:roleModel[],
+    groups:groupModel[],
 }

@@ -1,5 +1,6 @@
 import { employeeUserBaseModel } from "./employeeUserBaseModel";
-import { taskDocumentAssignedEmployeeBaseModel } from "./taskDocumentAssignedEmployeeBaseModel";
+import { taskDocumentAssignedDepartmentBaseModel } from "./taskDocumentAssignedDepartmentBaseModel";
+
 
 export interface taskDocumentBaseModel {
   id: number;
@@ -12,5 +13,5 @@ export interface taskDocumentBaseModel {
   employee?: employeeUserBaseModel | null;
   documentFilePath?: string | null;
   isActive: boolean;
-  taskDocumentAssignedEmployee?: taskDocumentAssignedEmployeeBaseModel[] | null;
+  taskDocumentAssignedDepartment?: taskDocumentAssignedDepartmentBaseModel[] | null;
 }

@@ -1,22 +1,25 @@
 import React, { useEffect, useState } from 'react'
 import EmployeeUserModel from '../../../../Interfaces/EmployeeUserModel'
-import { useGetAllTaskDocumentsWithAssignedEmployeeByIdQuery } from '../../../../Api/taskDocumentApi';
+
 import { taskDocumentAssignedEmployeeBaseModel } from '../../../../Interfaces/BaseModel/taskDocumentAssignedEmployeeBaseModel';
 import DocumentAssignedTable from './DocumentAssignedTable';
 import MainLoader from '../../../Common/MainLoader';
+import { useGetAllTaskDocumentsWithAssignedDepartmentByIdQuery } from '../../../../Api/taskDocumentApi';
+import { taskDocumentAssignedDepartmentBaseModel } from '../../../../Interfaces/BaseModel/taskDocumentAssignedDepartmentBaseModel';
+import { taskDocumentBaseModel } from '../../../../Interfaces/BaseModel/taskDocumentBaseModel';
 interface props{
     userDetails:EmployeeUserModel
 }
 function DocumentAssignedByQuery({userDetails}:props) {
 //console.log(userDetails.employeeId);
-const { data, isLoading } = useGetAllTaskDocumentsWithAssignedEmployeeByIdQuery(userDetails.employeeId);
+const { data, isLoading } = useGetAllTaskDocumentsWithAssignedDepartmentByIdQuery(userDetails.departmentId);
 const [loading, setLoading] = useState(false);
-const [taskDocumentList, setTaskDocumentList] = useState<taskDocumentAssignedEmployeeBaseModel[]>([])
+const [taskDocumentList, setTaskDocumentList] = useState<taskDocumentAssignedDepartmentBaseModel[]>([])
 
 useEffect(() =>{
     setLoading(true);
     if(data && !isLoading){
-        //console.log(data.result)
+       console.log(data.result)
         setTaskDocumentList(data.result);
     }
     setLoading(false);
@@ -26,7 +29,7 @@ useEffect(() =>{
 return (
     <div>
         {
-            !loading && taskDocumentList ? <DocumentAssignedTable documentList={taskDocumentList}/> :<MainLoader/>
+            !loading && taskDocumentList ? <DocumentAssignedTable documentList={taskDocumentList} employeeId={userDetails.employeeId}/> :<MainLoader/>
         }
     </div>
 )

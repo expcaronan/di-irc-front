@@ -5,10 +5,6 @@ interface props {
     onClose: () => void;
 }
 function HomeFileViewer({filePath, onClose}:props) {
-  // Convert your stored path to a URL
-    // const fileUrl = filePath.startsWith("http")
-    //     ? filePath
-    //     : `${baseUrlString.test}/${filePath.replace(/^\/+/, "")}`;
     const normalizedPath = filePath
     .replace(/\\/g, "/")
     .replace(/^\/+/, "");
@@ -45,7 +41,7 @@ function HomeFileViewer({filePath, onClose}:props) {
     const isPdf = extension === "pdf";
     const isOffice = officeExtensions.includes(extension);
 
-    console.log(fileUrl);
+    //console.log(fileUrl);
 
 
    return (

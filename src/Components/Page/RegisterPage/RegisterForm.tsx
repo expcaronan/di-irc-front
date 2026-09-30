@@ -8,6 +8,7 @@ import departmentModel from '../../../Interfaces/BaseModel/departmentModel';
 import designationModel from '../../../Interfaces/BaseModel/designationModel';
 import rankModel from '../../../Interfaces/BaseModel/rankModel';
 import roleModel from '../../../Interfaces/BaseModel/roleModel';
+import groupModel from '../../../Interfaces/BaseModel/groupModel';
 interface props{
     dropdownListData:dropdownListDto
 }
@@ -30,6 +31,7 @@ function RegisterForm({dropdownListData}:props) {
     designationId:0,
     roleId:0,
     rankId:0,
+    groupId:0,
   });
 
 
@@ -184,7 +186,7 @@ const handleUserInput = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectEleme
               ))}
           </select>     
          
-            <label htmlFor="recipient-name" className="col-form-label">Select Roles</label>
+            <label htmlFor="recipient-name" className="col-form-label">Select Role</label>
             <select
               required
               className="form-group form-select"
@@ -199,6 +201,22 @@ const handleUserInput = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectEleme
               </option>
               ))}
           </select>     
+           <label htmlFor="group" className="col-form-label">Select Group</label>
+            <select
+              required
+              className="form-group form-select"
+              name='groupId'
+              value={input.groupId}
+              onChange={handleUserInput}
+              >
+              <option value="">-=Groups=-</option>
+              {dropdownListData.groups?.map((option: groupModel, index: number) => (
+              <option key={option.id} value={option.id}>
+                  {option.groupName}
+              </option>
+              ))}
+          </select>     
+
 
         <div className="mb-3">
           <label htmlFor="birthDay" className="col-form-label">Birthday</label>

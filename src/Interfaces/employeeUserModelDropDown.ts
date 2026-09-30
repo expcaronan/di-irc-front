@@ -1,11 +1,9 @@
-export default interface EmployeeUserModel {
-  employeeId: number,
+export default interface employeeUserModelDropDown {
+  id: number,
   lastName: string,
   firstName: string,
   roleName:string,
-  roleId:number,
   departmentName:string,
-  departmentId:number,
   designationName:string,
   rankName:string,
   userName:string,

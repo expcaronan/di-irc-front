@@ -3,13 +3,17 @@ import { useCreateTaskDocumentMutation } from '../../../../Api/taskDocumentApi';
 import apiResponse from '../../../../Interfaces/apiResponse';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import EmployeeUserModel from '../../../../Interfaces/EmployeeUserModel';
-import { useGetEmpUserListQuery } from '../../../../Api/userEmpApi';
+import employeeUserModelDropDown from '../../../../Interfaces/employeeUserModelDropDown';
+import taskDocumentDropdown from '../../../../Interfaces/taskDocumentDropdown';
+import departmentModel from '../../../../Interfaces/BaseModel/departmentModel';
+import officeBaseModel from '../../../../Interfaces/BaseModel/officeBaseModel';
+import { registrySectionModel } from '../../../../Interfaces/BaseModel/registrySectionModel';
  interface props {
         employeeId:number,
-        dropdownListData:EmployeeUserModel[]
+        dropdownListData:taskDocumentDropdown
 }
 function TaskForm({employeeId,dropdownListData}:props) {
+    console.log(dropdownListData.offices);
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const [file, setFile] = useState<File | null>(null);
@@ -20,12 +24,16 @@ function TaskForm({employeeId,dropdownListData}:props) {
        documentRefNumber:"",
        documentTitle:"",
        documentDescription:"",
+       remarks:"",
        dateCreated:new Date().toISOString().split('T')[0],
        dueDate:new Date().toISOString().split('T')[0],
        isActive:true,
        createdByEmployeeId:employeeId,
        documentFilePath:"",
-       assignedEmployeeIds:[] as number[]
+       officeId:"",
+       registrySectionId:"",
+       assignedDepartmenIds:[] as number[],
+       //isViewed:false,
     });
 
    
@@ -44,17 +52,21 @@ function TaskForm({employeeId,dropdownListData}:props) {
             formData.append( "dateCreated", input.dateCreated ); 
             formData.append( "dueDate", input.dueDate ); 
             formData.append( "isActive", input.isActive.toString() ); 
+            formData.append( "officeId", input.officeId ); 
+            formData.append( "registrySectionId", input.registrySectionId); 
+            formData.append( "remarks", input.remarks); 
+            //formData.append("isViewed", input.isViewed.toString());
             formData.append( "createdByEmployeeId", input.createdByEmployeeId.toString() );
             // formData.append("assignedEmployeeIds", JSON.stringify(input.assignedEmployeeIds));
-            input.assignedEmployeeIds.forEach((employeeId) => {
-            formData.append("assignedEmployeeIds", employeeId.toString());
+            input.assignedDepartmenIds.forEach((employeeId) => {
+            formData.append("assignedDepartmenIds", employeeId.toString());
             });
             if (file) { 
                 formData.append("file", file); 
             }
-            for (const [key, value] of formData.entries()) {
-            console.log(key, value);
-}
+            //for (const [key, value] of formData.entries()) {
+            //console.log(key, value);
+            //}
             //console.log(formData);
 
             const response:apiResponse =  await createDocument(formData) 
@@ -74,14 +86,19 @@ function TaskForm({employeeId,dropdownListData}:props) {
                 isActive: true, 
                 createdByEmployeeId: 0,
                 documentFilePath: "",
-                assignedEmployeeIds:[]}); 
+                officeId:"",
+                remarks:"",
+                registrySectionId:"",
+                //isViewed:false,
+                assignedDepartmenIds:[]}); 
                 setFile(null); 
-                navigate("/task/create");
+                navigate("/task/document/list");
             }else if(response.data?.exist == true){
                 toast.error('Document Already Exist', {
                     position: "top-right", 
                     autoClose: 5000, 
                 });
+               
             }
             else{
                 toast.error('Something went wrong!', {
@@ -175,7 +192,7 @@ function TaskForm({employeeId,dropdownListData}:props) {
     htmlFor="assignedEmployeeIds"
     className="col-form-label"
   >
-    Assign Researchers
+    Assign Sections
   </label>
 
   {/* Dropdown */}
@@ -190,42 +207,42 @@ function TaskForm({employeeId,dropdownListData}:props) {
 
       setInput((prev) => ({
         ...prev,
-        assignedEmployeeIds: [
-          ...prev.assignedEmployeeIds,
+        assignedDepartmenIds: [
+          ...prev.assignedDepartmenIds,
           selectedId
         ]
       }));
     }}
   >
-    <option value="">Select researcher...</option>
+    <option value="">Select Sections...</option>
 
-    {dropdownListData
+    {dropdownListData.departments
       ?.filter(
-        (employee: EmployeeUserModel) =>
-          !input.assignedEmployeeIds.includes(employee.id)
+        (dept: departmentModel) =>
+          !input.assignedDepartmenIds.includes(dept.id)
       )
-      .map((employee: EmployeeUserModel) => (
+      .map((dept: departmentModel) => (
         <option
-          key={employee.id}
-          value={employee.id}
+          key={dept.id}
+          value={dept.id}
         >
-          {employee.firstName} {employee.lastName}
+          {dept.departmentName}
         </option>
       ))}
   </select>
 
-  {/* Selected researchers */}
+  {/* Selected departments */}
   <div className="mt-2 d-flex flex-wrap gap-2">
-    {input.assignedEmployeeIds.map((id) => {
-      const employee = dropdownListData?.find(
-        (employee: EmployeeUserModel) => employee.id === id
+    {input.assignedDepartmenIds.map((id) => {
+      const dpt = dropdownListData.departments.find(
+        (dpt: departmentModel) => dpt.id === id
       );
 
-      if (!employee) return null;
+      if (!dpt) return null;
 
       return (
         <div
-          key={employee.id}
+          key={dpt.id}
           className="border rounded px-2 py-1 d-flex align-items-center bg-light"
         >
           {/* X button */}
@@ -235,9 +252,9 @@ function TaskForm({employeeId,dropdownListData}:props) {
             onClick={() => {
               setInput((prev) => ({
                 ...prev,
-                assignedEmployeeIds:
-                  prev.assignedEmployeeIds.filter(
-                    (employeeId) => employeeId !== id
+                assignedDepartmenIds:
+                  prev.assignedDepartmenIds.filter(
+                    (dptId) => dptId !== id
                   )
               }));
             }}
@@ -247,7 +264,7 @@ function TaskForm({employeeId,dropdownListData}:props) {
 
           {/* Employee name */}
           <span>
-            {employee.firstName} {employee.lastName}
+            {dpt.departmentName}
           </span>
         </div>
       );
@@ -256,7 +273,49 @@ function TaskForm({employeeId,dropdownListData}:props) {
 </div>
 
 
+    <label htmlFor="recipient-name" className="col-form-label">Select Office</label>
+             <select
+               required
+               className="form-group form-select"
+               name='officeId'
+               value={input.officeId}
+               onChange={handleUserInput}
+               >
+               <option value="">-=Offices=-</option>
+               {dropdownListData.offices?.map((option: officeBaseModel, index: number) => (
+               <option key={option.id} value={option.id}>
+                   {option.description}
+               </option>
+               ))}
+           </select>  
 
+    <label htmlFor="recipient-name" className="col-form-label">Select Registry Section</label>
+             <select
+               required
+               className="form-group form-select"
+               name='registrySectionId'
+               value={input.registrySectionId}
+               onChange={handleUserInput}
+               >
+               <option value="">-=Registry=-</option>
+               {dropdownListData.registrySections?.map((option: registrySectionModel, index: number) => (
+               <option key={option.id} value={option.id}>
+                   {option.details}
+               </option>
+               ))}
+    </select>  
+
+  <div className="mb-3">
+                  <label className="form-label">Remarks</label>
+                  <textarea
+                    
+                    name="remarks"
+                    className="form-control"
+                    value={input.remarks}
+                    onChange={handleUserInput}
+                    required
+                  />
+                </div>
                 {/* <div className="mb-3">
                   <label htmlFor="assignedEmployeeIds" className="col-form-label">Assign Ressearchers</label>
                   <select

@@ -42,7 +42,7 @@ function App() {
       //console.log(storedJsonData);
        setEmployeeId(storedJsonData.employeeId);
        //setShiftId(storedJsonData.shiftId);
-       //setDeptId(storedJsonData.departmentId);
+       setDeptId(storedJsonData.departmentId);
        //setGetRoleId(storedJsonData.roleId);
         setIsLoggedIn(true)
               dispatch(setLoggedInUser({
@@ -111,8 +111,7 @@ function App() {
           <Route path="/task/create/form" element={<UserEmpQuery employeeId={employeeId}/>} />      
           <Route path="*" element= {<NotFound/>} />
           <Route
-              path="/"
-              element={userDetails ? <HomeMonitoringTask userDetails={userDetails} /> : null}
+              path="/" element={userDetails ? <HomeMonitoringTask userDetails={userDetails} /> : null}
           />
         </Routes>
       </div>

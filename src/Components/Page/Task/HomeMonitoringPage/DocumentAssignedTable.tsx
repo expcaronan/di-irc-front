@@ -1,26 +1,43 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { taskDocumentAssignedEmployeeBaseModel } from '../../../../Interfaces/BaseModel/taskDocumentAssignedEmployeeBaseModel'
-import formatDate from '../../../../Helpers/formatDate';
+
+import HomeFileViewer from '../../../../Pages/Viewer/HomeFileViewer';
+import formatMonthDayYear from '../../../../Helpers/formatMonthDayYear';
+import HomeFileViewerDetails from '../../../../Pages/Viewer/HomeFileViewerDetails';
+import { taskDocumentAssignedDepartmentBaseModel } from '../../../../Interfaces/BaseModel/taskDocumentAssignedDepartmentBaseModel';
+import { taskDocumentBaseModel } from '../../../../Interfaces/BaseModel/taskDocumentBaseModel';
 interface props{
-    documentList:taskDocumentAssignedEmployeeBaseModel[]
+    documentList:taskDocumentAssignedDepartmentBaseModel[]
+    employeeId:number,
 }
-function DocumentAssignedTable({documentList}:props) {
-console.log(documentList);
+function DocumentAssignedTable({documentList,employeeId}:props) {
+//console.log(documentList);
 
-const handleDelete = (id: number) => {
-
+ 
+const [selectedFile, setSelectedFile] = useState<string | null>(null);
+//const [selectedFileDetails, setSelectedFileDetails] = useState<string | null>(null);
+const [selectedData, setSelectedData] = useState<taskDocumentAssignedDepartmentBaseModel>();
+const handleViewData = (data: taskDocumentAssignedDepartmentBaseModel) => {
+        setSelectedData(data);
+        setSelectedFile(data?.taskDocument.documentFilePath ?? null)
 };
+
+
+
+
 
   return (
      <div>
           <table id="example" className="table table-striped table-hover">
           <thead className="thead-light text-nowrap">
             <tr>
-                <th></th>
-                <th>Employee Name</th>
+                <th>Action</th>
+                <th>Section</th>
                 <th>Document Ref Number</th>
                 <th>Document Title</th>
                 <th>Document FilePath</th>
+                <th>Remarks</th>
+                <th>Date Assigned</th>
                 <th>Due Date</th>
               
             
@@ -31,14 +48,29 @@ const handleDelete = (id: number) => {
                 <tr key={rowIndex}>
                     <td>
                         <a style={{cursor:'pointer'}} 
-                        onClick={() => handleDelete(rowData.id)}>
-                        <i className="bi bi-trash"></i></a> 
+                            onClick={() => handleViewData(rowData)}>
+                        <i className="bi bi-pencil-square"></i>
+                        {/* <i className="bi bi-trash"></i> */}
+                        </a> 
                     </td>
-                    <td>{rowData?.employee?.firstName+" "+rowData?.employee?.lastName}</td>
+                    <td>{rowData?.department?.departmentName}</td>
                     <td>{rowData?.taskDocument?.documentRefNumber}</td>
                     <td>{rowData?.taskDocument?.documentTitle}</td>
-                    <td>{rowData?.taskDocument?.documentFilePath}</td>
-                    <td>{formatDate(rowData?.taskDocument?.dueDate)}</td>
+                    <td>
+                        {rowData?.taskDocument?.documentFilePath && (
+                        <button
+                        type="button"
+                        onClick={() => setSelectedFile(rowData?.taskDocument.documentFilePath ?? null)}
+                        className="btn btn-link p-0 text-decoration-underline text-start"
+                        >
+                        {rowData?.taskDocument.documentFilePath}
+                        </button>
+                        )}
+                        
+                    </td>
+                      <td>{rowData?.remarks}</td>
+                    <td>{formatMonthDayYear(rowData?.taskDocument.dateCreated)}</td>
+                    <td>{formatMonthDayYear(rowData?.taskDocument.dueDate)}</td>
 
                 
                     {/* <td>{formatDate(rowData.birthDay)}</td>
@@ -49,6 +81,20 @@ const handleDelete = (id: number) => {
            
            </tbody>
         </table>
+        {selectedFile && (
+            <HomeFileViewer
+                filePath={selectedFile}
+                onClose={() => setSelectedFile(null)}
+            />
+        )}
+        {selectedFile && selectedData && (
+            <HomeFileViewerDetails
+                filePath={selectedFile}
+                assignedDocument={selectedData}
+                employeeId={employeeId}
+                onClose={() => setSelectedFile(null)}
+            />
+        )}
     </div>
   )
 }

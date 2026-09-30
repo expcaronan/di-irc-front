@@ -6,19 +6,20 @@ import EmployeeUserModel from '../../../Interfaces/EmployeeUserModel';
 import { employeeUserBaseModel } from '../../../Interfaces/BaseModel/employeeUserBaseModel';
 import { taskDocumentAssignedEmployeeBaseModel } from '../../../Interfaces/BaseModel/taskDocumentAssignedEmployeeBaseModel';
 import HomeFileViewer from '../../../Pages/Viewer/HomeFileViewer';
+import { taskDocumentAssignedDepartmentBaseModel } from '../../../Interfaces/BaseModel/taskDocumentAssignedDepartmentBaseModel';
 interface props{
     taskDocumentList:taskDocumentBaseModel[]
 }
 
 function CreateTaskTable({taskDocumentList}:props) {
-    console.log(taskDocumentList);
+    //console.log(taskDocumentList);
     const [documents, setDocuments] = useState<taskDocumentBaseModel[]>([]);
     const [isNotClick, setIsNotClick] = useState(false);
     const navigate = useNavigate();
 
     const handleAddTask = async () => {
         setIsNotClick(true);
-            navigate("form");
+            navigate("/task/create/form");
         setIsNotClick(false);
     }
     function handleDelete(id: number): void {
@@ -144,7 +145,7 @@ function CreateTaskTable({taskDocumentList}:props) {
 
                     <td>
                          {rowData.documentFilePath && (
-                        <button
+                        <a
                             type="button"
                             className="btn btn-sm btn-primary"
                             onClick={() =>
@@ -152,7 +153,7 @@ function CreateTaskTable({taskDocumentList}:props) {
                             }
                         >
                             {rowData.documentFilePath}
-                        </button>
+                        </a>
                         )}
                     </td>
 
@@ -190,34 +191,38 @@ function CreateTaskTable({taskDocumentList}:props) {
                                     <thead>
                                         <tr>
                                             <th>ID</th>
-                                            <th>Employee</th>
+                                            <th>Department</th>
                                             <th>Status</th>
+                                            <th>Remarks</th>
                                             <th>Date Assigned</th>
                                         </tr>
                                     </thead>
 
                                     <tbody>
 
-                                        {rowData.taskDocumentAssignedEmployee?.map(
-                                            (employee: taskDocumentAssignedEmployeeBaseModel) => (
+                                        {rowData.taskDocumentAssignedDepartment?.map(
+                                            (dept: taskDocumentAssignedDepartmentBaseModel) => (
 
-                                                <tr key={employee.id}>
+                                                <tr key={dept.id}>
 
                                                     <td>
-                                                        {employee.id}
+                                                        {dept.id}
                                                     </td>
 
                                                     <td>
-                                                        {employee.employee?.firstName+" "+employee.employee?.lastName}
+                                                        {dept.department?.departmentName}
                                                     </td>
 
                                                     <td>
-                                                        {(employee.taskDocumentStatus?.length ?? 0) <= 0 ? "Not Yet Started" : ""}
+                                                        {(dept.taskDocumentStatus?.length ?? 0) <= 0 ? "Not Yet Started" : ""}
+                                                    </td>
+                                                    <td>
+                                                        {dept.remarks}
                                                     </td>
 
                                                     <td>
                                                         {formatDate(
-                                                            employee.assignedDate
+                                                            dept.assignedDate
                                                         )}
                                                     </td>
 
@@ -269,7 +274,7 @@ function CreateTaskTable({taskDocumentList}:props) {
                 filePath={selectedFile}
                 onClose={() => setSelectedFile(null)}
             />
-)}
+            )}
     </div>
   )
 }

@@ -18,7 +18,18 @@ const taskDocumentApi = createApi({
     }),
         invalidatesTags:['taskDocuments'],
     }),
-    getAllTaskDocumentsWithAssignedEmployeeCreatedBy:builder.query({
+
+    createTaskDocumentStatus: builder.mutation({
+    query: (taskDocumentStatusData) => ({
+        url: "taskdocumentstatus/create",
+        method: "POST",
+        body: taskDocumentStatusData,
+    }),
+        invalidatesTags:['taskDocuments'],
+    }),
+
+
+    getAllTaskDocumentsWithAssignedDepartmentCreatedBy:builder.query({
             query: (id:number)=> ({
                 url:'taskdocument/documents/list',
                   params: {
@@ -28,7 +39,7 @@ const taskDocumentApi = createApi({
             providesTags:["taskDocuments"]
     }),
 
-     getAllTaskDocumentsWithAssignedEmployeeById:builder.query({
+     getAllTaskDocumentsWithAssignedDepartmentById:builder.query({
             query: (id:number)=> ({
                 url:'TaskDocumentStatus/assigned/list',
                   params: {
@@ -37,6 +48,12 @@ const taskDocumentApi = createApi({
             }),
             providesTags:["taskDocuments"]
     }),
+      getDeptRrsOfficeDropdownList:builder.query({
+            query: ()=> ({
+                url:"taskdocument/dropdown/list",
+              }),
+            providesTags:["taskDocuments"]
+      }),
 
   }),
 
@@ -46,7 +63,9 @@ const taskDocumentApi = createApi({
 
 export const {
 useCreateTaskDocumentMutation,
-useGetAllTaskDocumentsWithAssignedEmployeeCreatedByQuery,
-useGetAllTaskDocumentsWithAssignedEmployeeByIdQuery
+useCreateTaskDocumentStatusMutation,
+useGetAllTaskDocumentsWithAssignedDepartmentCreatedByQuery,
+useGetAllTaskDocumentsWithAssignedDepartmentByIdQuery,
+useGetDeptRrsOfficeDropdownListQuery
 } = taskDocumentApi;
 export default taskDocumentApi;
