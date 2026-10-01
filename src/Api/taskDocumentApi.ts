@@ -27,6 +27,14 @@ const taskDocumentApi = createApi({
     }),
         invalidatesTags:['taskDocuments'],
     }),
+    updateTaskDocumentStatus: builder.mutation({
+    query: (taskDocumentStatusData) => ({
+        url: "taskdocumentstatus/update/status",
+        method: "POST",
+        body: taskDocumentStatusData,
+    }),
+        invalidatesTags:['taskDocuments'],
+    }),
 
 
     getAllTaskDocumentsWithAssignedDepartmentCreatedBy:builder.query({
@@ -64,6 +72,7 @@ const taskDocumentApi = createApi({
 export const {
 useCreateTaskDocumentMutation,
 useCreateTaskDocumentStatusMutation,
+useUpdateTaskDocumentStatusMutation,
 useGetAllTaskDocumentsWithAssignedDepartmentCreatedByQuery,
 useGetAllTaskDocumentsWithAssignedDepartmentByIdQuery,
 useGetDeptRrsOfficeDropdownListQuery

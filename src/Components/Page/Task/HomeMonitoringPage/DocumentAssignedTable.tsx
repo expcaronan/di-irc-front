@@ -11,7 +11,7 @@ interface props{
     employeeId:number,
 }
 function DocumentAssignedTable({documentList,employeeId}:props) {
-//console.log(documentList);
+console.log(documentList);
 
  
 const [selectedFile, setSelectedFile] = useState<string | null>(null);
@@ -32,13 +32,15 @@ const handleViewData = (data: taskDocumentAssignedDepartmentBaseModel) => {
           <thead className="thead-light text-nowrap">
             <tr>
                 <th>Action</th>
+                <th>Status</th>
+                <th>Due Date</th>
                 <th>Section</th>
                 <th>Document Ref Number</th>
                 <th>Document Title</th>
                 <th>Document FilePath</th>
                 <th>Remarks</th>
                 <th>Date Assigned</th>
-                <th>Due Date</th>
+              
               
             
             </tr>
@@ -53,6 +55,43 @@ const handleViewData = (data: taskDocumentAssignedDepartmentBaseModel) => {
                         {/* <i className="bi bi-trash"></i> */}
                         </a> 
                     </td>
+                    <td
+                        style={{
+                            backgroundColor:
+                                rowData.taskDocumentStatus?.find(
+                                    (a) => a.isActive === true
+                                )?.taskStatusId === 3
+                                    ? "yellow"
+                                    : rowData.taskDocumentStatus?.find(
+                                        (a) => a.isActive === true
+                                    )?.taskStatusId === 1
+                                        ? "#FFC107" // Amber
+                                        : rowData.taskDocumentStatus?.find(
+                                            (a) => a.isActive === true
+                                        )?.taskStatusId === 4
+                                            ? "#B19CD9"
+                                            : rowData.taskDocumentStatus?.find(
+                                                (a) => a.isActive === true
+                                            )?.taskStatusId === 5
+                                                ? "lightgreen"
+                                                : rowData.taskDocumentStatus?.find(
+                                                    (a) => a.isActive === true
+                                                )?.taskStatusId === 7
+                                                    ? "green"
+                                                    : rowData.taskDocumentStatus?.find(
+                                                        (a) => a.isActive === true
+                                                    )?.taskStatusId === 8
+                                                        ? "red"
+                                                        : "orange",
+                        }}
+                    >
+                        {(rowData.taskDocumentStatus?.length ?? 0) <= 0
+                            ? "Not Yet Started"
+                            :
+                            rowData.taskDocumentStatus?.find((a) => a.isActive === true)?.taskStatus?.documentStatus
+                        }
+                    </td>
+                    <td>{formatMonthDayYear(rowData?.taskDocument.dueDate)}</td>
                     <td>{rowData?.department?.departmentName}</td>
                     <td>{rowData?.taskDocument?.documentRefNumber}</td>
                     <td>{rowData?.taskDocument?.documentTitle}</td>
@@ -67,11 +106,11 @@ const handleViewData = (data: taskDocumentAssignedDepartmentBaseModel) => {
                         </button>
                         )}
                         
-                    </td>
-                      <td>{rowData?.remarks}</td>
+                    </td >
+                      
                     <td>{formatMonthDayYear(rowData?.taskDocument.dateCreated)}</td>
-                    <td>{formatMonthDayYear(rowData?.taskDocument.dueDate)}</td>
-
+                  
+                    <td style={{ whiteSpace: "wrap" }}>{rowData?.remarks}</td>
                 
                     {/* <td>{formatDate(rowData.birthDay)}</td>
                     <td>{formatDate(rowData.dateHired)}</td>      */}

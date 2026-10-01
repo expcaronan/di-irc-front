@@ -7,12 +7,18 @@ import { employeeUserBaseModel } from '../../../Interfaces/BaseModel/employeeUse
 import { taskDocumentAssignedEmployeeBaseModel } from '../../../Interfaces/BaseModel/taskDocumentAssignedEmployeeBaseModel';
 import HomeFileViewer from '../../../Pages/Viewer/HomeFileViewer';
 import { taskDocumentAssignedDepartmentBaseModel } from '../../../Interfaces/BaseModel/taskDocumentAssignedDepartmentBaseModel';
+import TaskHandleApproveModal from './Actions/TaskHandleApproveModal';
 interface props{
     taskDocumentList:taskDocumentBaseModel[]
+    employeeId:number
 }
 
-function CreateTaskTable({taskDocumentList}:props) {
-    console.log(taskDocumentList);
+function CreateTaskTable({taskDocumentList,employeeId}:props) {
+    //console.log(taskDocumentList);
+     const [isModalOpen, setIsModalOpen] = useState(false);
+     const closeModal = () => {
+        setIsModalOpen(false);
+    };
     const [documents, setDocuments] = useState<taskDocumentBaseModel[]>([]);
     const [isNotClick, setIsNotClick] = useState(false);
     const navigate = useNavigate();
@@ -41,9 +47,21 @@ function CreateTaskTable({taskDocumentList}:props) {
             );
     };
     const [selectedFile, setSelectedFile] = useState<string | null>(null);
+    const [taskDocumentStatusId, setTaskDocumentStatusId] = useState(0)
+    const handleApproved = ((id:number)=>{
+         setIsModalOpen(true);
+         setTaskDocumentStatusId(id)
+    })
 
   return (
     <div>
+        {
+        isModalOpen && taskDocumentStatusId &&
+        <> <TaskHandleApproveModal 
+        isOpen={isModalOpen} closeModal={closeModal} 
+        taskDocumentStatusId={taskDocumentStatusId} employeeId={employeeId}/>
+       </>
+}
         <div className='d-flex justify-content gap-5' >
             <div className='col-auto'>
             <button
@@ -183,7 +201,7 @@ function CreateTaskTable({taskDocumentList}:props) {
                             <div className="p-3 bg-light">
 
                                 <h6 className="mb-3">
-                                    Assigned Researchers
+                                    Assigned Section
                                 </h6>
 
                                 <table className="table table-sm table-bordered mb-0">
@@ -213,7 +231,10 @@ function CreateTaskTable({taskDocumentList}:props) {
                                                         <button
                                                             type="button"
                                                             className="btn btn-sm btn-outline-primary me-2"
-                                                            onClick={() => toggleRow(rowData.id)}
+                                                            onClick={() => handleApproved(
+                                                                        dept.taskDocumentStatus?.find(
+                                                                        (a) => a.isActive === true)?.id ?? 0)
+                                                                    }
                                                         >
                                                         <i className="bi bi-check-circle"></i>
                                                         </button>
@@ -260,7 +281,7 @@ function CreateTaskTable({taskDocumentList}:props) {
                                                             dept.taskDocumentStatus?.find((a) => a.isActive === true)?.taskStatus?.documentStatus  
                                                         }
                                                     </td>
-                                                    <td>
+                                                   <td style={{ whiteSpace: "wrap" }}>
                                                         {dept.remarks}
                                                     </td>
 

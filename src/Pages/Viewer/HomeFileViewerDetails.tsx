@@ -54,7 +54,6 @@ console.log(fileUrl);
   };
   const handleStart = async () => {
     setIsModalOpen(true);
-   
   }
 return (
 

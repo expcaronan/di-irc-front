@@ -31,6 +31,7 @@ function CreateTask({employeeId}:props) {
     <div>
        <CreateTaskTable
         taskDocumentList={taskDocumentList}
+        employeeId={employeeId}
       />
     </div>
   )
