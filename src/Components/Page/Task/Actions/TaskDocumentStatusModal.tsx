@@ -16,11 +16,11 @@ function TaskDocumentStatusModal({ isOpen, closeModal,assignedDocument, employee
 const [loading, setLoading] =useState(false);
 const navigate = useNavigate();
 const [createTaskDocumentStatus] = useCreateTaskDocumentStatusMutation();
-console.log(employeeId);
+//console.log(employeeId);
 const [input, setInput] = useState({
     taskDocumentAssignedDepartmentId : assignedDocument.id,
     DateUpdate : Date.now,
-    AssignedRemarks : "",
+    assignedRemarks : "",
     employeeId:employeeId,
     taskStatusId:0,
     isActive:true,
@@ -40,23 +40,29 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) =>{
     try {
 
     
-        
-    const response:apiResponse = await createTaskDocumentStatus(input);
+    const response:apiResponse = await createTaskDocumentStatus({
+        taskDocumentAssignedDepartmentId: input.taskDocumentAssignedDepartmentId,
+        dateUpdate: new Date().toISOString(),
+        assignedRemarks : input.assignedRemarks,
+        employeeId: input.employeeId,
+        taskStatusId:input.taskStatusId,
+        isActive:true,
+    });
      if(response.data?.isSuccess == true){
      
         const modal = document.getElementById('exampleModalAddEmp');
         if (modal) {
-            toast.success('Started the test Successfully!', {
+            toast.success('Successfully Created!', {
                 position: "top-right", 
                 autoClose: 5000, 
               });
 
             closeModal();
-             navigate("/startquiz/new",{ state: { quizQuestionResult : response.data?.result } });
+             navigate("/");
         }        
         
         }else if(response.data?.exist == true){
-          toast.error('Employee already exist!', {
+          toast.error('Data already exist!', {
             position: "top-right", 
             autoClose: 5000, 
           });
@@ -131,9 +137,9 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) =>{
                   <textarea
                     
                     className="form-control"
-                    name="AssignedRemarks"
+                    name="assignedRemarks"
                     required
-                    value={input.AssignedRemarks}
+                    value={input.assignedRemarks}
                     onChange={handleUserInput}
                   />
                 </div>

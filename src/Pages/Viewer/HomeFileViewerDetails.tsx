@@ -21,7 +21,7 @@ function HomeFileViewerDetails({filePath,assignedDocument,employeeId,onClose}:pr
     // Get filename
     const fileName =
         filePath.split(/[\\/]/).pop() || "DocumentViewer";
-
+console.log(fileUrl);
     // Get extension
     const extension =
         fileName.split(".").pop()?.toLowerCase() || "";
@@ -170,6 +170,7 @@ return (
                                     height: "100%",
                                     border: "none"
                                 }}
+                                allowFullScreen
                             />
                         )}
 

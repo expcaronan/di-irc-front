@@ -12,7 +12,7 @@ interface props{
 }
 
 function CreateTaskTable({taskDocumentList}:props) {
-    //console.log(taskDocumentList);
+    console.log(taskDocumentList);
     const [documents, setDocuments] = useState<taskDocumentBaseModel[]>([]);
     const [isNotClick, setIsNotClick] = useState(false);
     const navigate = useNavigate();
@@ -190,11 +190,12 @@ function CreateTaskTable({taskDocumentList}:props) {
 
                                     <thead>
                                         <tr>
-                                            <th>ID</th>
+                                            <th>Actions</th>
                                             <th>Department</th>
                                             <th>Status</th>
                                             <th>Remarks</th>
                                             <th>Date Assigned</th>
+                                            <th>Assigned Comments</th>
                                         </tr>
                                     </thead>
 
@@ -205,16 +206,59 @@ function CreateTaskTable({taskDocumentList}:props) {
 
                                                 <tr key={dept.id}>
 
-                                                    <td>
-                                                        {dept.id}
+                                                    <td>{
+                                                        (dept.taskDocumentStatus?.find(
+                                                                        (a) => a.isActive === true
+                                                                    )?.taskStatusId === 4) &&
+                                                        <button
+                                                            type="button"
+                                                            className="btn btn-sm btn-outline-primary me-2"
+                                                            onClick={() => toggleRow(rowData.id)}
+                                                        >
+                                                        <i className="bi bi-check-circle"></i>
+                                                        </button>
+                                                        }
                                                     </td>
 
                                                     <td>
                                                         {dept.department?.departmentName}
                                                     </td>
 
-                                                    <td>
-                                                        {(dept.taskDocumentStatus?.length ?? 0) <= 0 ? "Not Yet Started" : ""}
+                                                  <td
+                                                        style={{
+                                                            backgroundColor:
+                                                                dept.taskDocumentStatus?.find(
+                                                                    (a) => a.isActive === true
+                                                                )?.taskStatusId === 3
+                                                                    ? "yellow"
+                                                                    : dept.taskDocumentStatus?.find(
+                                                                        (a) => a.isActive === true
+                                                                    )?.taskStatusId === 1
+                                                                    ? "#FFC107" // Amber
+                                                                    : dept.taskDocumentStatus?.find(
+                                                                        (a) => a.isActive === true
+                                                                    )?.taskStatusId === 4
+                                                                    ? "#B19CD9"
+                                                                    : dept.taskDocumentStatus?.find(
+                                                                        (a) => a.isActive === true
+                                                                    )?.taskStatusId === 5
+                                                                    ? "lightgreen"
+                                                                    : dept.taskDocumentStatus?.find(
+                                                                        (a) => a.isActive === true
+                                                                    )?.taskStatusId === 7
+                                                                    ? "green"
+                                                                    : dept.taskDocumentStatus?.find(
+                                                                        (a) => a.isActive === true
+                                                                    )?.taskStatusId === 8
+                                                                    ? "red"
+                                                                    : "orange",
+                                                        }}
+                                                        >
+                                                        {(dept.taskDocumentStatus?.length ?? 0) <= 0
+                                                            ? "Not Yet Started"
+                                                            : 
+                                                            dept.taskDocumentStatus?.find((a) => a.isActive === true)?.taskStatus?.documentStatus  
+                                                        }
                                                     </td>
                                                     <td>
                                                         {dept.remarks}
@@ -224,6 +268,13 @@ function CreateTaskTable({taskDocumentList}:props) {
                                                         {formatDate(
                                                             dept.assignedDate
                                                         )}
+                                                    </td>
+                                                    <td>
+                                                        {(dept.taskDocumentStatus?.length ?? 0) <= 0
+                                                            ? ""
+                                                            : 
+                                                            dept.taskDocumentStatus?.find((a) => a.isActive === true)?.assignedRemarks  
+                                                        }
                                                     </td>
 
                                                 </tr>

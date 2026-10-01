@@ -5,7 +5,7 @@ export interface taskDocumentStatusBaseModel {
   id: number;
   taskDocumentAssignedEmployeeId: number;
   taskDocumentAssignedEmployee?: taskDocumentAssignedEmployeeBaseModel | null;
-  assignedComments?: string | null;
+  assignedRemarks?: string | null;
   dateUpdate: string;
   taskStatusId: number;
   taskStatus?: taskStatusBaseModel | null;

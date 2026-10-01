@@ -19,7 +19,7 @@ const [taskDocumentList, setTaskDocumentList] = useState<taskDocumentAssignedDep
 useEffect(() =>{
     setLoading(true);
     if(data && !isLoading){
-       console.log(data.result)
+       //console.log(data.result)
         setTaskDocumentList(data.result);
     }
     setLoading(false);
