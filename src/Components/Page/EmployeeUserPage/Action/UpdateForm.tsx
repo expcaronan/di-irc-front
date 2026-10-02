@@ -36,7 +36,8 @@ function UpdateForm({dropdownListData,employeeData}:props) {
     designationId:employeeData.designationId,
     roleId:employeeData.roleId,
     rankId:employeeData.rankId,
-    groupId:employeeData.groupId,
+    groupId:1,
+    //groupId:employeeData.groupId,
   });
 
 
@@ -238,7 +239,7 @@ const handleUserInput = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectEleme
               </option>
               ))}
           </select>     
-           <label htmlFor="group" className="col-form-label">Select Group</label>
+           {/* <label htmlFor="group" className="col-form-label">Select Group</label>
             <select
               required
               className="form-group form-select"
@@ -252,7 +253,7 @@ const handleUserInput = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectEleme
                   {option.groupName}
               </option>
               ))}
-          </select>     
+          </select>      */}
   <div className="mb-3">
           <label htmlFor="birthDay" className="col-form-label">Hire Date</label>
           <input
