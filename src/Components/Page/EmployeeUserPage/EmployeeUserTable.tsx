@@ -1,19 +1,44 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { employeeUserBaseModel } from '../../../Interfaces/BaseModel/employeeUserBaseModel'
 import formatDate from '../../../Helpers/formatDate'
+import { useNavigate } from 'react-router-dom';
+import DeleteFormModal from './Action/DeleteFormModal';
 interface props{
     empUserList:employeeUserBaseModel[]
 }
 function EmployeeUserTable({empUserList}:props) {
 
  //console.log(empUserList);
-
-    function handleDelete(id: number): void {
-        throw new Error('Function not implemented.')
+    const navigate = useNavigate();
+    const [userId, setUserId] = useState<number>(0);
+    const [employeeId, setEmployeeId] = useState<number>(0);
+    const handleDelete = (data: employeeUserBaseModel) => {
+        setUserId(data?.user?.id ?? 0);
+        setEmployeeId(data.id);        
+        setIsModalOpenA(true);
+    }
+    const [isModalOpenA, setIsModalOpenA] = useState(false);
+    const closeModal = () => {
+        setIsModalOpenA(false);
+    };
+    const handleUpdate = (data: employeeUserBaseModel): void => {
+        navigate("/user/update", {
+            state: {
+                taskDocument: data,
+            }       
+        });
     }
 
   return (
+      
     <div>
+        {
+            isModalOpenA && 
+            <> <DeleteFormModal 
+            isOpen={isModalOpenA} closeModal={closeModal} 
+            userId={userId} employeeId={employeeId}/>
+            </>
+        }
           <table id="example" className="table table-striped table-hover">
           <thead className="thead-light text-nowrap">
             <tr>
@@ -41,9 +66,13 @@ function EmployeeUserTable({empUserList}:props) {
             {empUserList.map((rowData, rowIndex) => (
                 <tr key={rowIndex}>
                     <td>
-                         <a style={{cursor:'pointer'}} 
-                         onClick={() => handleDelete(rowData.id)}>
+                         <a  type="button" className="btn btn-sm btn-outline-danger me-2" 
+                         onClick={() => handleDelete(rowData)}>
                             <i className="bi bi-trash"></i></a> 
+                        
+                        <a type="button" className="btn btn-sm btn-outline-primary me-2"  
+                         onClick={() => handleUpdate(rowData)}>
+                            <i className="bi-pencil-square"></i></a> 
                     </td>
                     <td>{rowData?.firstName+" "+rowData.lastName}</td>
                     <td>{rowData?.department?.departmentName}</td>

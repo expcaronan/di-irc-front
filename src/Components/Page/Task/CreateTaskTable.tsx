@@ -6,6 +6,7 @@ import HomeFileViewer from '../../../Pages/Viewer/HomeFileViewer';
 import { taskDocumentAssignedDepartmentBaseModel } from '../../../Interfaces/BaseModel/taskDocumentAssignedDepartmentBaseModel';
 import TaskHandleApproveModal from './Actions/TaskHandleApproveModal';
 import TaskHandleDisApproveModal from './Actions/TaskHandleDisApproveModal';
+import DeleteFormModal from '../EmployeeUserPage/Action/DeleteFormModal';
 
 
 interface props{
@@ -73,13 +74,7 @@ function CreateTaskTable({taskDocumentList,employeeId}:props) {
 
   return (
     <div>
-        {
-            isModalOpenA && taskDocumentStatusId &&
-            <> <TaskHandleApproveModal 
-            isOpen={isModalOpenA} closeModal={closeModal} 
-            taskDocumentStatusId={taskDocumentStatusId} employeeId={employeeId}/>
-            </>
-        }
+       
         {
             isModalOpenD && taskDocumentStatusId &&
             <> <TaskHandleDisApproveModal 

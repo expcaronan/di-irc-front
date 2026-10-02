@@ -18,6 +18,7 @@ import TaskForm from '../Components/Page/Task/Actions/TaskForm';
 import UserEmpQuery from '../Components/Page/Task/Actions/UserEmpQuery';
 import HomeMonitoringTask from '../Pages/Task/HomeMonitoringTask';
 import TaskFormAddDepartmentQuery from '../Components/Page/Task/Actions/TaskFormAddDepartmentQuery';
+import HomeUpdateUser from '../Pages/HomeUpdateUser';
 
 
 function App() {
@@ -115,6 +116,7 @@ function App() {
           <Route
               path="/" element={userDetails ? <HomeMonitoringTask userDetails={userDetails} /> : null}
           />
+          <Route path="/user/update" element={<HomeUpdateUser/>} />
           
         </Routes>
       </div>

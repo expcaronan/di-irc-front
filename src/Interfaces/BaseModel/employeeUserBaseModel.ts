@@ -1,5 +1,6 @@
 import departmentModel from "./departmentModel";
 import designationModel from "./designationModel";
+import groupModel from "./groupModel";
 import rankModel from "./rankModel";
 import roleModel from "./roleModel";
 import { userModel } from "./userModel";
@@ -19,6 +20,9 @@ export interface employeeUserBaseModel {
 
   roleId: number;
   role?: roleModel;
+
+  groupId: number;
+  group?: groupModel;
 
   rankId: number;
   rank?: rankModel;

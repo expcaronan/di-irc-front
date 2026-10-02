@@ -1,37 +1,42 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import dropdownListDto from '../../../Interfaces/dropdownListDto';
-import { useGetEmpDetailsDropdownListQuery, useRegisterUserEmpMutation } from '../../../Api/userEmpApi';
-import apiResponse from '../../../Interfaces/apiResponse';
 import { toast } from 'react-toastify';
-import departmentModel from '../../../Interfaces/BaseModel/departmentModel';
-import designationModel from '../../../Interfaces/BaseModel/designationModel';
-import rankModel from '../../../Interfaces/BaseModel/rankModel';
-import roleModel from '../../../Interfaces/BaseModel/roleModel';
-import groupModel from '../../../Interfaces/BaseModel/groupModel';
+import dropdownListDto from '../../../../Interfaces/dropdownListDto';
+import { employeeUserBaseModel } from '../../../../Interfaces/BaseModel/employeeUserBaseModel';
+import { useUdpateUserEmpMutation } from '../../../../Api/userEmpApi';
+import apiResponse from '../../../../Interfaces/apiResponse';
+import departmentModel from '../../../../Interfaces/BaseModel/departmentModel';
+import designationModel from '../../../../Interfaces/BaseModel/designationModel';
+import rankModel from '../../../../Interfaces/BaseModel/rankModel';
+import roleModel from '../../../../Interfaces/BaseModel/roleModel';
+import groupModel from '../../../../Interfaces/BaseModel/groupModel';
+
 interface props{
-    dropdownListData:dropdownListDto
+    dropdownListData:dropdownListDto,
+    employeeData:employeeUserBaseModel
 }
-function RegisterForm({dropdownListData}:props) {
-    //console.log(dropdownListData);
+function UpdateForm({dropdownListData,employeeData}:props) {
+    //console.log(employeeData);
     const navigate = useNavigate();
     const [dropdownList, setDropdownList] = useState<dropdownListDto>();
-    const [createUserEmp] = useRegisterUserEmpMutation();
+    const [updateUserEmp] = useUdpateUserEmpMutation();
     const [loading, setLoading] = useState(false);
     const [input, setInput] = useState({
-    firstName:"",
-    lastName:"",
-    birthDay:new Date().toISOString().split('T')[0],
-    dateHired:new Date().toISOString().split('T')[0],
-    isActive:true,
+    id:employeeData.id,
+    userId:employeeData?.user?.id,
+    firstName:employeeData.firstName,
+    lastName:employeeData.lastName,
+    birthDay:employeeData.birthDay.split("T")[0],
+    dateHired:employeeData.dateHired.split("T")[0],
+    isActive:employeeData.isActive,
     passwordHash:"",
-    userName:"",
-    email:"",
-    departmentId:0,
-    designationId:0,
-    roleId:0,
-    rankId:0,
-    groupId:0,
+    userName:employeeData?.user?.userName,
+    email:employeeData?.user?.email,
+    departmentId:employeeData.departmentId,
+    designationId:employeeData.designationId,
+    roleId:employeeData.roleId,
+    rankId:employeeData.rankId,
+    groupId:employeeData.groupId,
   });
 
 
@@ -49,13 +54,13 @@ const handleUserInput = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectEleme
       if (loading) return; // Prevent multiple clicks
     setLoading(true);
      try {
-        const response:apiResponse =  await createUserEmp(input) 
+        const response:apiResponse =  await updateUserEmp(input) 
         if(response.data?.isSuccess == true){
                 toast.success('Account Created Successfully!', {
                     position: "top-right", 
                     autoClose: 5000, 
                   });
-            navigate("/login");
+            navigate("/employee/list");
             }else if(response.data?.exist == true){
               toast.error('Question already exist!', {
                 position: "top-right", 
@@ -79,7 +84,7 @@ const handleUserInput = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectEleme
   return (
     <div>
       <div className="container mt-4 pb-5">
-      <h3>Registration Form</h3>
+      <h3>Update Form</h3>
 
 
         <form onSubmit={handleSubmit} className="p-3 border rounded">
@@ -146,7 +151,6 @@ const handleUserInput = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectEleme
             className="form-control"
             value={input.passwordHash}
             onChange={handleUserInput}
-            required
           />
         </div>
  <div className="mb-3">
@@ -278,4 +282,4 @@ const handleUserInput = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectEleme
   )
 }
 
-export default RegisterForm
+export default UpdateForm

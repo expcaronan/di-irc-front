@@ -20,6 +20,28 @@ const userEmpApi = createApi({
         }),
         invalidatesTags:['UserEmp'],
       }),
+      udpateUserEmp: builder.mutation({
+        query: (UserEmpData) => ({
+          url: "employee/update",
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: UserEmpData,
+        }),
+        invalidatesTags:['UserEmp'],
+      }),
+        deleteUserEmp: builder.mutation({
+        query: (UserEmpData) => ({
+          url: "employee/delete",
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: UserEmpData,
+        }),
+        invalidatesTags:['UserEmp'],
+      }),
       getEmpDetailsDropdownList:builder.query({
             query: ()=> ({
                 url:"employee/dropdown/list",
@@ -39,6 +61,8 @@ const userEmpApi = createApi({
 
 export const {
   useRegisterUserEmpMutation,
+  useUdpateUserEmpMutation,
+  useDeleteUserEmpMutation,
   useGetEmpDetailsDropdownListQuery,
   useGetEmpUserListQuery
   } = userEmpApi;
