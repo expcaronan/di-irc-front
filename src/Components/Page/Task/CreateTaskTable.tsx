@@ -1,13 +1,13 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { taskDocumentBaseModel } from '../../../Interfaces/BaseModel/taskDocumentBaseModel';
 import formatDate from '../../../Helpers/formatDate';
-import EmployeeUserModel from '../../../Interfaces/EmployeeUserModel';
-import { employeeUserBaseModel } from '../../../Interfaces/BaseModel/employeeUserBaseModel';
-import { taskDocumentAssignedEmployeeBaseModel } from '../../../Interfaces/BaseModel/taskDocumentAssignedEmployeeBaseModel';
 import HomeFileViewer from '../../../Pages/Viewer/HomeFileViewer';
 import { taskDocumentAssignedDepartmentBaseModel } from '../../../Interfaces/BaseModel/taskDocumentAssignedDepartmentBaseModel';
 import TaskHandleApproveModal from './Actions/TaskHandleApproveModal';
+import TaskHandleDisApproveModal from './Actions/TaskHandleDisApproveModal';
+
+
 interface props{
     taskDocumentList:taskDocumentBaseModel[]
     employeeId:number
@@ -15,11 +15,14 @@ interface props{
 
 function CreateTaskTable({taskDocumentList,employeeId}:props) {
     //console.log(taskDocumentList);
-     const [isModalOpen, setIsModalOpen] = useState(false);
+     const [isModalOpenA, setIsModalOpenA] = useState(false);
+     const [isModalOpenD, setIsModalOpenD] = useState(false);
      const closeModal = () => {
-        setIsModalOpen(false);
+        setIsModalOpenA(false);
+        setIsModalOpenD(false);
     };
-    const [documents, setDocuments] = useState<taskDocumentBaseModel[]>([]);
+   
+    const [selectedTaskDocument, setSelectedTaskDocument] = useState<taskDocumentBaseModel>();
     const [isNotClick, setIsNotClick] = useState(false);
     const navigate = useNavigate();
 
@@ -28,6 +31,16 @@ function CreateTaskTable({taskDocumentList,employeeId}:props) {
             navigate("/task/create/form");
         setIsNotClick(false);
     }
+     const handleShowModal = ((data:taskDocumentBaseModel) =>{
+        setIsNotClick(true);
+            navigate("/task/create/assignedDepartment", {
+            state: {
+                taskDocument: data,
+                employeeId: employeeId,
+            }
+        });
+        setIsNotClick(false);
+    })
     function handleDelete(id: number): void {
         if (!window.confirm('Are you sure you want to delete this task?')) {
             return;
@@ -49,19 +62,33 @@ function CreateTaskTable({taskDocumentList,employeeId}:props) {
     const [selectedFile, setSelectedFile] = useState<string | null>(null);
     const [taskDocumentStatusId, setTaskDocumentStatusId] = useState(0)
     const handleApproved = ((id:number)=>{
-         setIsModalOpen(true);
+         setIsModalOpenA(true);
          setTaskDocumentStatusId(id)
     })
+    const handleDisApproved = ((id:number)=>{
+         setIsModalOpenD(true);
+         setTaskDocumentStatusId(id)
+    })
+   
 
   return (
     <div>
         {
-        isModalOpen && taskDocumentStatusId &&
-        <> <TaskHandleApproveModal 
-        isOpen={isModalOpen} closeModal={closeModal} 
-        taskDocumentStatusId={taskDocumentStatusId} employeeId={employeeId}/>
-       </>
-}
+            isModalOpenA && taskDocumentStatusId &&
+            <> <TaskHandleApproveModal 
+            isOpen={isModalOpenA} closeModal={closeModal} 
+            taskDocumentStatusId={taskDocumentStatusId} employeeId={employeeId}/>
+            </>
+        }
+        {
+            isModalOpenD && taskDocumentStatusId &&
+            <> <TaskHandleDisApproveModal 
+            isOpen={isModalOpenD} closeModal={closeModal} 
+            taskDocumentStatusId={taskDocumentStatusId} employeeId={employeeId}/>
+            </>
+        }
+      
+
         <div className='d-flex justify-content gap-5' >
             <div className='col-auto'>
             <button
@@ -95,15 +122,6 @@ function CreateTaskTable({taskDocumentList,employeeId}:props) {
                 <th>Document File Path</th>
                 <th>Due Date</th>
                 <th>Created Date</th>
-              
-               
-                {/* <th>Shift</th>
-                <th>Time In</th>
-                <th>Time Out</th> */}
-                {/* <th>Under Time</th>
-                <th>OT Hours</th> */}
-                {/* <th>Approve</th>
-                <th>Remarks</th> */}
             </tr>
         </thead>
         <tbody
@@ -122,8 +140,6 @@ function CreateTaskTable({taskDocumentList,employeeId}:props) {
                 {/* ============================= */}
 
                 <tr>
-
-                    {/* Expand / Delete */}
                     <td>
 
                         <button
@@ -139,14 +155,22 @@ function CreateTaskTable({taskDocumentList,employeeId}:props) {
                                 }
                             ></i>
                         </button>
-
                         <a
                             style={{ cursor: "pointer" }}
                             onClick={() => handleDelete(rowData.id)}
                         >
                             <i className="bi bi-trash text-danger"></i>
                         </a>
-
+                        {
+                            rowData.forChiefAction &&
+                             <a className="btn btn-outline-secondary"
+                            style={{ cursor: "pointer" }}
+                            onClick={() => handleShowModal(rowData)}
+                            >
+                            <i className="bi bi-exclamation-diamond"></i>
+                            </a>
+                        }
+                       
                     </td>
 
                     <td>
@@ -227,7 +251,7 @@ function CreateTaskTable({taskDocumentList,employeeId}:props) {
                                                     <td>{
                                                         (dept.taskDocumentStatus?.find(
                                                                         (a) => a.isActive === true
-                                                                    )?.taskStatusId === 4) &&
+                                                                    )?.taskStatusId === 4) && <>
                                                         <button
                                                             type="button"
                                                             className="btn btn-sm btn-outline-primary me-2"
@@ -238,6 +262,17 @@ function CreateTaskTable({taskDocumentList,employeeId}:props) {
                                                         >
                                                         <i className="bi bi-check-circle"></i>
                                                         </button>
+                                                         <button
+                                                            type="button"
+                                                            className="btn btn-sm btn-outline-danger"
+                                                            onClick={() => handleDisApproved(
+                                                                        dept.taskDocumentStatus?.find(
+                                                                        (a) => a.isActive === true)?.id ?? 0)
+                                                                    }
+                                                        >
+                                                        <i className="bi bi-x-circle"></i>
+                                                        </button>
+                                                        </>
                                                         }
                                                     </td>
 
@@ -270,8 +305,8 @@ function CreateTaskTable({taskDocumentList,employeeId}:props) {
                                                                     ? "green"
                                                                     : dept.taskDocumentStatus?.find(
                                                                         (a) => a.isActive === true
-                                                                    )?.taskStatusId === 8
-                                                                    ? "red"
+                                                                    )?.taskStatusId === 6
+                                                                    ? "#FF474C"
                                                                     : "orange",
                                                         }}
                                                         >

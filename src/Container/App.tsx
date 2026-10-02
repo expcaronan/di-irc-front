@@ -17,6 +17,7 @@ import HomeCreateTask from '../Pages/Task/HomeCreateTask';
 import TaskForm from '../Components/Page/Task/Actions/TaskForm';
 import UserEmpQuery from '../Components/Page/Task/Actions/UserEmpQuery';
 import HomeMonitoringTask from '../Pages/Task/HomeMonitoringTask';
+import TaskFormAddDepartmentQuery from '../Components/Page/Task/Actions/TaskFormAddDepartmentQuery';
 
 
 function App() {
@@ -108,11 +109,13 @@ function App() {
         <Routes>
           <Route path="/employee/list" element={<HomeEmployeeUser/>} />  
           <Route path="/task/document/list" element={<HomeCreateTask employeeId={employeeId}/>} /> 
-          <Route path="/task/create/form" element={<UserEmpQuery employeeId={employeeId}/>} />      
+          <Route path="/task/create/form" element={<UserEmpQuery employeeId={employeeId}/>} />
+          <Route path="/task/create/assignedDepartment" element={<TaskFormAddDepartmentQuery/>} />           
           <Route path="*" element= {<NotFound/>} />
           <Route
               path="/" element={userDetails ? <HomeMonitoringTask userDetails={userDetails} /> : null}
           />
+          
         </Routes>
       </div>
       <Footer />

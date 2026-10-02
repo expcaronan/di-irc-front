@@ -38,9 +38,9 @@ const handleViewData = (data: taskDocumentAssignedDepartmentBaseModel) => {
                 <th>Document Ref Number</th>
                 <th>Document Title</th>
                 <th>Document FilePath</th>
-                <th>Remarks</th>
                 <th>Date Assigned</th>
-              
+                <th>Created By Remarks</th>
+                <th>Approver Remarks</th>
               
             
             </tr>
@@ -80,8 +80,8 @@ const handleViewData = (data: taskDocumentAssignedDepartmentBaseModel) => {
                                                     ? "green"
                                                     : rowData.taskDocumentStatus?.find(
                                                         (a) => a.isActive === true
-                                                    )?.taskStatusId === 8
-                                                        ? "red"
+                                                    )?.taskStatusId === 6
+                                                        ? "#FF474C"
                                                         : "orange",
                         }}
                     >
@@ -111,7 +111,9 @@ const handleViewData = (data: taskDocumentAssignedDepartmentBaseModel) => {
                     <td>{formatMonthDayYear(rowData?.taskDocument.dateCreated)}</td>
                   
                     <td style={{ whiteSpace: "wrap" }}>{rowData?.remarks}</td>
-                
+
+                    <td style={{ whiteSpace: "wrap" }}>{rowData?.taskDocumentStatus?.find((a) => a.isActive === true)?.taskSupervisorComment?.remarks}</td>
+
                     {/* <td>{formatDate(rowData.birthDay)}</td>
                     <td>{formatDate(rowData.dateHired)}</td>      */}
                 </tr>

@@ -12,6 +12,9 @@ export interface taskDocumentBaseModel {
   createdByEmployeeId: number;
   employee?: employeeUserBaseModel | null;
   documentFilePath?: string | null;
+  forChiefAction: boolean,
   isActive: boolean;
+  registrySectionId:number,
+  officeId:number,
   taskDocumentAssignedDepartment?: taskDocumentAssignedDepartmentBaseModel[] | null;
 }

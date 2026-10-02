@@ -12,14 +12,14 @@ interface Props {
     taskDocumentStatusId:number,
     employeeId:number,
   }
-function TaskHandleApproveModal({ isOpen, closeModal,taskDocumentStatusId,employeeId }: Props) {
+function TaskHandleDisApproveModal({ isOpen, closeModal,taskDocumentStatusId,employeeId }: Props) {
 const [loading, setLoading] =useState(false);
 const navigate = useNavigate();
 const [updateTaskDocumentStatus] = useUpdateTaskDocumentStatusMutation();
 
 const [input, setInput] = useState({
     taskDocumentStatusId:taskDocumentStatusId,
-    taskStatusId:5,
+    taskStatusId:6,
     employeeId:employeeId,
     remarks:""
 });
@@ -41,7 +41,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) =>{
     const response:apiResponse = await updateTaskDocumentStatus({
 
         taskDocumentStatusId:taskDocumentStatusId,
-        taskStatusId:5,
+        taskStatusId:6,
         employeeId:employeeId,
         remarks:input.remarks,
        
@@ -142,14 +142,12 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) =>{
                   />
                 </div>
                 </div>
-                 <h4 className="text-primary">
-                      Do you want to approve this task?
-                 </h4>
-                   
+                <h4 className="text-danger">You want to disapprove this task?
+                </h4>
                 </div>
                  <div className="modal-footer">
                  {
-                 <><button type="submit" className="btn btn-primary" disabled={loading}>Yes</button>
+                 <><button type="submit" className="btn btn-danger" disabled={loading}>Yes</button>
                     <button className="btn btn-secondary" onClick={closeModal}>No</button>
                    </>
               }{
@@ -165,4 +163,4 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) =>{
   )
 }
 
-export default TaskHandleApproveModal
+export default TaskHandleDisApproveModal

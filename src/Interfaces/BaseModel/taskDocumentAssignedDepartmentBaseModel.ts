@@ -2,6 +2,7 @@ import departmentModel from "./departmentModel";
 import { employeeUserBaseModel } from "./employeeUserBaseModel";
 import { taskDocumentBaseModel } from "./taskDocumentBaseModel";
 import { taskDocumentStatusBaseModel } from "./taskDocumentStatusBaseModel";
+import { taskSupervisorCommentBaseModel } from "./taskSupervisorCommentBaseModel";
 
 
 export interface taskDocumentAssignedDepartmentBaseModel {
@@ -14,5 +15,6 @@ export interface taskDocumentAssignedDepartmentBaseModel {
   remarks: string;
   taskDocumentAssignedDepartment?: taskDocumentAssignedDepartmentBaseModel[] | null;
   taskDocumentStatus:taskDocumentStatusBaseModel[] | null;
+  taskSupervisorComment: taskSupervisorCommentBaseModel | null;
   isActive: boolean;
 }

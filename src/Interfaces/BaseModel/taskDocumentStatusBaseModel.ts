@@ -1,5 +1,6 @@
 import { taskDocumentAssignedEmployeeBaseModel } from "./taskDocumentAssignedEmployeeBaseModel";
 import { taskStatusBaseModel } from "./taskStatusBaseModel";
+import { taskSupervisorCommentBaseModel } from "./taskSupervisorCommentBaseModel";
 
 export interface taskDocumentStatusBaseModel {
   id: number;
@@ -10,4 +11,5 @@ export interface taskDocumentStatusBaseModel {
   taskStatusId: number;
   taskStatus?: taskStatusBaseModel | null;
   isActive: boolean;
+  taskSupervisorComment:taskSupervisorCommentBaseModel | null;
 }
