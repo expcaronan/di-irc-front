@@ -82,6 +82,13 @@ function CreateTaskTable({taskDocumentList,employeeId}:props) {
             taskDocumentStatusId={taskDocumentStatusId} employeeId={employeeId}/>
             </>
         }
+         {
+            isModalOpenA && taskDocumentStatusId &&
+            <> <TaskHandleApproveModal 
+            isOpen={isModalOpenA} closeModal={closeModal} 
+            taskDocumentStatusId={taskDocumentStatusId} employeeId={employeeId}/>
+            </>
+        }
       
 
         <div className='d-flex justify-content gap-5' >
@@ -233,6 +240,7 @@ function CreateTaskTable({taskDocumentList,employeeId}:props) {
                                             <th>Remarks</th>
                                             <th>Date Assigned</th>
                                             <th>Assigned Comments</th>
+                                            <th>Modified File</th>
                                         </tr>
                                     </thead>
 
@@ -326,6 +334,19 @@ function CreateTaskTable({taskDocumentList,employeeId}:props) {
                                                             : 
                                                             dept.taskDocumentStatus?.find((a) => a.isActive === true)?.assignedRemarks  
                                                         }
+                                                    </td>
+                                                    <td>
+                                                        {dept.taskDocumentStatus?.find((a) => a.isActive === true)?.documentFilePath && (
+                                                        <a
+                                                            type="button"
+                                                            className="btn btn-sm btn-primary"
+                                                            onClick={() =>
+                                                                setSelectedFile(dept.taskDocumentStatus?.find((a) => a.isActive === true)?.documentFilePath ?? null)
+                                                            }
+                                                        >
+                                                            {dept.taskDocumentStatus?.find((a) => a.isActive === true)?.documentFilePath}
+                                                        </a>
+                                                        )}
                                                     </td>
 
                                                 </tr>

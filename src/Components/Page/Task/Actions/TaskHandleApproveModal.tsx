@@ -56,7 +56,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) =>{
               });
 
             closeModal();
-             navigate("/");
+             navigate("/task/create/form");
         }        
         
         }else if(response.data?.exist == true){

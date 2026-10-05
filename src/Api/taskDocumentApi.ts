@@ -20,7 +20,7 @@ const taskDocumentApi = createApi({
     }),
 
     createTaskDocumentStatus: builder.mutation({
-    query: (taskDocumentStatusData) => ({
+    query: (taskDocumentStatusData:FormData) => ({
         url: "taskdocumentstatus/create",
         method: "POST",
         body: taskDocumentStatusData,

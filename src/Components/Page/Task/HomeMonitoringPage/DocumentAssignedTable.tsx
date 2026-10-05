@@ -41,6 +41,7 @@ const handleViewData = (data: taskDocumentAssignedDepartmentBaseModel) => {
                 <th>Date Assigned</th>
                 <th>Created By Remarks</th>
                 <th>Approver Remarks</th>
+                <th>Modified Document File Path</th>
               
             
             </tr>
@@ -113,7 +114,17 @@ const handleViewData = (data: taskDocumentAssignedDepartmentBaseModel) => {
                     <td style={{ whiteSpace: "wrap" }}>{rowData?.remarks}</td>
 
                     <td style={{ whiteSpace: "wrap" }}>{rowData?.taskDocumentStatus?.find((a) => a.isActive === true)?.taskSupervisorComment?.remarks}</td>
-
+                    <td>
+                        {rowData?.taskDocumentStatus?.find((a) => a.isActive === true)?.documentFilePath && (
+                            <button
+                            type="button"
+                            onClick={() => setSelectedFile(rowData?.taskDocumentStatus?.find((a) => a.isActive === true)?.documentFilePath ?? null)}
+                            className="btn btn-link p-0 text-decoration-underline text-start"
+                            >
+                            {rowData?.taskDocumentStatus?.find((a) => a.isActive === true)?.documentFilePath}
+                            </button>
+                        )}
+                    </td>               
                     {/* <td>{formatDate(rowData.birthDay)}</td>
                     <td>{formatDate(rowData.dateHired)}</td>      */}
                 </tr>

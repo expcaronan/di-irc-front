@@ -12,4 +12,5 @@ export interface taskDocumentStatusBaseModel {
   taskStatus?: taskStatusBaseModel | null;
   isActive: boolean;
   taskSupervisorComment:taskSupervisorCommentBaseModel | null;
+  documentFilePath?: string | null;
 }
