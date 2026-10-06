@@ -70,6 +70,27 @@ const taskDocumentApi = createApi({
               }),
             providesTags:["taskDocuments"]
       }),
+    createNotifiedUsers: builder.mutation({
+      query: (notifiedUsers) => ({
+        url: "notifications/create",
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: notifiedUsers,
+      }),
+      invalidatesTags:['taskDocuments'],
+    }),
+    getNotificationList:builder.query({
+            query: (employeeId:number)=> ({
+                url:"notifications/list",
+                params: {
+                  employeeId:employeeId
+                },
+              }),
+              
+            providesTags:["taskDocuments"]
+    }),
 
   }),
 
@@ -84,6 +105,8 @@ useUpdateTaskDocumentStatusMutation,
 useUpdateTaskDocumentStatusAssingedDeptMutation,
 useGetAllTaskDocumentsWithAssignedDepartmentCreatedByQuery,
 useGetAllTaskDocumentsWithAssignedDepartmentByIdQuery,
-useGetDeptRrsOfficeDropdownListQuery
+useGetDeptRrsOfficeDropdownListQuery,
+useCreateNotifiedUsersMutation,
+useGetNotificationListQuery,
 } = taskDocumentApi;
 export default taskDocumentApi;

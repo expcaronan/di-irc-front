@@ -7,7 +7,9 @@ export default interface EmployeeUserModel {
   departmentName:string,
   departmentId:number,
   designationName:string,
+  designationId:number
   rankName:string,
+  rankId:number,
   userName:string,
   email:string,
   }

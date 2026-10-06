@@ -38,7 +38,21 @@ function App() {
     if (hasLocalStorageData) {
       if (storedJsonString !== null) {
         const storedJsonData= jwtDecode<EmployeeUserModel>(storedJsonString);
-      setUserDetails(storedJsonData);
+      setUserDetails({
+        employeeId:storedJsonData.employeeId,
+        lastName:storedJsonData.lastName,
+        firstName:storedJsonData.firstName,
+        roleName:storedJsonData.roleName,
+        roleId:storedJsonData.roleId,
+        designationName:storedJsonData.designationName,
+        designationId:storedJsonData.designationId,
+        departmentName:storedJsonData.departmentName,
+        departmentId:storedJsonData.departmentId,
+        rankId:storedJsonData.rankId,
+        rankName:storedJsonData.rankName,
+        email:storedJsonData.email,
+        userName:storedJsonData.userName,
+      });
        // console.log(storedData);
        // const storedJsonData  = JSON.parse(storedData); 
       //console.log(storedJsonData);
@@ -114,7 +128,7 @@ function App() {
           <Route path="/task/create/assignedDepartment" element={<TaskFormAddDepartmentQuery/>} />           
           <Route path="*" element= {<NotFound/>} />
           <Route
-              path="/" element={userDetails ? <HomeMonitoringTask userDetails={userDetails} /> : null}
+              path="/" element={userDetails && <HomeMonitoringTask userDetails={userDetails} /> }
           />
           <Route path="/user/update" element={<HomeUpdateUser/>} />
           

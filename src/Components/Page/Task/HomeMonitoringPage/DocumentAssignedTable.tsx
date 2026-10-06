@@ -11,12 +11,13 @@ interface props{
     employeeId:number,
 }
 function DocumentAssignedTable({documentList,employeeId}:props) {
-console.log(documentList);
+//console.log(documentList);
 
  
 const [selectedFile, setSelectedFile] = useState<string | null>(null);
 //const [selectedFileDetails, setSelectedFileDetails] = useState<string | null>(null);
 const [selectedData, setSelectedData] = useState<taskDocumentAssignedDepartmentBaseModel>();
+
 const handleViewData = (data: taskDocumentAssignedDepartmentBaseModel) => {
         setSelectedData(data);
         setSelectedFile(data?.taskDocument.documentFilePath ?? null)

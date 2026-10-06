@@ -29,7 +29,7 @@ function RegisterForm({dropdownListData}:props) {
     email:"",
     departmentId:0,
     designationId:0,
-    roleId:0,
+    roleId:3,
     rankId:0,
     groupId:1,
   });
@@ -219,7 +219,7 @@ const handleUserInput = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectEleme
               ))}
           </select>     
          </div>
-            <label htmlFor="recipient-name" className="col-form-label">Select Role</label>
+            {/* <label htmlFor="recipient-name" className="col-form-label">Select Role</label>
             <select
               required
               className="form-group form-select"
@@ -233,7 +233,7 @@ const handleUserInput = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectEleme
                   {option.roleName}
               </option>
               ))}
-          </select>     
+          </select>      */}
            {/* <label htmlFor="group" className="col-form-label">Select Group</label>
             <select
               required

@@ -1,0 +1,116 @@
+import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
+import MainLoader from '../../../Common/MainLoader';
+import { taskDocumentAssignedDepartmentBaseModel } from '../../../../Interfaces/BaseModel/taskDocumentAssignedDepartmentBaseModel';
+import { useCreateTaskDocumentStatusMutation, useUpdateTaskDocumentStatusMutation } from '../../../../Api/taskDocumentApi';
+import { toast } from 'react-toastify';
+import apiResponse from '../../../../Interfaces/apiResponse';
+import formatMonthDayYear from '../../../../Helpers/formatMonthDayYear';
+
+interface Props {
+    isOpen: boolean; 
+    closeModal: () => void; 
+    documentList:taskDocumentAssignedDepartmentBaseModel[],
+  }
+function NotificationModal({ isOpen, closeModal,documentList }: Props) {
+const [loading, setLoading] =useState(false);
+
+   
+    useEffect(() => {
+      if (isOpen) {
+        // Manually trigger modal to open
+        const modal = document.getElementById('exampleModalAddEmp');
+        if (modal) {
+          modal.classList.add('show');
+          modal.style.display = 'block';
+          document.body.classList.add('modal-open');
+        }
+      }else{
+          const modal = document.getElementById('exampleModalAddEmp');
+          if (modal) {
+            modal.classList.remove('show');
+            modal.setAttribute('aria-modal', 'false');
+            modal.style.display = 'none';
+            document.body.classList.remove('modal-open');
+           
+          }
+        }
+    }, [isOpen]);
+
+  return (
+      <div className="modal fade show d-block" id="exampleModalAddEmp" 
+      tabIndex={-1} role="dialog" aria-modal="true" 
+      aria-labelledby="documentModalTitle" 
+      //ref={modalRef} 
+      style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }} >
+          <div className="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable" role="document" style={{ maxWidth: "95vw" }} >
+              <div className="modal-content"> {/* ================================================= */} {/* HEADER */} {/* ================================================= */} 
+                <div className="modal-header"> 
+                    <h5 className="modal-title" id="documentModalTitle" > Document List </h5> 
+                    <button 
+                    //ref={closeButtonRef} 
+                    type="button" className="close" aria-label="Close document list" onClick={closeModal} >
+                  <span aria-hidden="true"> &times; </span>
+              </button>
+              </div> {/* ================================================= */} {/* BODY */} {/* ================================================= */}
+                  <div className="modal-body">
+                      <div className="z-1 position-relative needs-validation">
+                          <div className="table-responsive w-100" style={{ overflowX: "auto", overflowY: "auto", maxWidth: "100%" }} >
+                              <table id="example" className="table table-striped table-hover table-sm mb-0" style={{ minWidth: "1400px", width: "100%" }} > {/* ================================= */} {/* TABLE HEADER */} {/* ================================= */}
+                                  <thead className="thead-light">
+                                      <tr className="text-nowrap">
+                                          <th scope="col"> Status   </th>
+                                          <th scope="col"> Due Date </th>
+                                          <th scope="col"> Section  </th>
+                                          <th scope="col"> Document Ref Number </th>
+                                          <th scope="col"> Document Title </th>
+                                          <th scope="col"> Document FilePath </th>
+                                          <th scope="col"> Date Assigned </th>
+                                          <th scope="col"> Created By Remarks </th>
+                                          <th scope="col"> Approver Remarks </th>
+                                          <th scope="col"> Modified Document File Path </th>
+                                      </tr>
+                                  </thead> {/* ================================= */} {/* TABLE BODY */} {/* ================================= */}
+                                  <tbody> {documentList && documentList.length > 0 ?
+                                      (documentList.map((rowData, rowIndex) => {
+                                          const activeStatus = rowData?.taskDocumentStatus?.find((a: any) => a.isActive === true);
+                                          const taskStatusId = activeStatus?.taskStatusId;
+                                          return (<tr key={rowIndex} > {/* STATUS */}
+                                              <td style={{
+                                                  backgroundColor: taskStatusId === 3 ? "yellow"
+                                                      : taskStatusId === 1 ? "#FFC107"
+                                                          : taskStatusId === 4 ? "#B19CD9"
+                                                              : taskStatusId === 5 ? "lightgreen"
+                                                                  : taskStatusId === 7 ? "green"
+                                                                      : taskStatusId === 6 ? "#FF474C" : "orange",
+                                                  fontWeight: "bold", whiteSpace: "nowrap", minWidth: "150px"
+                                              }} >
+                                                  {(rowData?.taskDocumentStatus?.length ?? 0) <= 0 ?
+                                                      "Not Yet Started" : activeStatus?.taskStatus?.documentStatus}
+                                              </td> {/* DUE DATE */}
+                                              <td className="text-nowrap" style={{ minWidth: "120px" }} > {formatMonthDayYear(rowData?.taskDocument?.dueDate)} </td> {/* SECTION */}
+                                              <td className="text-nowrap" style={{ minWidth: "150px" }} > {rowData?.department?.departmentName} </td> {/* DOCUMENT REF */}
+                                              <td className="text-nowrap" style={{ minWidth: "180px" }} > {rowData?.taskDocument?.documentRefNumber} </td> {/* DOCUMENT TITLE */}
+                                              <td style={{ minWidth: "200px", whiteSpace: "normal", wordBreak: "break-word" }} > {rowData?.taskDocument?.documentTitle} </td> {/* FILE PATH */} <td style={{ minWidth: "250px", whiteSpace: "normal", wordBreak: "break-word" }} > {rowData?.taskDocument?.documentFilePath} </td> {/* DATE ASSIGNED */}
+                                              <td className="text-nowrap" style={{ minWidth: "130px" }} > {formatMonthDayYear(rowData?.taskDocument?.dateCreated)} </td> {/* CREATED REMARKS */}
+                                              <td style={{ minWidth: "250px", whiteSpace: "normal", wordBreak: "break-word" }} > {rowData?.remarks} </td> {/* APPROVER REMARKS */}
+                                              <td style={{ minWidth: "250px", whiteSpace: "normal", wordBreak: "break-word" }} > {activeStatus?.taskSupervisorComment?.remarks} </td> {/* MODIFIED FILE PATH */} <td style={{ minWidth: "250px", whiteSpace: "normal", wordBreak: "break-word" }} > {activeStatus?.documentFilePath} </td> </tr>);
+                                      }))
+                                      :
+                                      (<tr> <td colSpan={10} className="text-center text-muted py-4" > No documents found. </td>
+                                      </tr>)}
+                                  </tbody>
+                              </table>
+                          </div>
+                      </div>
+                  </div> {/* ================================================= */} {/* FOOTER */} {/* ================================================= */}
+                  <div className="modal-footer"> {loading && <MainLoader />}
+                      <button type="button" className="btn btn-secondary" onClick={closeModal} > Close </button>
+                  </div>
+              </div>
+          </div>
+      </div>
+  )
+}
+
+export default NotificationModal

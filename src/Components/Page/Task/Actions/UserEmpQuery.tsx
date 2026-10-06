@@ -20,7 +20,7 @@ function UserEmpQuery({employeeId}:props) {
     })
 
   return (
-    <div>
+    <div className='container-fluid pb-5 mb-3'>
         { 
         !loading && dropdownListData ? <TaskForm employeeId={employeeId} dropdownListData={dropdownListData}/>:<MainLoader/>
         }
