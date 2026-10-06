@@ -45,6 +45,15 @@ const taskDocumentApi = createApi({
         invalidatesTags:['taskDocuments'],
     }),
 
+    deleteTaskDocument: builder.mutation({
+    query: (id:number) => ({
+        url: `taskDocument/delete/${id}`,
+        method: "DELETE",
+       
+    }),
+        invalidatesTags:['taskDocuments'],
+    }),
+
     getAllTaskDocumentsWithAssignedDepartmentCreatedBy:builder.query({
             query: (id:number)=> ({
                 url:'taskdocument/documents/list',
@@ -100,6 +109,7 @@ const taskDocumentApi = createApi({
 
 export const {
 useCreateTaskDocumentMutation,
+useDeleteTaskDocumentMutation,
 useCreateTaskDocumentStatusMutation,
 useUpdateTaskDocumentStatusMutation,
 useUpdateTaskDocumentStatusAssingedDeptMutation,

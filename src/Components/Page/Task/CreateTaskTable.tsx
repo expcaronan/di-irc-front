@@ -8,6 +8,7 @@ import TaskHandleApproveModal from './Actions/TaskHandleApproveModal';
 import TaskHandleDisApproveModal from './Actions/TaskHandleDisApproveModal';
 
 import './CreateTaskTable.css';
+import TaskHandleDeleteModal from './Actions/TaskHandleDeleteModal';
 
 
 interface props{
@@ -19,9 +20,11 @@ function CreateTaskTable({taskDocumentList,employeeId}:props) {
     //console.log(taskDocumentList);
      const [isModalOpenA, setIsModalOpenA] = useState(false);
      const [isModalOpenD, setIsModalOpenD] = useState(false);
+      const [isModalOpenDelete, setIsModalOpenDelete] = useState(false);
      const closeModal = () => {
         setIsModalOpenA(false);
         setIsModalOpenD(false);
+        setIsModalOpenDelete(false);
     };
    
     const [selectedTaskDocument, setSelectedTaskDocument] = useState<taskDocumentBaseModel>();
@@ -43,15 +46,7 @@ function CreateTaskTable({taskDocumentList,employeeId}:props) {
         });
         setIsNotClick(false);
     })
-    function handleDelete(id: number): void {
-        if (!window.confirm('Are you sure you want to delete this task?')) {
-            return;
-        }
 
-        // setDocuments((currentDocuments) =>
-        //     currentDocuments.filter((document) => document.id !== id)
-        // );
-    }
     const [expandedRows, setExpandedRows] = useState<number[]>([]);
 
         const toggleRow = (id: number) => {
@@ -63,6 +58,7 @@ function CreateTaskTable({taskDocumentList,employeeId}:props) {
     };
     const [selectedFile, setSelectedFile] = useState<string | null>(null);
     const [taskDocumentStatusId, setTaskDocumentStatusId] = useState(0)
+    const [taskDocumentId, setTaskDocumentId] = useState(0);
     const handleApproved = ((id:number)=>{
          setIsModalOpenA(true);
          setTaskDocumentStatusId(id)
@@ -71,11 +67,22 @@ function CreateTaskTable({taskDocumentList,employeeId}:props) {
          setIsModalOpenD(true);
          setTaskDocumentStatusId(id)
     })
+    const handleDelete = ((id:number)=>{
+         setIsModalOpenDelete(true);
+         setTaskDocumentId(id)
+    })
    
 
   return (
     <div>
-       
+       {
+        isModalOpenDelete && 
+            <> <TaskHandleDeleteModal 
+            isOpen={isModalOpenDelete} closeModal={closeModal} 
+            taskDocumentId={taskDocumentId} />
+            </>
+        
+       }
         {
             isModalOpenD && taskDocumentStatusId &&
             <> <TaskHandleDisApproveModal 
@@ -170,12 +177,27 @@ function CreateTaskTable({taskDocumentList,employeeId}:props) {
                                 }
                             ></i>
                         </button>
-                        <a
-                            style={{ cursor: "pointer" }}
-                            onClick={() => handleDelete(rowData.id)}
-                        >
-                            <i className="bi bi-trash text-danger"></i>
-                        </a>
+
+                        {
+                            rowData.taskDocumentAssignedDepartment
+                                ?.find(dept =>
+                                    dept.taskDocumentStatus?.some(status => status.isActive)
+                                )
+                                ?.taskDocumentStatus
+                                ?.find(status => status.isActive)
+                                ?.taskStatusId !== 5
+                                ?    <a
+                                style={{ cursor: "pointer" }}
+                                onClick={() => handleDelete(rowData.id)}
+                            >
+                                <i className="bi bi-trash text-danger"></i>
+                            </a>
+                                : ""
+                                
+                        }
+                     
+
+
                         {
                             rowData.forChiefAction &&
                              <a className="btn btn-outline-secondary"

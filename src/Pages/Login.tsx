@@ -84,7 +84,12 @@ function Login({onLogin}: props) {
                 autoClose: 5000,
             }
             );
-          navigate("/");  
+            if(storedJsonData.roleId == 3){
+                 navigate("/"); 
+            }else{
+                navigate("/task/document/list");
+            }
+        
       }
          
       
