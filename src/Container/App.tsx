@@ -35,9 +35,11 @@ function App() {
   
   useEffect(() => {
     //console.log(isLoggedIn);
+    var userRoleId =0;
     if (hasLocalStorageData) {
       if (storedJsonString !== null) {
         const storedJsonData= jwtDecode<EmployeeUserModel>(storedJsonString);
+        userRoleId = storedJsonData.roleId;
       setUserDetails({
         employeeId:storedJsonData.employeeId,
         lastName:storedJsonData.lastName,
@@ -71,21 +73,18 @@ function App() {
                     designationName: storedJsonData.designationName, // typo preserved if backend sends "postitionName"
                     employeeId: storedJsonData.employeeId
              }))
-        // setUserDetails({
-        //   firstName: storedJsonData.firstName,
-        //   lastName: storedJsonData.lastName,
-        //   departmentName: storedJsonData.departmentName,
-        //   roleName: storedJsonData.roleName,  
-        //   userName:storedJsonData.userName,
-        //   rankName:storedJsonData.rankName,
-        //   designationName: storedJsonData.designationName, // typo preserved if backend sends "postitionName"
-        //   employeeId: storedJsonData.employeeId,
-        //   email:storedJsonData.email
-        // })
+      
      
       } else {
         setIsLoggedIn(false)
-         navigate("/");
+        
+         if(userRoleId == 3){
+                 navigate("/"); 
+            }else{
+              //console.log("id"+userRoleId)
+               navigate("/task/document/list");
+          }
+        
         // navigate("/login");
       }
     }else{

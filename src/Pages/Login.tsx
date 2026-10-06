@@ -84,9 +84,11 @@ function Login({onLogin}: props) {
                 autoClose: 5000,
             }
             );
-            if(storedJsonData.roleId == 3){
+           
+            if(storjasondata.roleId == 3){
                  navigate("/"); 
             }else{
+                //console.log("dfdf"+storjasondata.roleId);
                 navigate("/task/document/list");
             }
         
