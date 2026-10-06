@@ -6,7 +6,8 @@ import HomeFileViewer from '../../../Pages/Viewer/HomeFileViewer';
 import { taskDocumentAssignedDepartmentBaseModel } from '../../../Interfaces/BaseModel/taskDocumentAssignedDepartmentBaseModel';
 import TaskHandleApproveModal from './Actions/TaskHandleApproveModal';
 import TaskHandleDisApproveModal from './Actions/TaskHandleDisApproveModal';
-import DeleteFormModal from '../EmployeeUserPage/Action/DeleteFormModal';
+
+import './CreateTaskTable.css';
 
 
 interface props{
@@ -141,7 +142,19 @@ function CreateTaskTable({taskDocumentList,employeeId}:props) {
                 {/* PARENT ROW                     */}
                 {/* ============================= */}
 
-                <tr>
+               <tr
+                    className={
+                        rowData.taskDocumentAssignedDepartment
+                            ?.find(dept =>
+                                dept.taskDocumentStatus?.some(status => status.isActive)
+                            )
+                            ?.taskDocumentStatus
+                            ?.find(status => status.isActive)
+                            ?.taskStatusId !== 5
+                            ? "needs-action"
+                            : ""
+                    }
+                >
                     <td>
 
                         <button

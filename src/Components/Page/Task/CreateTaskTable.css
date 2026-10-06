@@ -1,0 +1,16 @@
+table tbody tr.needs-action > td {
+    background-color: #fff3cd !important;
+    border-top: 2px solid #ffc107;
+    border-bottom: 2px solid #ffc107;
+    animation: urgentGlow 1s ease-in-out infinite alternate;
+}
+
+@keyframes urgentGlow {
+    from {
+        box-shadow: inset 0 0 3px rgba(255, 193, 7, 0.3);
+    }
+
+    to {
+        box-shadow: inset 0 0 18px rgba(255, 193, 7, 1);
+    }
+}

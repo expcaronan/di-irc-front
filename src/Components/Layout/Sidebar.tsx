@@ -107,7 +107,7 @@ function Sidebar({roleId}:props) {
                   
                     <span className="bi bi-card-list"></span>
                   </span>
-                  <span className="sidebar-text">Document Monitoring Task</span>
+                  <span className="sidebar-text">Documents For Approval</span>
                 </a>
               </li>
 

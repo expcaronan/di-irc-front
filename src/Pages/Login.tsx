@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import inputHelper from '../Helpers/inputHelper';
 import apiResponse from '../Interfaces/apiResponse';
 import { setLoggedInUser } from '../Storage/Slice/userAuthSlice';
+import { jwtDecode } from 'jwt-decode';
 
 interface props{
     onLogin: boolean
@@ -62,7 +63,7 @@ function Login({onLogin}: props) {
       const jsonString = JSON.stringify(response.data.result);
       localStorage.setItem("Credentials",jsonString);
       const storedJsonData = JSON.parse(jsonString);
-      //console.log(response.data.result);
+      //console.log(storedJsonData);
    
       dispatch(setLoggedInUser({
                     firstName: storedJsonData.firstName,
@@ -74,15 +75,20 @@ function Login({onLogin}: props) {
                     designationName: storedJsonData.designationName, // typo preserved if backend sends "postitionName"
                     employeeId: storedJsonData.id
                    }))
-
-    toast.success(
-    `${storedJsonData.firstName} ${storedJsonData.lastName}: Login Successfully!`,
-    {
-        position: "top-right",
-        autoClose: 5000,
-    }
-    );
-    navigate("/");    
+      if(storedJsonData){
+         const storjasondata = jwtDecode<any>(storedJsonData);
+         toast.success(
+            `${storjasondata.firstName} ${storjasondata.lastName}: Login Successfully!`,
+            {
+                position: "top-right",
+                autoClose: 5000,
+            }
+            );
+          navigate("/");  
+      }
+         
+      
+     
     }else if(response.data?.isSuccess == false) {
      
       toast.warning('invalid password or username!', {
