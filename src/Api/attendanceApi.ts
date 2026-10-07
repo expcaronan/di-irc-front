@@ -1,0 +1,54 @@
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import baseUrlString from "./baseUrlString";
+
+const attendanceApi = createApi({
+  reducerPath: "attendanceApi",
+  baseQuery: fetchBaseQuery({
+
+  baseUrl : baseUrlString.test 
+  }),
+  tagTypes:["empAttendance"],
+  endpoints: (builder) => ({
+      employeeTimein: builder.mutation({
+        query: (UserEmpData) => ({
+          url: "employee/timein",
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: UserEmpData,
+        }),
+        invalidatesTags:['empAttendance'],
+      }),
+          employeeTimeout: builder.mutation({
+        query: (UserEmpData) => ({
+          url: "employee/timeout",
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: UserEmpData,
+        }),
+        invalidatesTags:['empAttendance'],
+      }),
+    
+      getEmployeeByDateId:builder.query({
+            query: (id:number)=> ({
+                url:`employee/bydate/${id}`,
+              }),
+            providesTags:["empAttendance"]
+      }),
+
+
+  
+  }),
+});
+
+export const {
+    useEmployeeTimeinMutation,
+    useEmployeeTimeoutMutation,
+   useGetEmployeeByDateIdQuery,
+
+  } = attendanceApi;
+
+export default attendanceApi;

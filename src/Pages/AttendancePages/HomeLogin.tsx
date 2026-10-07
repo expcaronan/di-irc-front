@@ -1,15 +1,15 @@
 import React from 'react'
+import LoginQuery from '../../Components/Page/AttendancePage/LoginQuery'
 
 interface props{
-  empId:number,
-   deptId:number,
-   shiftId:number
+   empId:number,
+
 }
 
-function HomeLogin({empId,deptId,shiftId}:props) {
+function HomeLogin({empId}:props) {
   return (
     <div>
-        <h1>Home Login Page</h1>
+        <div><LoginQuery empId={empId}/></div>
     </div>
     // <div><LoginQuery empId={empId} deptId={deptId} shiftId={shiftId}/></div>
   )

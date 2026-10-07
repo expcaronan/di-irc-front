@@ -5,6 +5,8 @@ import userEmpApi from "../../Api/userEmpApi";
 import taskDocumentApi from "../../Api/taskDocumentApi";
 import notificationApi from "../../Api/notificationApi";
 
+import attendanceApi from "../../Api/attendanceApi";
+
 
 
 
@@ -17,6 +19,7 @@ reducer:{
     [userEmpApi.reducerPath]:userEmpApi.reducer,
     [taskDocumentApi.reducerPath]:taskDocumentApi.reducer,
     [notificationApi.reducerPath]:notificationApi.reducer,
+    [attendanceApi.reducerPath]:attendanceApi.reducer,
     
 },
 middleware:(getDefaultMiddleware) => getDefaultMiddleware()
@@ -24,6 +27,7 @@ middleware:(getDefaultMiddleware) => getDefaultMiddleware()
 .concat(userEmpApi.middleware)
 .concat(taskDocumentApi.middleware)
 .concat(notificationApi.middleware)
+.concat(attendanceApi.middleware)
 });
 
 

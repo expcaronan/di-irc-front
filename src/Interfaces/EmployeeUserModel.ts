@@ -1,3 +1,5 @@
+import { AttendanceRecordModel } from "./AttendanceRecordModel";
+
 export default interface EmployeeUserModel {
   employeeId: number,
   lastName: string,
@@ -12,4 +14,5 @@ export default interface EmployeeUserModel {
   rankId:number,
   userName:string,
   email:string,
+  attendanceRecords?: AttendanceRecordModel[] | null;
   }

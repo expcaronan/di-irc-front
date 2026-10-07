@@ -8,7 +8,7 @@ import Footer from '../Components/Layout/Footer';
 import HeaderNew from '../Components/Layout/HeaderNew';
 import NotFound from '../Pages/NotFound';
 import Login from '../Pages/Login';
-import HomeLogin from '../Pages/HomeLogin';
+import HomeLogin from '../Pages/AttendancePages/HomeLogin';
 import { jwtDecode } from 'jwt-decode';
 import EmployeeUserModel from '../Interfaces/EmployeeUserModel';
 import HomeRegisterUser from '../Pages/HomeRegisterUser';
@@ -132,7 +132,7 @@ function App() {
               path="/" element={userDetails && <HomeMonitoringTask userDetails={userDetails} /> }
           />
           <Route path="/user/update" element={<HomeUpdateUser/>} />
-          
+          <Route path="/homelogin" element= {<HomeLogin empId={employeeId}/>} />   
         </Routes>
         {/* </div> */}
       </main>
