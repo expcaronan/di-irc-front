@@ -98,37 +98,39 @@ function Sidebar({roleId}:props) {
             attendanceOpen ? "show" : ""
         }`}
     >
+         <li className="sidebar-item">
+                <a href="#" onClick={() => navigate("/homelogin")} className="nav-link d-flex align-items-center text-truncate ">
+                  <span className="sidebar-icon">
+                  
+                
+                  </span>
+                  <span className="sidebar-text">Web Login</span>
+                </a>
+          </li>
         <li className="sidebar-item">
-            <Link
-                className="sidebar-link"
-                to="/homelogin"
-            >
-                Web Login
-            </Link>
-        </li>
-
-        <li className="sidebar-item">
-            <Link
-                className="sidebar-link"
-                to="/finance/treasury"
-            >
-                Attendance List
-            </Link>
-        </li>
+                <a href="#" onClick={() => navigate("/nobio")} className="nav-link d-flex align-items-center text-truncate ">
+                  <span className="sidebar-icon">
+                  
+                
+                  </span>
+                  <span className="sidebar-text">Attendance List</span>
+                </a>
+          </li>
+         <li className="sidebar-item">
+                <a href="#" onClick={() => navigate("/nobio")} className="nav-link d-flex align-items-center text-truncate ">
+                  <span className="sidebar-icon">
+                  
+                
+                  </span>
+                  <span className="sidebar-text">Apply NoBio</span>
+                </a>
+          </li>
     </ul>
 </li> 
 
             
 
-               <li className="nav-item">
-                <a href="#" onClick={() => navigate("/nobio")} className="nav-link d-flex align-items-center text-truncate ">
-                  <span className="sidebar-icon">
-                  
-                    <span className="bi bi-calendar2-check"></span>
-                  </span>
-                  <span className="sidebar-text">Apply NoBio</span>
-                </a>
-              </li>
+              
               {
                 roleId  == 1 &&<>
                  <li className="nav-item">

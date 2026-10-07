@@ -18,13 +18,16 @@ interface props{
 
 function CreateTaskTable({taskDocumentList,employeeId}:props) {
     //console.log(taskDocumentList);
-     const [isModalOpenA, setIsModalOpenA] = useState(false);
-     const [isModalOpenD, setIsModalOpenD] = useState(false);
-      const [isModalOpenDelete, setIsModalOpenDelete] = useState(false);
+    const [isModalOpenA, setIsModalOpenA] = useState(false);
+    const [isModalOpenD, setIsModalOpenD] = useState(false);
+    const [isModalOpenDelete, setIsModalOpenDelete] = useState(false);
+    const [isModalOpenEdit, setIsModalOpenEdit] = useState(false);
+      
      const closeModal = () => {
         setIsModalOpenA(false);
         setIsModalOpenD(false);
         setIsModalOpenDelete(false);
+        setIsModalOpenEdit(false);
     };
    
     const [selectedTaskDocument, setSelectedTaskDocument] = useState<taskDocumentBaseModel>();
@@ -46,6 +49,19 @@ function CreateTaskTable({taskDocumentList,employeeId}:props) {
         });
         setIsNotClick(false);
     })
+      const handleEdit = ((data:taskDocumentBaseModel)=>{
+         setIsModalOpenEdit(true);
+         
+            navigate("/task/edit/taskDocument", {
+            state: {
+                taskDocument: data,
+                employeeId: employeeId,
+            }
+        });
+        setIsModalOpenEdit(false);
+
+    })
+   
 
     const [expandedRows, setExpandedRows] = useState<number[]>([]);
 
@@ -71,10 +87,10 @@ function CreateTaskTable({taskDocumentList,employeeId}:props) {
          setIsModalOpenDelete(true);
          setTaskDocumentId(id)
     })
-   
+  
 
   return (
-   <div className="task-form-container">
+   <div>
        {
         isModalOpenDelete && 
             <> <TaskHandleDeleteModal 
@@ -83,6 +99,7 @@ function CreateTaskTable({taskDocumentList,employeeId}:props) {
             </>
         
        }
+      
         {
             isModalOpenD && taskDocumentStatusId &&
             <> <TaskHandleDisApproveModal 
@@ -116,9 +133,9 @@ function CreateTaskTable({taskDocumentList,employeeId}:props) {
                 </div>
         
          
-            <table id="example" className="table table-striped table-hover">
+        <table id="example" className="table table-striped table-hover">
           <thead className="thead-light text-nowrap">
-            <tr>
+            <tr >
                 <th></th>
                 <th>Document Ref Number</th>
                 <th>Document Description</th>
@@ -151,9 +168,18 @@ function CreateTaskTable({taskDocumentList,employeeId}:props) {
                             )
                             ?.taskDocumentStatus
                             ?.find(status => status.isActive)
-                            ?.taskStatusId !== 5
-                            ? "needs-action"
-                            : ""
+                            ?.taskStatusId === 4
+                            ? "action-approaching"
+                            :  rowData.taskDocumentAssignedDepartment
+                            ?.find(dept =>
+                                dept.taskDocumentStatus?.some(status => status.isActive)
+                            )
+                            ?.taskDocumentStatus
+                            ?.find(status => status.isActive)
+                            ?.taskStatusId === 5 
+                            ?""
+                            :
+                            "action-normal"
                     }
                 >
                     <td>
@@ -188,6 +214,24 @@ function CreateTaskTable({taskDocumentList,employeeId}:props) {
                             </a>
                                 : ""
                                 
+                        }
+
+                        {
+                             rowData.taskDocumentAssignedDepartment
+                                ?.find(dept =>
+                                    dept.taskDocumentStatus?.some(status => status.isActive)
+                                )
+                                ?.taskDocumentStatus
+                                ?.find(status => status.isActive)
+                                ?.taskStatusId !== 5
+                                ?    <a
+                                style={{ cursor: "pointer" }}
+                                onClick={() => handleEdit(rowData)}
+                            >
+                                <i className="bi bi-pencil"></i>
+                            </a>
+                                : ""
+                            
                         }
                      
 

@@ -19,6 +19,7 @@ import UserEmpQuery from '../Components/Page/Task/Actions/UserEmpQuery';
 import HomeMonitoringTask from '../Pages/Task/HomeMonitoringTask';
 import TaskFormAddDepartmentQuery from '../Components/Page/Task/Actions/TaskFormAddDepartmentQuery';
 import HomeUpdateUser from '../Pages/HomeUpdateUser';
+import TaskFormEditDocumentQuery from '../Components/Page/Task/Actions/TaskFormEditDocumentQuery';
 
 
 function App() {
@@ -126,7 +127,8 @@ function App() {
           <Route path="/employee/list" element={<HomeEmployeeUser/>} />  
           <Route path="/task/document/list" element={<HomeCreateTask employeeId={employeeId}/>} /> 
           <Route path="/task/create/form" element={<UserEmpQuery employeeId={employeeId}/>} />
-          <Route path="/task/create/assignedDepartment" element={<TaskFormAddDepartmentQuery/>} />           
+          <Route path="/task/create/assignedDepartment" element={<TaskFormAddDepartmentQuery/>} />   
+          <Route path="/task/edit/taskDocument" element={<TaskFormEditDocumentQuery/>} />          
           <Route path="*" element= {<NotFound/>} />
           <Route
               path="/" element={userDetails && <HomeMonitoringTask userDetails={userDetails} /> }

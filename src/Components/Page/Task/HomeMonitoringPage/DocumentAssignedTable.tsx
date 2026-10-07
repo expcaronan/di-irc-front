@@ -6,6 +6,7 @@ import formatMonthDayYear from '../../../../Helpers/formatMonthDayYear';
 import HomeFileViewerDetails from '../../../../Pages/Viewer/HomeFileViewerDetails';
 import { taskDocumentAssignedDepartmentBaseModel } from '../../../../Interfaces/BaseModel/taskDocumentAssignedDepartmentBaseModel';
 import { taskDocumentBaseModel } from '../../../../Interfaces/BaseModel/taskDocumentBaseModel';
+import getDocumentWarningColor from '../../../../Helpers/getDocumentWarningColor';
 interface props{
     documentList:taskDocumentAssignedDepartmentBaseModel[]
     employeeId:number,
@@ -28,7 +29,7 @@ const handleViewData = (data: taskDocumentAssignedDepartmentBaseModel) => {
 
 
   return (
-    <div className="task-form-container">
+    
          <div className="task-page">
           <table id="example" className="table table-striped table-hover">
           <thead className="thead-light text-nowrap">
@@ -50,7 +51,16 @@ const handleViewData = (data: taskDocumentAssignedDepartmentBaseModel) => {
         </thead>
          <tbody style={{whiteSpace:'nowrap'}} className='position-relative'>
             {documentList.map((rowData, rowIndex) => (
-                <tr key={rowIndex}>
+                <tr key={rowIndex}
+                  className={
+                    rowData.taskDocumentStatus?.find(
+                                            (a) => a.isActive === true
+                                        )?.taskStatusId == 5
+                            ? ""
+                            : 
+                            getDocumentWarningColor(rowData.taskDocument.dueDate)
+                        }
+                >
                     <td>
                         <a style={{cursor:'pointer'}} 
                             onClick={() => handleViewData(rowData)}>
@@ -150,7 +160,7 @@ const handleViewData = (data: taskDocumentAssignedDepartmentBaseModel) => {
             />
         )}
         </div>  
-    </div>
+ 
   )
 }
 
