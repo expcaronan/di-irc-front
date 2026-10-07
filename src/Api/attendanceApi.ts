@@ -38,16 +38,27 @@ const attendanceApi = createApi({
               }),
             providesTags:["empAttendance"]
       }),
-
+        getAttendanceListByEmpId:builder.query({
+            query: ({empId, fromDate, toDate})=> ({
+                url:'employeeattendance/empId',
+                 params: {
+                  empId,
+            ...(fromDate && { fromDate }),
+            ...(toDate && { toDate }),
+         },
+            }),
+            providesTags:["empAttendance"]
+        }),
 
   
   }),
 });
 
 export const {
-    useEmployeeTimeinMutation,
-    useEmployeeTimeoutMutation,
-   useGetEmployeeByDateIdQuery,
+  useEmployeeTimeinMutation,
+  useEmployeeTimeoutMutation,
+  useGetEmployeeByDateIdQuery,
+  useGetAttendanceListByEmpIdQuery
 
   } = attendanceApi;
 

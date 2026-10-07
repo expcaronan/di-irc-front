@@ -108,7 +108,7 @@ function Sidebar({roleId}:props) {
                 </a>
           </li>
         <li className="sidebar-item">
-                <a href="#" onClick={() => navigate("/nobio")} className="nav-link d-flex align-items-center text-truncate ">
+                <a href="#" onClick={() => navigate("/attendance/list")} className="nav-link d-flex align-items-center text-truncate ">
                   <span className="sidebar-icon">
                   
                 

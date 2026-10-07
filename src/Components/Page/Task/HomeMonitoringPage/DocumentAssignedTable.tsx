@@ -61,12 +61,17 @@ const handleViewData = (data: taskDocumentAssignedDepartmentBaseModel) => {
                             getDocumentWarningColor(rowData.taskDocument.dueDate)
                         }
                 >
-                    <td>
+                    <td>{
+                             rowData.taskDocumentStatus?.find(
+                                    (a) => a.isActive === true
+                                )?.taskStatusId === 5 ? "" :
                         <a style={{cursor:'pointer'}} 
                             onClick={() => handleViewData(rowData)}>
                         <i className="bi bi-pencil-square"></i>
                         {/* <i className="bi bi-trash"></i> */}
                         </a> 
+                        }
+                       
                     </td>
                     <td
                         style={{

@@ -20,6 +20,7 @@ import HomeMonitoringTask from '../Pages/Task/HomeMonitoringTask';
 import TaskFormAddDepartmentQuery from '../Components/Page/Task/Actions/TaskFormAddDepartmentQuery';
 import HomeUpdateUser from '../Pages/HomeUpdateUser';
 import TaskFormEditDocumentQuery from '../Components/Page/Task/Actions/TaskFormEditDocumentQuery';
+import HomeAttendance from '../Pages/AttendancePages/HomeAttendance';
 
 
 function App() {
@@ -135,6 +136,7 @@ function App() {
           />
           <Route path="/user/update" element={<HomeUpdateUser/>} />
           <Route path="/homelogin" element= {<HomeLogin empId={employeeId}/>} />   
+          <Route path="/attendance/list" element= {<HomeAttendance empId={employeeId}/>} />  
         </Routes>
         {/* </div> */}
       </main>
