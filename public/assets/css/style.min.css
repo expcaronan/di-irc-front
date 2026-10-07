@@ -17718,7 +17718,7 @@ hr {
     position: fixed;
     z-index: 1030;
     left: 0;
-    top: 0;
+    top: 60px;
     overflow: hidden;
     box-shadow: 3px 1px 6px rgba(63, 63, 70, .03)
 }
@@ -17957,7 +17957,7 @@ hr {
     body:not(.layout-boxed) .page-sidebar {
         height: 100%;
         left: 0;
-        top: 0
+        top: 60
     }
 
     body:not(.layout-boxed).page-sidebar-mini .page-sidebar:hover {
