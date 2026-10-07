@@ -39,6 +39,9 @@ function AttendanceTable({attendanceData}:props) {
                         {rowData.regularHours}
                     </td>
                      <td>
+                    {rowData.overtimeHours}
+                    </td>
+                     <td>
                     {rowData.latetimeHours}
                     </td>
                     <td>{rowData.overtimeHours}</td>
