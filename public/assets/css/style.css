@@ -485,7 +485,9 @@ button,
 [type=reset],
 [type=submit] {
   -webkit-appearance: button;
+  appearance: button;
 }
+/* modified appearance: button;*/
 button:not(:disabled),
 [type=button]:not(:disabled),
 [type=reset]:not(:disabled),
@@ -541,9 +543,12 @@ legend + * {
 }
 
 [type=search] {
+  appearance: textfield;
   -webkit-appearance: textfield;
   outline-offset: -2px;
 }
+
+/* modified   appearance: textfield; */
 
 /* rtl:raw:
 [type="tel"],
@@ -563,8 +568,10 @@ legend + * {
 
 ::file-selector-button {
   font: inherit;
+  appearance: button;
   -webkit-appearance: button;
 }
+/* modified  appearance: button; */
 
 output {
   display: inline-block;
@@ -14666,11 +14673,14 @@ a:not(.nav-link):not(.btn):not(.dropdown-item):not(.badge).text-muted:hover {
 
 .clamp-2 {
   -webkit-line-clamp: 2;
+  line-clamp: 2;
 }
 
 .clamp-3 {
   -webkit-line-clamp: 3;
+  line-clamp: 3;
 }
+/* modified   line-clamp: 2;   line-clamp: 3; */
 
 .text-white, .text-light {
   --bs-link-color: #fff;
@@ -15480,9 +15490,32 @@ hr {
   background-color: var(--bs-body-bg);
   box-shadow: 0 0.5rem 1rem rgba(9, 9, 11, 0.075);
 }
+/* inerted this */
+.task-page {
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: auto;
+    padding: 20px;
+}
+.page-content-body {
+    flex: 1 1 auto;
+    min-height: 0;
+    /* overflow-y: auto;
+    overflow-x: auto; */
+}
+/* inserted this */
+
+
+/* modified pagecontent */
+
+/* .page-content {
+  transition: margin 0.3s;
+} */
 
 .page-content {
-  transition: margin 0.3s;
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: hidden;
 }
 
 .page-sidebar {

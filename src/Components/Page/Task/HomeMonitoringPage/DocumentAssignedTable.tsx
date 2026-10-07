@@ -28,7 +28,8 @@ const handleViewData = (data: taskDocumentAssignedDepartmentBaseModel) => {
 
 
   return (
-     <div>
+    <div className="task-form-container">
+         <div className="task-page">
           <table id="example" className="table table-striped table-hover">
           <thead className="thead-light text-nowrap">
             <tr>
@@ -148,6 +149,7 @@ const handleViewData = (data: taskDocumentAssignedDepartmentBaseModel) => {
                 onClose={() => setSelectedFile(null)}
             />
         )}
+        </div>  
     </div>
   )
 }

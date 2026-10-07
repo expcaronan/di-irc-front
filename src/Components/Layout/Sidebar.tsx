@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { Link } from "react-router-dom";
+import './SideBar.css';
+
 interface props{
   roleId:number
 }
@@ -8,8 +11,10 @@ function Sidebar({roleId}:props) {
 
   
   const navigate = useNavigate();
- 
+ const [financeOpen, setFinanceOpen] = useState(false);
+ const [attendanceOpen, setAttendanceOpen] = useState(false);
   return (
+    
     <div className="d-flex flex-column flex-root">
   <div className="page d-flex flex-row flex-column-fluid">
     <aside className="page-sidebar">
@@ -52,15 +57,66 @@ function Sidebar({roleId}:props) {
                   <span className="sidebar-text">Daily Monitoring task</span>
                 </a>
               </li>
-              <li className="nav-item">
-                <a href="#" onClick={() => navigate("/myattendance")} className="nav-link d-flex align-items-center text-truncate ">
-                  <span className="sidebar-icon">
-                  
-                    <span className="bi bi-card-checklist"></span>
-                  </span>
-                  <span className="sidebar-text">My Attendance</span>
-                </a>
-              </li>
+
+
+
+
+
+
+
+
+        <li className="nav-item">
+    <button
+        type="button"
+        className="nav-link d-flex align-items-center text-truncate w-100 border-0 bg-transparent"
+        onClick={() => setAttendanceOpen(prev => !prev)}
+        aria-expanded={attendanceOpen}
+    >
+        {/* Icon */}
+        <span className="sidebar-icon">
+            <i className="bi bi-recycle"></i>
+        </span>
+
+        {/* Text */}
+        <span className="sidebar-text">
+            Web Attendance
+        </span>
+
+        {/* Arrow */}
+        <i
+            className={`bi bi-chevron-down ms-auto ${
+                attendanceOpen ? "rotate-arrow" : ""
+            }`}
+            style={{
+                transition: "transform 0.2s ease"
+            }}
+        ></i>
+    </button>
+
+    <ul
+        className={`sidebar-dropdown list-unstyled collapse ${
+            attendanceOpen ? "show" : ""
+        }`}
+    >
+        <li className="sidebar-item">
+            <Link
+                className="sidebar-link"
+                to="/finance/spend"
+            >
+                Web Login
+            </Link>
+        </li>
+
+        <li className="sidebar-item">
+            <Link
+                className="sidebar-link"
+                to="/finance/treasury"
+            >
+                Attendance List
+            </Link>
+        </li>
+    </ul>
+</li> 
 
             
 
@@ -95,10 +151,7 @@ function Sidebar({roleId}:props) {
                 </a>
               </li>
                 </>
-              
-            {
-                }
-
+       
 
                <>
                 <li className="nav-item">

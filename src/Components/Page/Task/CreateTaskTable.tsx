@@ -74,7 +74,7 @@ function CreateTaskTable({taskDocumentList,employeeId}:props) {
    
 
   return (
-    <div>
+   <div className="task-form-container">
        {
         isModalOpenDelete && 
             <> <TaskHandleDeleteModal 
@@ -99,30 +99,24 @@ function CreateTaskTable({taskDocumentList,employeeId}:props) {
         }
       
 
-        <div className='d-flex justify-content gap-5' >
-            <div className='col-auto'>
-            <button
-                onClick={() => handleAddTask()}
-                disabled={isNotClick}
-                className="btn btn-outline-primary flex-grow-5"  style={{ width: '200px' }}
-                >
-                    Create Task
-                </button>
-            </div>
-            <div className='col-auto'>
-                {/* <button
-                    onClick={() => handleTimeOut()}
-                    disabled={isNotClick}
-                    className="btn btn-outline-primary flex-grow-5"  style={{ width: '200px' }}
-                    >
-                        Time out
-                </button> */}
-            </div>
-        </div>
-
         {/* table */}
-         <div>
-          <table id="example" className="table table-striped table-hover">
+        <div className="task-page">
+        
+                <div className="d-flex gap-5 mb-3">
+                    <div className="col-auto">
+                        <button
+                            onClick={() => handleAddTask()}
+                            disabled={isNotClick}
+                            className="btn btn-outline-primary"
+                            style={{ width: "200px" }}
+                        >
+                            Create Task
+                        </button>
+                    </div>
+                </div>
+        
+         
+            <table id="example" className="table table-striped table-hover">
           <thead className="thead-light text-nowrap">
             <tr>
                 <th></th>
@@ -425,14 +419,15 @@ function CreateTaskTable({taskDocumentList,employeeId}:props) {
             ))}
            
            </tbody> */}
-        </table>
-    </div>
+            </table>
+    
             {selectedFile && (
             <HomeFileViewer
                 filePath={selectedFile}
                 onClose={() => setSelectedFile(null)}
             />
             )}
+        </div>
     </div>
   )
 }

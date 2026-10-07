@@ -96,7 +96,8 @@ function App() {
  
   
   return (
-    <div className="text-primary">
+    <div className="App">
+     {/* <div className="text-primary"> */}
        <ToastContainer />  
        {!isLoggedIn && 
          <Routes>
@@ -119,7 +120,8 @@ function App() {
           <Home roleId={getRoleId}/>
       <HeaderNew />
      
-      <div className="page-content d-flex flex-column flex-row-fluid">
+        <main className="page-content d-flex flex-column flex-row-fluid">
+        {/* <div className="page-content-body"> */}
         <Routes>
           <Route path="/employee/list" element={<HomeEmployeeUser/>} />  
           <Route path="/task/document/list" element={<HomeCreateTask employeeId={employeeId}/>} /> 
@@ -132,7 +134,8 @@ function App() {
           <Route path="/user/update" element={<HomeUpdateUser/>} />
           
         </Routes>
-      </div>
+        {/* </div> */}
+      </main>
       <Footer />
             </>
           )}

@@ -136,8 +136,13 @@ function TaskForm({employeeId,dropdownListData}:props) {
 
    
   return (
-    <div className='container'>
-         <h3>Document Creation</h3>
+    <div className="task-form-container">
+    
+    <div className="task-form-header">
+      <h3>Document Creation</h3>
+    </div>
+
+    <div className="task-page">
               <form onSubmit={handleSubmit} className="p-3 border rounded">
                 <div className="mb-3">
                   <label className="form-label">Document Ref Number</label>
@@ -377,7 +382,7 @@ function TaskForm({employeeId,dropdownListData}:props) {
                   Submit
                 </button>
               </form>
-
+        </div>  
     </div>
 
   )

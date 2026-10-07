@@ -31,6 +31,7 @@ function EmployeeUserTable({empUserList}:props) {
 
   return (
       
+    //  <div className="task-form-container">
     <div>
         {
             isModalOpenA && 
@@ -39,7 +40,8 @@ function EmployeeUserTable({empUserList}:props) {
             userId={userId} employeeId={employeeId}/>
             </>
         }
-          <table id="example" className="table table-striped table-hover">
+        <div className="task-page table-wrapper-edited">
+        <table id="example" className="table table-striped table-hover">
           <thead className="thead-light text-nowrap">
             <tr>
                 <th></th>
@@ -91,6 +93,7 @@ function EmployeeUserTable({empUserList}:props) {
            
            </tbody>
         </table>
+        </div>
     </div>
   )
 }

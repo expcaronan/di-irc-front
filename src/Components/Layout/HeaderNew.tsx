@@ -35,12 +35,32 @@ const toggleSidebar =  (On:boolean) => {
 
   return (
     <div>
-
-      <header className="navbar transition-base border-bottom px-3 px-lg-6 px-3 px-lg-6 align-items-center page-header navbar-expand navbar-light"
-       style={{width:'100%'}}>
+ <header className="navbar transition-base border-bottom mb-3 px-3 px-lg-6 px-3 px-lg-6 align-items-center page-header navbar-expand navbar-light"
+  style={{
+          // width: '100%',
+          // position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 1030
+        }} 
+ >
+      {/* <header className="navbar transition-base border-bottom px-3 px-lg-6 px-3 px-lg-6 align-items-center page-header navbar-expand navbar-light"
+       style={{width:'100%'}}> */}
+       {/* <header
+        className="navbar transition-base border-bottom px-3 px-lg-6 align-items-center page-header navbar-expand navbar-light"
+        style={{
+          width: '100%',
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 1030
+        }} 
+>*/}
                       <a className="navbar-brand d-block d-lg-none ">
                         <div className="d-flex align-items-center flex-no-wrap text-truncate">
-                          {/* <!--Sidebar-icon--> */}
+                       
                           <span className="sidebar-icon bg-gradient-primary rounded-3 size-40 fw-bolder text-white">
                             A
                           </span>
@@ -64,11 +84,11 @@ const toggleSidebar =  (On:boolean) => {
 
 
                     <li className="nav-item d-flex flex-column me-1 h-100 justify-content-center">
-                          <span role="button" className="d-flex align-items-center justify-content-center js-search nav-link size-40 p-0">
+                          {/* <span role="button" className="d-flex align-items-center justify-content-center js-search nav-link size-40 p-0">
                             <span  className="material-symbols-rounded fs-1">
                               search
                               </span>
-                          </span>
+                          </span> */}
                            {/* <!--Search dropdown menu--> */}
                            <div className="dropdown-search p-0 overflow-hidden bg-body position-absolute start-0 top-0 w-100 h-100 border-0">
                          
