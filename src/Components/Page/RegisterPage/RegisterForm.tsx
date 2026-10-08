@@ -77,7 +77,7 @@ const handleUserInput = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectEleme
         }
  }
   return (
-    <div>
+    <div className='task-page'>
       <div className="container mt-4 pb-5">
       <h3>Registration Form</h3>
 
@@ -149,17 +149,7 @@ const handleUserInput = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectEleme
             required
           />
         </div>
- <div className="mb-3">
-          <label htmlFor="birthDay" className="col-form-label">Birthday</label>
-          <input
-            type="date"
-            className="form-control datepicker"
-            name="birthDay"
-            required
-            value={input.birthDay}
-            onChange={handleUserInput}
-          />
-        </div>
+ 
 
 
 
@@ -249,6 +239,18 @@ const handleUserInput = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectEleme
               </option>
               ))}
           </select>      */}
+  <div className="mb-3">
+          <label htmlFor="birthDay" className="col-form-label">Birthday</label>
+          <input
+            type="date"
+            className="form-control datepicker"
+            name="birthDay"
+            required
+            value={input.birthDay}
+            onChange={handleUserInput}
+          />
+        </div>
+  
   <div className="mb-3">
           <label htmlFor="birthDay" className="col-form-label">Hire Date</label>
           <input

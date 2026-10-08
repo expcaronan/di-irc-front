@@ -49,7 +49,25 @@ const attendanceApi = createApi({
             }),
             providesTags:["empAttendance"]
         }),
-
+        getAttendanceNoBioById:builder.query({
+            query: (empId)=> ({
+                url:'employeeattendance/nobio/empid',
+                  params: {
+                  empId
+              },
+            }),
+            providesTags:["empAttendance"]
+        }),
+        getAttendanceNoBio:builder.query({
+            query: (deptId)=> ({
+                url:'employeeattendance/nobio/deptid',
+                params:{
+                  deptId
+              },
+            }),
+            providesTags:["empAttendance"]
+        }),
+              
   
   }),
 });
@@ -58,7 +76,9 @@ export const {
   useEmployeeTimeinMutation,
   useEmployeeTimeoutMutation,
   useGetEmployeeByDateIdQuery,
-  useGetAttendanceListByEmpIdQuery
+  useGetAttendanceListByEmpIdQuery,
+  useGetAttendanceNoBioByIdQuery,
+  useGetAttendanceNoBioQuery,
 
   } = attendanceApi;
 

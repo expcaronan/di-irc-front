@@ -21,6 +21,8 @@ import TaskFormAddDepartmentQuery from '../Components/Page/Task/Actions/TaskForm
 import HomeUpdateUser from '../Pages/HomeUpdateUser';
 import TaskFormEditDocumentQuery from '../Components/Page/Task/Actions/TaskFormEditDocumentQuery';
 import HomeAttendance from '../Pages/AttendancePages/HomeAttendance';
+import HomeNobio from '../Pages/AttendancePages/HomeNobio';
+import HomeNoBioApproval from '../Pages/AttendancePages/HomeNobioApproval';
 
 
 function App() {
@@ -137,6 +139,8 @@ function App() {
           <Route path="/user/update" element={<HomeUpdateUser/>} />
           <Route path="/homelogin" element= {<HomeLogin empId={employeeId}/>} />   
           <Route path="/attendance/list" element= {<HomeAttendance empId={employeeId}/>} />  
+          <Route path="/attendance/nobio" element= {<HomeNobio empId={employeeId} deptId={deptId}/>} />  
+          <Route path="/attendance/nobioapproval" element= {<HomeNoBioApproval deptId={deptId}/>} />
         </Routes>
         {/* </div> */}
       </main>

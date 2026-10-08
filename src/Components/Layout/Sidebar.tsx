@@ -117,12 +117,22 @@ function Sidebar({roleId}:props) {
                 </a>
           </li>
          <li className="sidebar-item">
-                <a href="#" onClick={() => navigate("/nobio")} className="nav-link d-flex align-items-center text-truncate ">
+                <a href="#" onClick={() => navigate("/attendance/nobio")} className="nav-link d-flex align-items-center text-truncate ">
                   <span className="sidebar-icon">
                   
                 
                   </span>
                   <span className="sidebar-text">Apply NoBio</span>
+                </a>
+          </li>
+
+           <li className="sidebar-item">
+                <a href="#" onClick={() => navigate("/attendance/nobioapproval")} className="nav-link d-flex align-items-center text-truncate ">
+                  <span className="sidebar-icon">
+                  
+                
+                  </span>
+                  <span className="sidebar-text">For NoBio Approvals</span>
                 </a>
           </li>
     </ul>
