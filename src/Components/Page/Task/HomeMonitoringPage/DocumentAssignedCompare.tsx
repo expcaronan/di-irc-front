@@ -11,17 +11,21 @@ import DocumentAssignedTable from './DocumentAssignedTable';
 import { useCreateNotifiedUsersMutation } from '../../../../Api/taskDocumentApi';
 import apiResponse from '../../../../Interfaces/apiResponse';
 import formatDate from '../../../../Helpers/formatDate';
+import EmployeeUserModel from '../../../../Interfaces/EmployeeUserModel';
+import getTestNotifications from '../../../../Helpers/getTestNotifications';
 
 interface Props {
     documentList: taskDocumentAssignedDepartmentBaseModel[];
     notificationList: notifiedUserBaseModel[];
-    employeeId: number;
+    userDetails: EmployeeUserModel;
+    accessToken:string;
 }
 
 function DocumentAssignedCompare({
     documentList,
     notificationList,
-    employeeId
+    userDetails,
+    accessToken
 }: Props) {
 
     const [isModalOpen, setIsModalOpen] = useState(true);
@@ -31,7 +35,7 @@ function DocumentAssignedCompare({
     };
 
 
-  const difference = useMemo(() => {
+  const differenceData = useMemo(() => {
     return documentList.filter(department => {
 
         // Task has no status yet
@@ -49,7 +53,7 @@ function DocumentAssignedCompare({
         // Already notified?
         const alreadyNotified =
                 notificationList.some(notification =>
-                notification.employeeId == employeeId &&
+                notification.employeeId == userDetails.employeeId &&
                 notification.taskdocumentId == department.taskDocumentId &&
                 formatDate(notification.dateNotified) == formatDate(new Date().toISOString())
                 
@@ -66,7 +70,7 @@ function DocumentAssignedCompare({
 }, [
     documentList,
     notificationList,
-    employeeId
+    userDetails.employeeId
 ]);
 
 //console.log(difference);
@@ -74,16 +78,16 @@ function DocumentAssignedCompare({
 
 const newNotifications = useMemo<notifiedUserBaseModel[]>(() => {
 
-    return difference.map(department => ({
+    return differenceData.map(department => ({
         id: 0,
-        employeeId: employeeId,
+        employeeId: userDetails.employeeId,
         taskdocumentId: department.taskDocumentId,
         dateNotified:formatDate(new Date().toISOString())
     }));
 
-}, [difference, employeeId]);
-console.log(isModalOpen);
-console.log(difference.length);
+}, [differenceData, userDetails.employeeId]);
+
+
 
  useEffect(() => {
 
@@ -100,10 +104,12 @@ console.log(difference.length);
             console.log(response);
             if (response?.isSuccess === true) {
 
-                console.log("Notifications saved");
-
-                // Show popup
+                //console.log("Notifications saved");
+                getTestNotifications(accessToken, userDetails.departmentId, differenceData);
                 setIsModalOpen(true);
+                
+                // Show popup
+               
 
             } else {
 
@@ -128,6 +134,10 @@ console.log(difference.length);
     if(!isModalOpen && newNotifications.length > 0){
         saveNotifications();
     }
+
+    // if(newNotifications.length > 0){
+    //     saveNotifications();
+    // }
    
 
 }, [newNotifications, createNotifiedUser, isModalOpen]);
@@ -137,18 +147,19 @@ console.log(difference.length);
         <div>
 
 
-        {isModalOpen && difference.length > 0 && (
+        {isModalOpen && differenceData.length > 0 && (
             <NotificationModal
                 isOpen={isModalOpen}
                 closeModal={closeModal} 
-                documentList={difference}
+                documentList={differenceData}
+                accessToken={accessToken}
             />
-        )}
+        )} 
 
-        {difference.length == 0 &&(
+        {differenceData.length == 0 &&(
             <DocumentAssignedTable
                 documentList={documentList}
-                employeeId={employeeId}
+                employeeId={userDetails.employeeId}
             />
         )}
 

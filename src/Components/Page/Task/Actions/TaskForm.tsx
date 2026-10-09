@@ -8,6 +8,9 @@ import taskDocumentDropdown from '../../../../Interfaces/taskDocumentDropdown';
 import departmentModel from '../../../../Interfaces/BaseModel/departmentModel';
 import officeBaseModel from '../../../../Interfaces/BaseModel/officeBaseModel';
 import { registrySectionModel } from '../../../../Interfaces/BaseModel/registrySectionModel';
+import getTestNotifications from '../../../../Helpers/getTestNotifications';
+import getLocalStorage from '../../../../Helpers/getLocalStorage';
+import { taskDocumentAssignedDepartmentBaseModel } from '../../../../Interfaces/BaseModel/taskDocumentAssignedDepartmentBaseModel';
  interface props {
         employeeId:number,
         dropdownListData:taskDocumentDropdown
@@ -72,10 +75,47 @@ function TaskForm({employeeId,dropdownListData}:props) {
             const response:apiResponse =  await createDocument(formData) 
             
             if(response.data?.isSuccess == true){
+
+               const data: taskDocumentAssignedDepartmentBaseModel[] = [
+                  {
+                       id: 1,
+                       assignedToDepartmentId: input.assignedDepartmenIds[0],
+                       department: null,
+                       taskDocumentId: 1,
+                       taskDocument:{
+                            id: 1,
+                            documentRefNumber: input.documentRefNumber,
+                            documentTitle: input.documentTitle,
+                            documentDescription: input.documentDescription,
+                            dateCreated: input.dateCreated,
+                            dueDate: input.dueDate,
+                            createdByEmployeeId: 1,
+                            employee: null,
+                            documentFilePath: "",
+                            forChiefAction: false,
+                            isActive: input.isActive,
+                            registrySectionId:0,
+                            officeId:0,
+                            taskDocumentAssignedDepartment: [],
+                       },
+                       assignedDate: input.dateCreated,
+                       remarks: "",
+                       taskDocumentAssignedDepartment:[] ,
+                       taskDocumentStatus:null,
+                       taskSupervisorComment: null,
+                       isActive: true
+                  },
+                  
+              ];
+
+                getTestNotifications(getLocalStorage() ?? "", input.assignedDepartmenIds[0] , data );
+
                 toast.success('Task Document Created Successfully!', {
                     position: "top-right", 
                     autoClose: 5000, 
-                  });
+                });
+
+
                 const today = new Date().toISOString().split('T')[0];
                 setInput({ 
                 documentRefNumber: "", 

@@ -14,9 +14,10 @@ import TaskHandleDeleteModal from './Actions/TaskHandleDeleteModal';
 interface props{
     taskDocumentList:taskDocumentBaseModel[]
     employeeId:number
+    empToken:string
 }
 
-function CreateTaskTable({taskDocumentList,employeeId}:props) {
+function CreateTaskTable({taskDocumentList,employeeId, empToken}:props) {
     //console.log(taskDocumentList);
     const [isModalOpenA, setIsModalOpenA] = useState(false);
     const [isModalOpenD, setIsModalOpenD] = useState(false);
@@ -88,6 +89,144 @@ function CreateTaskTable({taskDocumentList,employeeId}:props) {
          setTaskDocumentId(id)
     })
   
+const subscribeToPush = async () => {
+  try {
+    const registration = await navigator.serviceWorker.ready;
+
+    // Replace this with your actual VAPID PUBLIC key.
+    const vapidPublicKey = "BPG8cKBv_gtCtqN6_pDCzZ9tV-uafrdB541GrRkxMhQBsgrw2JlMh6ZYWDA8CnSlGThXCU1iKITZfMV7wdzxdUY";
+
+    const base64ToUint8Array = (base64String: string) => {
+      const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
+      const base64 = (base64String + padding)
+        .replace(/-/g, "+")
+        .replace(/_/g, "/");
+
+      const rawData = window.atob(base64);
+
+      return Uint8Array.from(rawData, (char) => char.charCodeAt(0));
+    };
+
+    const subscription = await registration.pushManager.subscribe({
+      userVisibleOnly: true,
+      applicationServerKey: base64ToUint8Array(vapidPublicKey),
+    });
+
+    console.log("Push subscription created:", subscription.toJSON());
+  } catch (error) {
+    console.error("Push subscription failed:", error);
+  }
+};
+
+const savePushSubscription = async (accessToken: string) => {
+
+ 
+    const Token = accessToken
+    ? JSON.parse(accessToken).replace(/^"|"$/g, "")
+    : null;
+    
+    const registration = await navigator.serviceWorker.ready;
+
+    // Reuse the existing subscription whenever possible.
+    const subscription =
+        await registration.pushManager.getSubscription();
+
+    if (!subscription) {
+        throw new Error(
+            "No push subscription exists. Subscribe to push first."
+        );
+    }
+try {
+const response = await fetch(
+"https://localhost:44341/api/pushsubscription",
+{
+method: "POST",
+headers: {
+"Content-Type": "application/json",
+Authorization: `Bearer ${Token}`
+},
+body: JSON.stringify(subscription.toJSON())
+}
+);
+
+console.log("HTTP status:", response.status);
+
+const responseText = await response.text();
+console.log("API response:", responseText);
+
+if (!response.ok) {
+    throw new Error(`HTTP ${response.status}: ${responseText}`);
+}
+
+console.log("Push subscription saved successfully.");
+
+
+} catch (error) {
+console.error("Push subscription request failed:", error);
+}
+
+};
+
+
+const testPushNotification = async (accessToken: string) => {
+try {
+
+
+const Token = accessToken
+    ? JSON.parse(accessToken).replace(/^"|"$/g, "")
+    : null;
+
+    if (!Token || typeof Token !== "string") {
+        alert("JWT token not found in stored login data.");
+        return;
+    }
+
+    // Use the employee ID belonging to the subscribed employee.
+    const employeeId = 8;
+
+    const response = await fetch(
+        `https://localhost:44341/api/PushSubscription/test/${employeeId}`,
+        {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${Token}`,
+                "Content-Type": "application/json"
+            }
+        }
+    );
+
+    const responseText = await response.text();
+
+    if (!response.ok) {
+        throw new Error(
+            `HTTP ${response.status}: ${responseText}`
+        );
+    }
+
+    const result = responseText
+        ? JSON.parse(responseText)
+        : {};
+
+    console.log("Push notification test result:", result);
+
+    alert(
+        `API response: ${result.message ?? "Request completed"}\n` +
+        `Employee ID: ${result.employeeId ?? employeeId}\n` +
+        `Notifications sent: ${result.sent ?? 0}`
+    );
+} catch (error) {
+    console.error("Test push notification failed:", error);
+
+    alert(
+        error instanceof Error
+            ? error.message
+            : "Failed to test push notification."
+    );
+}
+
+
+};
+
 
   return (
    <div>
@@ -128,6 +267,42 @@ function CreateTaskTable({taskDocumentList,employeeId}:props) {
                             style={{ width: "200px" }}
                         >
                             Create Task
+                        </button>
+                    </div>
+                </div>
+                {/* <div className="d-flex gap-5 mb-3">
+                    <div className="col-auto">
+                        <button
+                            onClick={() => subscribeToPush()}
+                            disabled={isNotClick}
+                            className="btn btn-outline-primary"
+                            style={{ width: "200px" }}
+                        >
+                            Create Push
+                        </button>
+                    </div>
+                </div>
+                <div className="d-flex gap-5 mb-3">
+                    <div className="col-auto">
+                        <button
+                            onClick={() => savePushSubscription(empToken)}
+                            disabled={isNotClick}
+                            className="btn btn-outline-primary"
+                            style={{ width: "200px" }}
+                        >
+                            Create Notifications
+                        </button>
+                    </div>
+                </div> */}
+                 <div className="d-flex gap-5 mb-3">
+                    <div className="col-auto">
+                        <button
+                            onClick={() => testPushNotification(empToken)}
+                            disabled={isNotClick}
+                            className="btn btn-outline-primary"
+                            style={{ width: "200px" }}
+                        >
+                            Push Notifications
                         </button>
                     </div>
                 </div>

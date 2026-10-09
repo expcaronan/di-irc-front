@@ -6,8 +6,9 @@ import MainLoader from '../../Common/MainLoader';
 import { useGetAllTaskDocumentsWithAssignedDepartmentCreatedByQuery } from '../../../Api/taskDocumentApi';
 interface props{
   employeeId:number
+  empToken:string
 }
-function CreateTask({employeeId}:props) {
+function CreateTask({employeeId,empToken}:props) {
   const {
     data,
     isLoading
@@ -32,6 +33,7 @@ function CreateTask({employeeId}:props) {
        <CreateTaskTable
         taskDocumentList={taskDocumentList}
         employeeId={employeeId}
+        empToken={empToken}
       />
     </div>
   )

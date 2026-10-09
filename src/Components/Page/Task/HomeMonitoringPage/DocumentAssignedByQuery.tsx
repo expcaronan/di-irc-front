@@ -9,11 +9,14 @@ import { taskDocumentAssignedDepartmentBaseModel } from '../../../../Interfaces/
 import { taskDocumentBaseModel } from '../../../../Interfaces/BaseModel/taskDocumentBaseModel';
 import notifiedUserBaseModel from '../../../../Interfaces/BaseModel/notifiedUserBaseModel';
 import DocumentAssignedCompare from './DocumentAssignedCompare';
+import signalRService from '../../../../Helpers/SignalR/SignalRService';
+import sMessage from '../../../../Helpers/SignalR/sMessage';
 interface props{
     userDetails:EmployeeUserModel
     notificationList:notifiedUserBaseModel[]
+    accessToken:string
 }
-function DocumentAssignedByQuery({userDetails, notificationList}:props) {
+function DocumentAssignedByQuery({userDetails, notificationList, accessToken}:props) {
 //console.log(userDetails.employeeId);
 const { data, isLoading } = useGetAllTaskDocumentsWithAssignedDepartmentByIdQuery(userDetails.departmentId);
 const [loading, setLoading] = useState(false);
@@ -28,10 +31,15 @@ useEffect(() =>{
 },[data]);
 
 
+
 return (
     <div>
         {
-            !loading && taskDocumentList ? <DocumentAssignedCompare documentList={taskDocumentList} notificationList={notificationList} employeeId={userDetails.employeeId}/> :<MainLoader/>
+            !loading && taskDocumentList ? <DocumentAssignedCompare 
+            documentList={taskDocumentList} 
+            notificationList={notificationList} 
+            userDetails={userDetails}
+            accessToken={accessToken}/> :<MainLoader/>
         }
     </div>
 )

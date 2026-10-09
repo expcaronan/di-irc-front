@@ -23,6 +23,7 @@ import TaskFormEditDocumentQuery from '../Components/Page/Task/Actions/TaskFormE
 import HomeAttendance from '../Pages/AttendancePages/HomeAttendance';
 import HomeNobio from '../Pages/AttendancePages/HomeNobio';
 import HomeNoBioApproval from '../Pages/AttendancePages/HomeNobioApproval';
+import HomeCalendar from '../Pages/HomeCalendar';
 
 
 function App() {
@@ -128,19 +129,21 @@ function App() {
         {/* <div className="page-content-body"> */}
         <Routes>
           <Route path="/employee/list" element={<HomeEmployeeUser/>} />  
-          <Route path="/task/document/list" element={<HomeCreateTask employeeId={employeeId}/>} /> 
+          <Route path="/task/document/list" element={<HomeCreateTask employeeId={employeeId} empToken={storedJsonString ?? ""}/>} /> 
           <Route path="/task/create/form" element={<UserEmpQuery employeeId={employeeId}/>} />
           <Route path="/task/create/assignedDepartment" element={<TaskFormAddDepartmentQuery/>} />   
           <Route path="/task/edit/taskDocument" element={<TaskFormEditDocumentQuery/>} />          
           <Route path="*" element= {<NotFound/>} />
           <Route
-              path="/" element={userDetails && <HomeMonitoringTask userDetails={userDetails} /> }
+              path="/" element={userDetails && <HomeMonitoringTask userDetails={userDetails} accessToken={storedJsonString ?? ""} /> }
           />
           <Route path="/user/update" element={<HomeUpdateUser/>} />
           <Route path="/homelogin" element= {<HomeLogin empId={employeeId}/>} />   
           <Route path="/attendance/list" element= {<HomeAttendance empId={employeeId}/>} />  
           <Route path="/attendance/nobio" element= {<HomeNobio empId={employeeId} deptId={deptId}/>} />  
           <Route path="/attendance/nobioapproval" element= {<HomeNoBioApproval deptId={deptId}/>} />
+
+          <Route path="/calendar" element= {<HomeCalendar/>} />
         </Routes>
         {/* </div> */}
       </main>

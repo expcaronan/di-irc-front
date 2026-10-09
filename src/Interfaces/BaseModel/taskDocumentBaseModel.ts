@@ -4,7 +4,7 @@ import { taskDocumentAssignedDepartmentBaseModel } from "./taskDocumentAssignedD
 
 export interface taskDocumentBaseModel {
   id: number;
-  documentRefNumber: number;
+  documentRefNumber: string;
   documentTitle?: string | null;
   documentDescription?: string | null;
   dateCreated: string;
