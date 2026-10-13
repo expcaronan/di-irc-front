@@ -144,7 +144,7 @@ const newNotifications = useMemo<notifiedUserBaseModel[]>(() => {
   
 
     return (
-        <div>
+        <div  className='task-container'>
 
 
         {isModalOpen && differenceData.length > 0 && (

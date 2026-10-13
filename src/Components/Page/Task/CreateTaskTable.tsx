@@ -256,7 +256,7 @@ const Token = accessToken
       
 
         {/* table */}
-        <div className="task-page">
+        <div className="task-container">
         
                 <div className="d-flex gap-5 mb-3">
                     <div className="col-auto">
@@ -307,8 +307,8 @@ const Token = accessToken
                     </div>
                 </div>
         
-         
-        <table id="example" className="table table-striped table-hover">
+          <div className="task-page">
+              <table id="example" className="table table-striped table-hover">
           <thead className="thead-light text-nowrap">
             <tr >
                 <th></th>
@@ -639,6 +639,8 @@ const Token = accessToken
            
            </tbody> */}
             </table>
+          </div>
+      
     
             {selectedFile && (
             <HomeFileViewer

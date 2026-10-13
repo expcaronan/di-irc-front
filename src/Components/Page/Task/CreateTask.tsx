@@ -29,7 +29,7 @@ function CreateTask({employeeId,empToken}:props) {
   }
 
   return (
-    <div>
+    <div >
        <CreateTaskTable
         taskDocumentList={taskDocumentList}
         employeeId={employeeId}

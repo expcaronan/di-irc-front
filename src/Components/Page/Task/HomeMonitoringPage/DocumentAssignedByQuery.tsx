@@ -25,7 +25,7 @@ const [taskDocumentList, setTaskDocumentList] = useState<taskDocumentAssignedDep
 
 useEffect(() => {
   const handleMessage = (message: any) => {
-    console.log(message);
+    //console.log(message);
     if (message?.message !== "TaskDocument") {
        //console.log(message);
       return;

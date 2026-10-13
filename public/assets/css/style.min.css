@@ -17921,12 +17921,82 @@ hr {
 .task-form-header {
     flex: 0 0 auto;
 }
-.task-page {
-  flex: 1 1 auto;
-    min-width: 0;
-    overflow: auto;
+.task-container{
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
     min-height: 0;
+    min-width: 0;
+    overflow: hidden;
 }
+.task-page {
+flex: 1 1 auto;
+min-height: 0;
+min-width: 0;
+overflow: auto;
+}
+
+/* Keep the page content within the available viewport */
+.page-content {
+    flex: 1 1 auto;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+}
+
+/* The table area is the only scrollable section */
+.task-container {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+}
+
+/* Enable both vertical and horizontal scrolling */
+.task-page {
+    width: 100%;
+    max-width: 100%;
+    height: calc(100vh - 230px);
+    min-width: 0;
+    min-height: 0;
+    overflow: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Preserve the table's natural width so horizontal scrolling works */
+#example {
+    width: max-content;
+    min-width: 100%;
+    margin-bottom: 0;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+/* Keep column headings visible while scrolling vertically */
+#example thead th {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 2 !important;
+    background-color: #f8f9fa !important;
+    white-space: nowrap !important;
+}
+
+/* Preserve long document paths and column labels */
+#example th ,
+#example td {
+    white-space: nowrap !important;
+}
+
+/* Allow remarks to wrap inside their cells */
+#example td:nth-child(9),
+#example td:nth-child(10) {
+    white-space: normal !important;
+    min-width: 150px !important;
+}
+
 /* .page-content-body {
     flex: 1 1 auto;
     min-height: 0; */
