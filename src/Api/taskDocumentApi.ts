@@ -73,6 +73,15 @@ const taskDocumentApi = createApi({
             }),
             providesTags:["taskDocuments"]
     }),
+     getAllApprovedTaskDocumentsWithAssignedDepartmentById:builder.query({
+            query: (id:number)=> ({
+                url:'TaskDocumentStatus/approved/list',
+                  params: {
+                  id:id
+              },
+            }),
+            providesTags:["taskDocuments"]
+    }),
       getDeptRrsOfficeDropdownList:builder.query({
             query: ()=> ({
                 url:"taskdocument/dropdown/list",
@@ -101,6 +110,18 @@ const taskDocumentApi = createApi({
             providesTags:["taskDocuments"]
     }),
 
+    getApprovalCount:builder.query({
+       query: ({deptId,empId})=> ({
+                url:'taskdocument/approval/count/',
+                  params: {
+                  deptId:deptId,
+                  empId:empId
+                
+              },
+            }),
+            providesTags:["taskDocuments"]
+    }),
+
 
 
   }),
@@ -114,8 +135,10 @@ useCreateTaskDocumentStatusMutation,
 useUpdateTaskDocumentStatusMutation,
 useUpdateTaskDocumentStatusAssingedDeptMutation,
 useGetAllTaskDocumentsWithAssignedDepartmentCreatedByQuery,
+useGetAllApprovedTaskDocumentsWithAssignedDepartmentByIdQuery,
 useGetAllTaskDocumentsWithAssignedDepartmentByIdQuery,
 useGetDeptRrsOfficeDropdownListQuery,
+useGetApprovalCountQuery,
 useCreateNotifiedUsersMutation,
 useGetNotificationListQuery,
 

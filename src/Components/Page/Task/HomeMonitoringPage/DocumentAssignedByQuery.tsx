@@ -26,24 +26,26 @@ const [taskDocumentList, setTaskDocumentList] = useState<taskDocumentAssignedDep
 useEffect(() => {
   const handleMessage = (message: any) => {
     //console.log(message);
-    if (message?.message !== "TaskDocument") {
-       //console.log(message);
-      return;
-    }
-    // console.log(message.data);
-    const taskList = message.data as taskDocumentAssignedDepartmentBaseModel;
+    if (message?.message === "TaskDocument") {
+        const taskList = message.data as taskDocumentAssignedDepartmentBaseModel;
 
     setTaskDocumentList(previous => [
       taskList,
       ...previous.filter(item => item.id !== taskList.id)
     ]);
-  };
+      
+    }else{
+      return;
+    }
+    // console.log(message.data);
+ 
 
   signalRService.onReceiveMessage(handleMessage);
   console.log("signalk"+taskDocumentList);
   return () => {
     signalRService.stopConnection();
   };
+  }
 }, []);
 
 useEffect(() =>{

@@ -25,6 +25,7 @@ import HomeNobio from '../Pages/AttendancePages/HomeNobio';
 import HomeNoBioApproval from '../Pages/AttendancePages/HomeNobioApproval';
 import HomeCalendar from '../Pages/HomeCalendar';
 import signalRService from '../Helpers/SignalR/SignalRService';
+import HomeApprovedDocuments from '../Pages/Task/HomeApprovedDocuments';
 
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
   const[deptId, setDeptId] = useState(0);
   const [getRoleId, setGetRoleId] = useState(0);
   const[employeeId, setEmployeeId]=useState(0);
+
   const[userDetails, setUserDetails]=useState<EmployeeUserModel>();
   const startConnection = async () => {
   try {
@@ -95,7 +97,7 @@ function App() {
        setEmployeeId(storedJsonData.employeeId);
        //setShiftId(storedJsonData.shiftId);
        setDeptId(storedJsonData.departmentId);
-       //setGetRoleId(storedJsonData.roleId);
+       setGetRoleId(storedJsonData.roleId);
         setIsLoggedIn(true)
               dispatch(setLoggedInUser({
                     firstName: storedJsonData.firstName,
@@ -151,7 +153,7 @@ function App() {
         
       {isLoggedIn && (
             <>
-          <Home roleId={getRoleId}/>
+          <Home roleId={getRoleId} departmentId={deptId} empId={employeeId} />
       <HeaderNew />
      
         <main className="page-content d-flex flex-column flex-row-fluid">
@@ -159,6 +161,7 @@ function App() {
         <Routes>
           <Route path="/employee/list" element={<HomeEmployeeUser/>} />  
           <Route path="/task/document/list" element={<HomeCreateTask employeeId={employeeId} empToken={storedJsonString ?? ""}/>} /> 
+          <Route path="/task/document/approved/list" element={userDetails ? <HomeApprovedDocuments userDetails={userDetails} empToken={storedJsonString ?? ""}/> : null} /> 
           <Route path="/task/create/form" element={<UserEmpQuery employeeId={employeeId}/>} />
           <Route path="/task/create/assignedDepartment" element={<TaskFormAddDepartmentQuery/>} />   
           <Route path="/task/edit/taskDocument" element={<TaskFormEditDocumentQuery/>} />          
@@ -170,7 +173,7 @@ function App() {
           <Route path="/homelogin" element= {<HomeLogin empId={employeeId}/>} />   
           <Route path="/attendance/list" element= {<HomeAttendance empId={employeeId}/>} />  
           <Route path="/attendance/nobio" element= {<HomeNobio empId={employeeId} deptId={deptId}/>} />  
-          <Route path="/attendance/nobioapproval" element= {<HomeNoBioApproval deptId={deptId}/>} />
+          <Route path="/attendance/nobioapproval" element= {<HomeNoBioApproval deptId={deptId} empId={employeeId}/>} />
 
           <Route path="/calendar" element= {<HomeCalendar/>} />
         </Routes>

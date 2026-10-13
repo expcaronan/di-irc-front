@@ -18,7 +18,7 @@ function AttendanceTable({attendanceData}:props) {
           <thead className="thead-light text-nowrap">
             <tr>
                 <th>Date</th>
-                <th>Shift</th>
+               
                 <th>Time In</th>
                 <th>Time Out</th>
                 <th>Regular Hours</th>

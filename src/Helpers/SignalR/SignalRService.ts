@@ -3,6 +3,7 @@ import { HubConnection, HubConnectionBuilder, LogLevel } from '@microsoft/signal
 class SignalRService {
   private hubConnection: HubConnection | null = null;
   private receiveMessageCallback: ((message: string) => void) | null = null;
+  private receiveCountMessageCallback: ((message: string) => void) | null = null;
   private totalUsersCallback: ((message: any) => void) | null = null;
   private onConnectedMessageCallback: ((userId: string, myUserName: string) => void) | null = null;
 
@@ -19,9 +20,15 @@ class SignalRService {
         .build();
 
       this.hubConnection.on('SendMessageToClients', (message: any) => {
-        console.log(message);
+        //console.log(message);
         this.handleReceivedMessage(message);
       });
+        this.hubConnection.on('SendMessageToClientsCount', (message: any) => {
+        //console.log(message);
+        this.handleReceivedMessageCount(message);
+      });
+
+
 
       this.hubConnection.on('Message', (message: any) => {
         this.handleTotalUsers(message);
@@ -77,9 +84,19 @@ class SignalRService {
       this.receiveMessageCallback(message);
     }
   };
+   private handleReceivedMessageCount = (message: string) => {
+    //console.log(`Received message: ${message}`);
+    if (this.receiveCountMessageCallback) {
+      this.receiveCountMessageCallback(message);
+    }
+  };
 
   onReceiveMessage = (callback: (message: string) => void) => {
     this.receiveMessageCallback = callback;
+  };
+
+  onReceiveMessageCount = (callback: (message: string) => void) => {
+    this.receiveCountMessageCallback = callback;
   };
 
   

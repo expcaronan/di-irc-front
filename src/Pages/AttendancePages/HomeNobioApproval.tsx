@@ -3,10 +3,11 @@ import NoBioApprovalQuery from '../../Components/Page/AttendancePage/NoBioPage/N
 
 interface props{
   deptId:number
+  empId:number
 }
-function HomeNoBioApproval({deptId}:props) {
+function HomeNoBioApproval({deptId, empId}:props) {
   return (
-    <div><NoBioApprovalQuery deptId={deptId}/></div>
+    <div><NoBioApprovalQuery deptId={deptId} empId={empId}/></div>
   )
 }
 

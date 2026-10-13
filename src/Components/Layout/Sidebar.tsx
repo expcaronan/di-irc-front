@@ -5,9 +5,11 @@ import './SideBar.css';
 
 interface props{
   roleId:number
+  approvalCount:number 
+  noBioCount:number
 }
 
-function Sidebar({roleId}:props) {
+function Sidebar({roleId,approvalCount,noBioCount}:props) {
 
   
   const navigate = useNavigate();
@@ -47,16 +49,18 @@ function Sidebar({roleId}:props) {
                  {/* Corrected closing tag */}
                 {/* <span className="sidebar-text">Main</span> */}
               </li>
-              
-            <li className="nav-item">
-                <a href="#" onClick={() => navigate("/")} className="nav-link d-flex align-items-center text-truncate ">
-                  <span className="sidebar-icon">
-                  
-                    <span className="bi bi-house-door"></span>
-                  </span>
-                  <span className="sidebar-text">Daily Monitoring task</span>
-                </a>
-              </li>
+              { roleId == 3 &&
+                <li className="nav-item">
+                  <a href="#" onClick={() => navigate("/")} className="nav-link d-flex align-items-center text-truncate ">
+                    <span className="sidebar-icon">
+                    
+                      <span className="bi bi-house-door"></span>
+                    </span>
+                    <span className="sidebar-text">Daily Monitoring task</span>
+                  </a>
+                </li>
+              }
+          
 
                <li className="nav-item">
                 <a href="#" onClick={() => navigate("/calendar")} className="nav-link d-flex align-items-center text-truncate ">
@@ -143,6 +147,9 @@ function Sidebar({roleId}:props) {
                 
                   </span>
                   <span className="sidebar-text">For NoBio Approvals</span>
+                   <span className="badge rounded-pill bg-danger ms-2">
+                  {noBioCount}
+                </span>
                 </a>
           </li>
     </ul>
@@ -161,6 +168,7 @@ function Sidebar({roleId}:props) {
                   <span className="bi bi-check2-square"></span>
                   </span>
                   <span className="sidebar-text">Leave Application</span>
+                 
                 </a>
               </li>
                 </>
@@ -168,24 +176,29 @@ function Sidebar({roleId}:props) {
         roleId != 3 &&
            <>
                 <li className="nav-item">
-                <a href="#" onClick={() => navigate("task/document/list")} className="nav-link d-flex align-items-center text-truncate ">
-                  <span className="sidebar-icon">
-                  
-                    <span className="bi bi-card-list"></span>
-                  </span>
-                  <span className="sidebar-text">Documents For Approval</span>
-                </a>
-              </li>
+            <a
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                navigate("task/document/list");
+              }}
+              className="nav-link d-flex align-items-center"
+            >
+              <span className="sidebar-icon">
+                <span className="bi bi-card-list"></span>
+              </span>
 
-                <li className="nav-item">
-                <a href="#" onClick={() => navigate("/employee/list")} className="nav-link d-flex align-items-center text-truncate ">
-                  <span className="sidebar-icon">
-                  
-                    <span className="bi bi-card-list"></span>
-                  </span>
-                  <span className="sidebar-text">Maintenance</span>
-                </a>
-              </li>
+              <span className="sidebar-text text-nowrap ms-2">
+                Documents For Approval
+              </span>
+
+             
+                <span className="badge rounded-pill bg-danger ms-2">
+                  {approvalCount}
+                </span>
+             
+            </a>
+          </li>
                 </>
 
        }
@@ -205,7 +218,7 @@ function Sidebar({roleId}:props) {
               </li>
 
                 <li className="nav-item">
-                <a href="#" onClick={() => navigate("/homeemployee")} className="nav-link d-flex align-items-center text-truncate ">
+                <a href="#" onClick={() => navigate("/employee/list")} className="nav-link d-flex align-items-center text-truncate ">
                   <span className="sidebar-icon">
                   
                     <span className="bi bi-person-lines-fill"></span>
@@ -223,12 +236,12 @@ function Sidebar({roleId}:props) {
 
 
               <li className="nav-item">
-                <a href="#" onClick={() => navigate("/calendar")} className="nav-link d-flex align-items-center text-truncate ">
+                <a href="#" onClick={() => navigate("/task/document/approved/list")} className="nav-link d-flex align-items-center text-truncate ">
                   <span className="sidebar-icon">
                   
                     <span className="bi bi-card-list"></span>
                   </span>
-                  <span className="sidebar-text">Calendar</span>
+                  <span className="sidebar-text">Approved Documents</span>
                 </a>
               </li>
 </>

@@ -59,10 +59,11 @@ const attendanceApi = createApi({
             providesTags:["empAttendance"]
         }),
         getAttendanceNoBio:builder.query({
-            query: (deptId)=> ({
+            query: ({deptId, empId})=> ({
                 url:'employeeattendance/nobio/deptid',
                 params:{
-                  deptId
+                  deptId:deptId,
+                  empId:empId
               },
             }),
             providesTags:["empAttendance"]
