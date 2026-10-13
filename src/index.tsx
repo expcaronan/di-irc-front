@@ -23,7 +23,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <Provider store={store}>
   {/* <BrowserRouter> */}
-  <BrowserRouter basename="/">
+  <BrowserRouter basename="irc-app">
     <App />
   </BrowserRouter>
   </Provider> 

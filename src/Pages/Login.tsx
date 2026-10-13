@@ -9,6 +9,7 @@ import inputHelper from '../Helpers/inputHelper';
 import apiResponse from '../Interfaces/apiResponse';
 import { setLoggedInUser } from '../Storage/Slice/userAuthSlice';
 import { jwtDecode } from 'jwt-decode';
+import signalRService from '../Helpers/SignalR/SignalRService';
 
 interface props{
     onLogin: boolean
@@ -16,6 +17,33 @@ interface props{
 
 
 function Login({onLogin}: props) {
+const startConnection = async () => {
+  try {
+    const storedJsonCredentials = localStorage.getItem('OnlineUser')
+    if(storedJsonCredentials !== null){
+      const storedJsonData = JSON.parse(storedJsonCredentials);
+      //setUserName(storedJsonData)
+      //setUserName(storedJsonData)
+    }
+    
+    signalRService.onTotalUsers((userName: any) => {
+      console.log("User connected: ", userName);
+      if(storedJsonCredentials !== null){
+        localStorage.removeItem("OnlineUser");
+      }
+      //setUserName(userName);
+      //  console.log(userName);
+      const jsonArray = JSON.stringify(userName);
+      localStorage.setItem("OnlineUser",jsonArray);
+    
+      // dispatch(setOnlineUser(userName))
+
+    });
+  } catch (error) {
+      console.error('Error starting SignalR connection:', error);
+  }
+ 
+}
 
  
   const hasLocalStorageData = !!localStorage.getItem('Credentials');
@@ -59,7 +87,7 @@ function Login({onLogin}: props) {
     });
     //console.log(userInput);
     if(response.data?.isSuccess == true){
-     
+      const token = response.data.result;
       const jsonString = JSON.stringify(response.data.result);
       localStorage.setItem("Credentials",jsonString);
       const storedJsonData = JSON.parse(jsonString);
@@ -77,6 +105,9 @@ function Login({onLogin}: props) {
                    }))
       if(storedJsonData){
          const storjasondata = jwtDecode<any>(storedJsonData);
+
+         signalRService.startConnection(token);
+
          toast.success(
             `${storjasondata.firstName} ${storjasondata.lastName}: Login Successfully!`,
             {

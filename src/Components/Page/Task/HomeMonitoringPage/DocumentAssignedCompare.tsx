@@ -60,7 +60,7 @@ function DocumentAssignedCompare({
             );
         
             //console.log(department.taskDocumentId+" "+employeeId);
-            console.log(alreadyNotified);
+           // console.log(alreadyNotified);
         // Show only if incomplete AND not notified
         return (
             (hasNoStatus || hasIncompleteStatus) &&
@@ -101,7 +101,7 @@ const newNotifications = useMemo<notifiedUserBaseModel[]>(() => {
         try {
 
             const response = await createNotifiedUser(newNotifications).unwrap();
-            console.log(response);
+           //console.log(response);
             if (response?.isSuccess === true) {
 
                 //console.log("Notifications saved");

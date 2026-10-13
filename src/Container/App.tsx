@@ -24,6 +24,7 @@ import HomeAttendance from '../Pages/AttendancePages/HomeAttendance';
 import HomeNobio from '../Pages/AttendancePages/HomeNobio';
 import HomeNoBioApproval from '../Pages/AttendancePages/HomeNobioApproval';
 import HomeCalendar from '../Pages/HomeCalendar';
+import signalRService from '../Helpers/SignalR/SignalRService';
 
 
 function App() {
@@ -37,12 +38,40 @@ function App() {
   const [getRoleId, setGetRoleId] = useState(0);
   const[employeeId, setEmployeeId]=useState(0);
   const[userDetails, setUserDetails]=useState<EmployeeUserModel>();
-  
+  const startConnection = async () => {
+  try {
+    const storedJsonCredentials = localStorage.getItem('Credentials')
+    if(storedJsonCredentials !== null){
+      const storedJsonData = JSON.parse(storedJsonCredentials);
+
+      await signalRService.startConnection(storedJsonData);
+      //dispatch(setOnlineUser(storedJsonData))
+    }
+    
+    signalRService.onTotalUsers((userName: any) => {
+      console.log("User connected: ", userName);
+      if(storedJsonCredentials !== null){
+        //localStorage.removeItem("OnlineUser");
+      }
+      //setUserName(userName);
+      //  console.log(userName);
+      const jsonArray = JSON.stringify(userName);
+      //localStorage.setItem("OnlineUser",jsonArray);
+     
+      //dispatch(setOnlineUser(userName))
+
+    });
+  } catch (error) {
+      console.error('Error starting SignalR connection:', error);
+  }
+ 
+}
   useEffect(() => {
     //console.log(isLoggedIn);
     var userRoleId =0;
     if (hasLocalStorageData) {
       if (storedJsonString !== null) {
+        startConnection();
         const storedJsonData= jwtDecode<EmployeeUserModel>(storedJsonString);
         userRoleId = storedJsonData.roleId;
       setUserDetails({

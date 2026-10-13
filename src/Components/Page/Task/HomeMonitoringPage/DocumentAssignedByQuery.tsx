@@ -22,6 +22,30 @@ const { data, isLoading } = useGetAllTaskDocumentsWithAssignedDepartmentByIdQuer
 const [loading, setLoading] = useState(false);
 const [taskDocumentList, setTaskDocumentList] = useState<taskDocumentAssignedDepartmentBaseModel[]>([])
 
+
+useEffect(() => {
+  const handleMessage = (message: any) => {
+    console.log(message);
+    if (message?.message !== "TaskDocument") {
+       //console.log(message);
+      return;
+    }
+    // console.log(message.data);
+    const taskList = message.data as taskDocumentAssignedDepartmentBaseModel;
+
+    setTaskDocumentList(previous => [
+      taskList,
+      ...previous.filter(item => item.id !== taskList.id)
+    ]);
+  };
+
+  signalRService.onReceiveMessage(handleMessage);
+  console.log("signalk"+taskDocumentList);
+  return () => {
+    signalRService.stopConnection();
+  };
+}, []);
+
 useEffect(() =>{
     setLoading(true);
     if(data && !isLoading){

@@ -13,7 +13,7 @@ self.addEventListener("activate", function (event) {
 
 self.addEventListener("push", function (event) {
 
-    console.log("PUSH EVENT RECEIVED");
+    //console.log("PUSH EVENT RECEIVED");
 
     if (!event.data) {
         return;
@@ -21,7 +21,7 @@ self.addEventListener("push", function (event) {
 
     const data = event.data.json();
 
-    console.log("Push data:", data);
+    //console.log("Push data:", data);
 
     const title =
         data.title || "Document Tracking";

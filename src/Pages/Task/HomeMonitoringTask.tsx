@@ -15,31 +15,13 @@ interface props{
 
 
 function HomeMonitoringTask({userDetails,accessToken}:props) {
-  console.log(userDetails.employeeId);
+  //console.log(userDetails.employeeId);
   const [loading, setLoading] = React.useState(false);
   
   const { data, isLoading } = useGetNotificationListQuery(userDetails.employeeId);
 
 
   const [notificationList, setNotificationList] = useState<notifiedUserBaseModel[]>([]);
-
-//   useEffect(() => {
-
-//     const handleMessage = (message: string) => {
-
-//       if (message === sMessage.serviceProviderMessage) {
-//         refetch();
-//       }
-
-//     };
-
-//   signalRService.onReceiveMessage(handleMessage);
-
-//   return () => {
-//    // signalRService.(handleMessage);
-//   };
-
-// }, [refetch]);
 
   useEffect(() => {
     if (!isLoading && data) {

@@ -1,6 +1,6 @@
 enum baseUrlString  {
 
    test = "https://localhost:44341/api",
-   // testProd = "https://attendanceapi-oyxq.onrender.com/api",
+   // test = "http://204.64.166.10:8080/irc_di_api/api",
 }
 export default baseUrlString

@@ -324,7 +324,7 @@ const Token = accessToken
     style={{ whiteSpace: "nowrap" }}
     className="position-relative"
 >
-    {taskDocumentList.map((rowData, rowIndex) => {
+    {taskDocumentList?.map((rowData, rowIndex) => {
 
         const isExpanded = expandedRows.includes(rowData.id);
 

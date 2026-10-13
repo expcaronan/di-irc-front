@@ -18,8 +18,8 @@ class SignalRService {
         .withAutomaticReconnect()
         .build();
 
-      this.hubConnection.on('SendMessageToClients', (message: string) => {
-        //console.log(message);
+      this.hubConnection.on('SendMessageToClients', (message: any) => {
+        console.log(message);
         this.handleReceivedMessage(message);
       });
 
