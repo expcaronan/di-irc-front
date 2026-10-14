@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import MainLoader from '../../../Common/MainLoader';
 import { taskDocumentAssignedDepartmentBaseModel } from '../../../../Interfaces/BaseModel/taskDocumentAssignedDepartmentBaseModel';
-import { useCreateTaskDocumentStatusMutation, useUpdateTaskDocumentStatusMutation } from '../../../../Api/taskDocumentApi';
+import { useUpdateTaskDocumentStatusMutation } from '../../../../Api/taskDocumentApi';
 import { toast } from 'react-toastify';
 import apiResponse from '../../../../Interfaces/apiResponse';
 
@@ -11,8 +11,9 @@ interface Props {
     closeModal: () => void; 
     taskDocumentStatusId:number,
     employeeId:number,
+    deptId:number
   }
-function TaskHandleApproveModal({ isOpen, closeModal,taskDocumentStatusId,employeeId }: Props) {
+  function TaskHandleApproveModal({ isOpen, closeModal,taskDocumentStatusId,employeeId,deptId }: Props) {
 const [loading, setLoading] =useState(false);
 const navigate = useNavigate();
 const [updateTaskDocumentStatus] = useUpdateTaskDocumentStatusMutation();
@@ -31,22 +32,22 @@ const handleUserInput = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectEleme
     [name]: processedValue
   }));
 };
+  const [taskData, setTaskData] = useState({
+          taskDocumentStatusId:taskDocumentStatusId,
+          taskStatusId:5,
+          employeeId:employeeId,
+          remarks:input.remarks,
+      });
+
 const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) =>{
     e.preventDefault();
     if (loading) return;
     setLoading(true);
     try {
 
-    
-    const response:apiResponse = await updateTaskDocumentStatus({
-
-        taskDocumentStatusId:taskDocumentStatusId,
-        taskStatusId:5,
-        employeeId:employeeId,
-        remarks:input.remarks,
-       
-    });
-     if(response.data?.isSuccess == true){
+    const response = await updateTaskDocumentStatus({deptId: deptId, taskDocumentStatusData: taskData}).unwrap();
+   
+     if(response?.isSuccess == true){
      
         const modal = document.getElementById('exampleModalAddEmp');
         if (modal) {
@@ -59,7 +60,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) =>{
              navigate("/task/document/list");
         }        
         
-        }else if(response.data?.exist == true){
+        }else if(response?.exist == true){
           toast.error('Data already exist!', {
             position: "top-right", 
             autoClose: 5000, 

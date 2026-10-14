@@ -13,9 +13,10 @@ import getLocalStorage from '../../../../Helpers/getLocalStorage';
 import { taskDocumentAssignedDepartmentBaseModel } from '../../../../Interfaces/BaseModel/taskDocumentAssignedDepartmentBaseModel';
  interface props {
         employeeId:number,
-        dropdownListData:taskDocumentDropdown
+        dropdownListData:taskDocumentDropdown,
+        deptId:number,
 }
-function TaskForm({employeeId,dropdownListData}:props) {
+function TaskForm({employeeId,dropdownListData,deptId}:props) {
     //console.log(dropdownListData.offices);
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
@@ -72,9 +73,9 @@ function TaskForm({employeeId,dropdownListData}:props) {
             }
             //console.log(formData);
 
-            const response:apiResponse =  await createDocument(formData) 
+            const response =  await createDocument({deptId:deptId, formData:formData}).unwrap(); 
             
-            if(response.data?.isSuccess == true){
+            if(response?.isSuccess == true){
 
                const data: taskDocumentAssignedDepartmentBaseModel[] = [
                   {
@@ -133,7 +134,7 @@ function TaskForm({employeeId,dropdownListData}:props) {
                 assignedDepartmenIds:[]}); 
                 setFile(null); 
                 navigate("/task/document/list");
-            }else if(response.data?.exist == true){
+            }else if(response?.exist == true){
                 toast.error('Document Already Exist', {
                     position: "top-right", 
                     autoClose: 5000, 

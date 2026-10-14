@@ -15,9 +15,10 @@ interface props{
     taskDocumentList:taskDocumentBaseModel[]
     employeeId:number
     empToken:string
+    deptId:number
 }
 
-function CreateTaskTable({taskDocumentList,employeeId, empToken}:props) {
+function CreateTaskTable({taskDocumentList,employeeId, empToken,deptId}:props) {
     //console.log(taskDocumentList);
     const [isModalOpenA, setIsModalOpenA] = useState(false);
     const [isModalOpenD, setIsModalOpenD] = useState(false);
@@ -243,14 +244,16 @@ const Token = accessToken
             isModalOpenD && taskDocumentStatusId &&
             <> <TaskHandleDisApproveModal 
             isOpen={isModalOpenD} closeModal={closeModal} 
-            taskDocumentStatusId={taskDocumentStatusId} employeeId={employeeId}/>
+            taskDocumentStatusId={taskDocumentStatusId} employeeId={employeeId}
+            deptId={deptId}/>
             </>
         }
          {
             isModalOpenA && taskDocumentStatusId &&
             <> <TaskHandleApproveModal 
             isOpen={isModalOpenA} closeModal={closeModal} 
-            taskDocumentStatusId={taskDocumentStatusId} employeeId={employeeId}/>
+            taskDocumentStatusId={taskDocumentStatusId} employeeId={employeeId}
+            deptId={deptId}/>
             </>
         }
       
@@ -354,7 +357,7 @@ const Token = accessToken
                             ?.taskStatusId === 5 
                             ?""
                             :
-                            "action-normal"
+                            ""
                     }
                 >
                     <td>

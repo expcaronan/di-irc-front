@@ -2,9 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import MainLoader from '../../../Common/MainLoader';
 import { taskDocumentAssignedDepartmentBaseModel } from '../../../../Interfaces/BaseModel/taskDocumentAssignedDepartmentBaseModel';
-import { useCreateTaskDocumentStatusMutation, useUpdateTaskDocumentStatusMutation } from '../../../../Api/taskDocumentApi';
-import { toast } from 'react-toastify';
-import apiResponse from '../../../../Interfaces/apiResponse';
 import formatMonthDayYear from '../../../../Helpers/formatMonthDayYear';
 
 interface Props {

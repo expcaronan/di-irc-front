@@ -4,6 +4,7 @@ class SignalRService {
   private hubConnection: HubConnection | null = null;
   private receiveMessageCallback: ((message: string) => void) | null = null;
   private receiveCountMessageCallback: ((message: string) => void) | null = null;
+  private receiveUpdateMessageCallback: ((message: string) => void) | null = null;
   private totalUsersCallback: ((message: any) => void) | null = null;
   private onConnectedMessageCallback: ((userId: string, myUserName: string) => void) | null = null;
 
@@ -27,6 +28,12 @@ class SignalRService {
         //console.log(message);
         this.handleReceivedMessageCount(message);
       });
+
+       this.hubConnection.on('SendMessageToClientsUpdate', (message: any) => {
+        //console.log(message);
+        this.handleReceivedMessageUpdate(message);
+      });
+
 
 
 
@@ -90,6 +97,12 @@ class SignalRService {
       this.receiveCountMessageCallback(message);
     }
   };
+  private handleReceivedMessageUpdate = (message: string) => {
+    //console.log(`Received message: ${message}`);
+    if (this.receiveUpdateMessageCallback) {
+      this.receiveUpdateMessageCallback(message);
+    }
+  };
 
   onReceiveMessage = (callback: (message: string) => void) => {
     this.receiveMessageCallback = callback;
@@ -97,6 +110,10 @@ class SignalRService {
 
   onReceiveMessageCount = (callback: (message: string) => void) => {
     this.receiveCountMessageCallback = callback;
+  };
+
+   onReceiveMessageUpdate = (callback: (message: string) => void) => {
+    this.receiveUpdateMessageCallback = callback;
   };
 
   

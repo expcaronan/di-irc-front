@@ -27,8 +27,8 @@ const [loading, setLoading] = useState(false);
 useEffect(() => {
   const handleMessage = (message: any) => {
     //console.log(message);
-    if (message?.message === "TaskDocumentStatusIsApprovedCount") {
-         console.log(message);
+    if (message?.message === "TaskDocumentStatusIsApprovedCount" && message?.departmentId == departmentId) {
+         //console.log(message);
         setApprovalCount(p => p + Number(message.taskCount))
         setNoBioCount(p => p + Number(message.bioCount))
          //console.log(Number(message.documentId));

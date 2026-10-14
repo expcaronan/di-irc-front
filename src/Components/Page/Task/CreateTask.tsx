@@ -8,9 +8,10 @@ import signalRService from '../../../Helpers/SignalR/SignalRService';
 interface props{
   employeeId:number
   empToken:string
+  deptId:number
 }
-function CreateTask({employeeId,empToken}:props) {
-  const {data,isLoading, refetch} = useGetAllTaskDocumentsWithAssignedDepartmentCreatedByQuery(employeeId);
+function CreateTask({employeeId,empToken,deptId}:props) {
+  const {data,isLoading, refetch} = useGetAllTaskDocumentsWithAssignedDepartmentCreatedByQuery(deptId);
   const [taskDocumentList, setTaskDocumentList] = useState<taskDocumentBaseModel[]>([]);
 
   useEffect(() => {
@@ -24,7 +25,7 @@ function CreateTask({employeeId,empToken}:props) {
 useEffect(() => {
   const handleMessage = (message: any) => {
     console.log(message);
-    if (message?.message === "TaskDocumentStatusIsApproved") {
+    if (message?.message === "TaskDocumentStatusIsApproved" && message?.departmentId == deptId) {
         refetch()
     }else{
          return;
@@ -50,6 +51,7 @@ if (isLoading) {
         taskDocumentList={taskDocumentList}
         employeeId={employeeId}
         empToken={empToken}
+        deptId={deptId}
       />
     </div>
   )

@@ -160,6 +160,7 @@ const newNotifications = useMemo<notifiedUserBaseModel[]>(() => {
             <DocumentAssignedTable
                 documentList={documentList}
                 employeeId={userDetails.employeeId}
+                deptId={userDetails.departmentId}
             />
         )}
 

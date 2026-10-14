@@ -18,7 +18,7 @@ interface props{
 }
 function DocumentAssignedByQuery({userDetails, notificationList, accessToken}:props) {
 //console.log(userDetails.employeeId);
-const { data, isLoading } = useGetAllTaskDocumentsWithAssignedDepartmentByIdQuery(userDetails.departmentId);
+const { data, isLoading,refetch} = useGetAllTaskDocumentsWithAssignedDepartmentByIdQuery(userDetails.departmentId);
 const [loading, setLoading] = useState(false);
 const [taskDocumentList, setTaskDocumentList] = useState<taskDocumentAssignedDepartmentBaseModel[]>([])
 
@@ -26,27 +26,27 @@ const [taskDocumentList, setTaskDocumentList] = useState<taskDocumentAssignedDep
 useEffect(() => {
   const handleMessage = (message: any) => {
     //console.log(message);
-    if (message?.message === "TaskDocument") {
+    if (message?.message === "TaskDocumentUpdate" && message?.departmentId == userDetails?.departmentId) {
+         refetch();
+    }
+    else
+    if (message?.message === "TaskDocument" && message.departmentId == userDetails?.departmentId) {
         const taskList = message.data as taskDocumentAssignedDepartmentBaseModel;
 
     setTaskDocumentList(previous => [
       taskList,
       ...previous.filter(item => item.id !== taskList.id)
     ]);
-      
-    }else{
-      return;
+    }    
+    else{
+         return;
     }
-    // console.log(message.data);
- 
-
-  signalRService.onReceiveMessage(handleMessage);
-  console.log("signalk"+taskDocumentList);
-  return () => {
-    signalRService.stopConnection();
   };
-  }
-}, []);
+  signalRService.onReceiveMessageUpdate(handleMessage);
+   return () => {
+    //signalRService.stopConnection();
+  };
+}, [refetch]);
 
 useEffect(() =>{
     setLoading(true);
@@ -55,7 +55,6 @@ useEffect(() =>{
     }
     setLoading(false);
 },[data]);
-
 
 
 return (

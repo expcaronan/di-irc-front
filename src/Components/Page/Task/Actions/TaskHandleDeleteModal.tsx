@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import MainLoader from '../../../Common/MainLoader';
-import { taskDocumentAssignedDepartmentBaseModel } from '../../../../Interfaces/BaseModel/taskDocumentAssignedDepartmentBaseModel';
-import { useCreateTaskDocumentStatusMutation, useDeleteTaskDocumentMutation, useUpdateTaskDocumentStatusMutation } from '../../../../Api/taskDocumentApi';
+import {useDeleteTaskDocumentMutation } from '../../../../Api/taskDocumentApi';
 import { toast } from 'react-toastify';
 import apiResponse from '../../../../Interfaces/apiResponse';
 

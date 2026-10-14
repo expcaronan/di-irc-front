@@ -11,25 +11,31 @@ const taskDocumentApi = createApi({
   tagTypes:["taskDocuments"],
   endpoints: (builder) => ({
     createTaskDocument: builder.mutation({
-    query: (formData: FormData) => ({
-        url: "taskdocument/create/formdata",
+    query: ({deptId, formData}:{deptId:number,formData:FormData }) => ({
+        url: `taskdocument/create/formdata/${deptId}`,
         method: "POST",
         body: formData,
     }),
         invalidatesTags:['taskDocuments'],
     }),
 
-    createTaskDocumentStatus: builder.mutation({
-    query: (taskDocumentStatusData:FormData) => ({
-        url: "taskdocumentstatus/create",
+      createTaskDocumentStatus: builder.mutation({
+      query: ({
+        deptId,
+        taskDocumentStatusData,
+      }: {
+        deptId: number;
+        taskDocumentStatusData: FormData;
+      }) => ({
+        url: `taskdocumentstatus/create/${deptId}`,
         method: "POST",
         body: taskDocumentStatusData,
-    }),
-        invalidatesTags:['taskDocuments'],
+      }),
+      invalidatesTags: ["taskDocuments"],
     }),
     updateTaskDocumentStatus: builder.mutation({
-    query: (taskDocumentStatusData) => ({
-        url: "taskdocumentstatus/update/status",
+    query: ({deptId, taskDocumentStatusData}:{deptId:number,taskDocumentStatusData:any }) => ({
+        url: `taskdocumentstatus/update/status/${deptId}`,
         method: "POST",
         body: taskDocumentStatusData,
     }),
@@ -121,7 +127,6 @@ const taskDocumentApi = createApi({
             }),
             providesTags:["taskDocuments"]
     }),
-
 
 
   }),

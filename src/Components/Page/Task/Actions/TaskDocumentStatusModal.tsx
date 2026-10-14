@@ -9,10 +9,12 @@ import apiResponse from '../../../../Interfaces/apiResponse';
 interface Props {
   isOpen: boolean;
   closeModal: () => void;
+  onSuccess: () => void;
   assignedDocument: taskDocumentAssignedDepartmentBaseModel;
   employeeId: number,
+  deptId:number,
 }
-function TaskDocumentStatusModal({ isOpen, closeModal, assignedDocument, employeeId }: Props) {
+function TaskDocumentStatusModal({ isOpen, closeModal, onSuccess, assignedDocument, employeeId, deptId }: Props) {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [createTaskDocumentStatus] = useCreateTaskDocumentStatusMutation();
@@ -53,9 +55,11 @@ function TaskDocumentStatusModal({ isOpen, closeModal, assignedDocument, employe
       formData.append("isActive", input.isActive.toString());
       formData.append("file", file != null ? file : new Blob());
     
-        const response: apiResponse = await createTaskDocumentStatus(formData);
+      const response = await createTaskDocumentStatus({deptId: deptId,taskDocumentStatusData: formData,}).unwrap();
 
-        if (response.data?.isSuccess == true) {
+      console.log(response);
+
+        if (response.isSuccess == true) {
 
           const modal = document.getElementById('exampleModalAddEmp');
           if (modal) {
@@ -63,13 +67,15 @@ function TaskDocumentStatusModal({ isOpen, closeModal, assignedDocument, employe
               position: "top-right",
               autoClose: 5000,
             });
-
-           
-            navigate("/");
+            
+            onSuccess();
             closeModal();
+
+            navigate("/");
+          
           }
 
-        } else if (response.data?.exist == true) {
+        } else if (response.exist == true) {
           toast.error('Data already exist!', {
             position: "top-right",
             autoClose: 5000,

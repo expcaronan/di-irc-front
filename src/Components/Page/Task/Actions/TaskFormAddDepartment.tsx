@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useCreateTaskDocumentMutation, useUpdateTaskDocumentStatusAssingedDeptMutation } from '../../../../Api/taskDocumentApi';
+import {useUpdateTaskDocumentStatusAssingedDeptMutation } from '../../../../Api/taskDocumentApi';
 import apiResponse from '../../../../Interfaces/apiResponse';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -93,7 +93,7 @@ function TaskFormAddDepartment({employeeId,dropdownListData,taskDocumentData}:pr
                 const today = new Date().toISOString().split('T')[0];
                 setInput({ 
                 taskDocumentId:0,
-                documentRefNumber: 0, 
+                documentRefNumber: "", 
                 documentTitle: "", 
                 documentDescription: "", 
                 dateCreated: today, 

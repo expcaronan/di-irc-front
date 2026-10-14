@@ -140,11 +140,10 @@ function Sidebar({roleId,approvalCount,noBioCount}:props) {
                 </a>
           </li>
 
-           <li className="sidebar-item">
+          {roleId != 3 &&
+          <li className="sidebar-item">
                 <a href="#" onClick={() => navigate("/attendance/nobioapproval")} className="nav-link d-flex align-items-center text-truncate ">
                   <span className="sidebar-icon">
-                  
-                
                   </span>
                   <span className="sidebar-text">For NoBio Approvals</span>
                    <span className="badge rounded-pill bg-danger ms-2">
@@ -152,6 +151,8 @@ function Sidebar({roleId,approvalCount,noBioCount}:props) {
                 </span>
                 </a>
           </li>
+          }
+           
     </ul>
 </li> 
 

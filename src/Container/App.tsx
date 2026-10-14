@@ -160,9 +160,9 @@ function App() {
         {/* <div className="page-content-body"> */}
         <Routes>
           <Route path="/employee/list" element={<HomeEmployeeUser/>} />  
-          <Route path="/task/document/list" element={<HomeCreateTask employeeId={employeeId} empToken={storedJsonString ?? ""}/>} /> 
+          <Route path="/task/document/list" element={<HomeCreateTask employeeId={employeeId} empToken={storedJsonString ?? ""} deptId={deptId}/>} /> 
           <Route path="/task/document/approved/list" element={userDetails ? <HomeApprovedDocuments userDetails={userDetails} empToken={storedJsonString ?? ""}/> : null} /> 
-          <Route path="/task/create/form" element={<UserEmpQuery employeeId={employeeId}/>} />
+          <Route path="/task/create/form" element={<UserEmpQuery employeeId={employeeId} deptId={deptId}/>} />
           <Route path="/task/create/assignedDepartment" element={<TaskFormAddDepartmentQuery/>} />   
           <Route path="/task/edit/taskDocument" element={<TaskFormEditDocumentQuery/>} />          
           <Route path="*" element= {<NotFound/>} />

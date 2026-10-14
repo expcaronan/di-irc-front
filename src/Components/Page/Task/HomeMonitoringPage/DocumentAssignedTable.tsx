@@ -10,8 +10,9 @@ import getDocumentWarningColor from '../../../../Helpers/getDocumentWarningColor
 interface props{
     documentList:taskDocumentAssignedDepartmentBaseModel[]
     employeeId:number,
+    deptId:number,
 }
-function DocumentAssignedTable({documentList,employeeId}:props) {
+function DocumentAssignedTable({documentList,employeeId,deptId}:props) {
 //console.log(documentList);
 
  
@@ -162,6 +163,7 @@ const handleViewData = (data: taskDocumentAssignedDepartmentBaseModel) => {
                 assignedDocument={selectedData}
                 employeeId={employeeId}
                 onClose={() => setSelectedFile(null)}
+                deptId={deptId}
             />
         )}
         </div>  

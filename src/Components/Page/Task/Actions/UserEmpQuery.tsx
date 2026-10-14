@@ -6,8 +6,9 @@ import { useGetDeptRrsOfficeDropdownListQuery } from '../../../../Api/taskDocume
 import taskDocumentDropdown from '../../../../Interfaces/taskDocumentDropdown';
 interface props{
     employeeId:number
+    deptId:number
 }
-function UserEmpQuery({employeeId}:props) {
+function UserEmpQuery({employeeId,deptId}:props) {
     const[loading, setLoading] = useState(false);
     const{data, isLoading} = useGetDeptRrsOfficeDropdownListQuery(null);
     const[dropdownListData, setDropdownListData] = useState<taskDocumentDropdown>();
@@ -22,7 +23,7 @@ function UserEmpQuery({employeeId}:props) {
   return (
     <div className='container-fluid pb-5 mb-3'>
         { 
-        !loading && dropdownListData ? <TaskForm employeeId={employeeId} dropdownListData={dropdownListData}/>:<MainLoader/>
+        !loading && dropdownListData ? <TaskForm employeeId={employeeId} dropdownListData={dropdownListData} deptId={deptId}/>:<MainLoader/>
         }
     </div>
   )

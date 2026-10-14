@@ -6,12 +6,13 @@ import { taskDocumentAssignedDepartmentBaseModel } from '../../Interfaces/BaseMo
 import { taskDocumentBaseModel } from '../../Interfaces/BaseModel/taskDocumentBaseModel';
 import TaskDocumentStatusModal from '../../Components/Page/Task/Actions/TaskDocumentStatusModal';
 interface props {
-    filePath: string;
+    filePath: string
     assignedDocument:taskDocumentAssignedDepartmentBaseModel
     employeeId:number
-    onClose: () => void;
+    onClose: () => void
+    deptId:number
 }
-function HomeFileViewerDetails({filePath,assignedDocument,employeeId,onClose}:props) {
+function HomeFileViewerDetails({filePath,assignedDocument,employeeId,onClose, deptId}:props) {
    //console.log(employeeId)
   const normalizedPath = filePath
     .replace(/\\/g, "/")
@@ -48,10 +49,17 @@ console.log(fileUrl);
     const isImage = imageExtensions.includes(extension);
     const isPdf = extension === "pdf";
     const isOffice = officeExtensions.includes(extension);
+    const [isStatusModalOpen, setIsStatusModalOpen] =useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const closeModal = () => {
     setIsModalOpen(false);
   };
+
+const handleStatusSuccess = () => {
+    setIsStatusModalOpen(false); // Close child modal
+    onClose();                   // Close parent modal
+  };
+
   const handleStart = async () => {
     setIsModalOpen(true);
   }
@@ -64,7 +72,13 @@ return (
     }}
 >
 {
-        isModalOpen && <> <TaskDocumentStatusModal isOpen={isModalOpen} closeModal={closeModal} assignedDocument={assignedDocument} employeeId={employeeId}/>
+        isModalOpen && <> <TaskDocumentStatusModal 
+        isOpen={isModalOpen} closeModal={closeModal} 
+        onSuccess={handleStatusSuccess}
+        assignedDocument={assignedDocument} 
+        employeeId={employeeId}
+        deptId={deptId}
+        />
        </>
 }
 
