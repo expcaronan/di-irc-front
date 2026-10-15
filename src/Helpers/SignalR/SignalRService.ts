@@ -13,7 +13,8 @@ class SignalRService {
      
       this.hubConnection = new HubConnectionBuilder()
         
-         .withUrl('https://localhost:44341/hubs/sentMessage',{
+          .withUrl('https://localhost:44341/hubs/sentMessage',{
+        //.withUrl('https://204.64.166.10:8080/hubs/sentMessage',{
           accessTokenFactory: () => token,
          })
         .configureLogging(LogLevel.Debug)

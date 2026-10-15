@@ -9,8 +9,9 @@ interface props{
   employeeId:number
   empToken:string
   deptId:number
+  designationName:string
 }
-function CreateTask({employeeId,empToken,deptId}:props) {
+function CreateTask({employeeId,empToken,deptId,designationName}:props) {
   const {data,isLoading, refetch} = useGetAllTaskDocumentsWithAssignedDepartmentCreatedByQuery(deptId);
   const [taskDocumentList, setTaskDocumentList] = useState<taskDocumentBaseModel[]>([]);
 
@@ -52,6 +53,7 @@ if (isLoading) {
         employeeId={employeeId}
         empToken={empToken}
         deptId={deptId}
+        designationName={designationName}
       />
     </div>
   )

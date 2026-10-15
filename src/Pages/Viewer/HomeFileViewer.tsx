@@ -1,5 +1,6 @@
 import React from 'react'
 import baseUrlString from '../../Api/baseUrlString';
+import DocumentPreview from './DocumentPreview';
 interface props {
     filePath: string;
     onClose: () => void;
@@ -115,15 +116,19 @@ function HomeFileViewer({filePath, onClose}:props) {
 
                         {/* WORD / EXCEL / POWERPOINT */}
                         {isOffice && (
-                            <iframe
-                                src={`https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(fileUrl)}`}
-                                title={fileName}
-                                style={{
-                                    width: "100%",
-                                    height: "100%",
-                                    border: "none"
-                                }}
-                            />
+                            <DocumentPreview
+                                    documentUrl={`${fileUrl}`}
+                                    fileName={fileName}
+                                />
+                            // <iframe
+                            //     src={`https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(fileUrl)}`}
+                            //     title={fileName}
+                            //     style={{
+                            //         width: "100%",
+                            //         height: "100%",
+                            //         border: "none"
+                            //     }}
+                            // />
                         )}
 
 

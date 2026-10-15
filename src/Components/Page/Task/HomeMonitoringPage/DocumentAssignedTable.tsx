@@ -7,6 +7,7 @@ import HomeFileViewerDetails from '../../../../Pages/Viewer/HomeFileViewerDetail
 import { taskDocumentAssignedDepartmentBaseModel } from '../../../../Interfaces/BaseModel/taskDocumentAssignedDepartmentBaseModel';
 import { taskDocumentBaseModel } from '../../../../Interfaces/BaseModel/taskDocumentBaseModel';
 import getDocumentWarningColor from '../../../../Helpers/getDocumentWarningColor';
+import LongTextPopover from '../../../../Pages/LongTextPopover';
 interface props{
     documentList:taskDocumentAssignedDepartmentBaseModel[]
     employeeId:number,
@@ -50,7 +51,7 @@ const handleViewData = (data: taskDocumentAssignedDepartmentBaseModel) => {
             
             </tr>
         </thead>
-         <tbody style={{whiteSpace:'nowrap'}} className='position-relative'>
+         <tbody className='position-relative'>
             {documentList.map((rowData, rowIndex) => (
                 <tr key={rowIndex}
                   className={
@@ -129,9 +130,17 @@ const handleViewData = (data: taskDocumentAssignedDepartmentBaseModel) => {
                       
                     <td>{formatMonthDayYear(rowData?.taskDocument.dateCreated)}</td>
                   
-                    <td style={{ whiteSpace: "wrap" }}>{rowData?.remarks}</td>
+                    <td>
+                         <LongTextPopover
+                            text={rowData?.remarks}
+                            maxWidth="250px"/>
+                    </td>
 
-                    <td style={{ whiteSpace: "wrap" }}>{rowData?.taskDocumentStatus?.find((a) => a.isActive === true)?.taskSupervisorComment?.remarks}</td>
+                    <td>
+                        <LongTextPopover
+                            text={rowData?.taskDocumentStatus?.find((a) => a?.isActive === true)?.taskSupervisorComment?.remarks ?? ''}
+                            maxWidth="250px"/>
+                       </td>
                     <td>
                         {rowData?.taskDocumentStatus?.find((a) => a.isActive === true)?.documentFilePath && (
                             <button

@@ -38,6 +38,7 @@ function App() {
   const[deptId, setDeptId] = useState(0);
   const [getRoleId, setGetRoleId] = useState(0);
   const[employeeId, setEmployeeId]=useState(0);
+  const[designationName, setDesignationName] = useState("");
 
   const[userDetails, setUserDetails]=useState<EmployeeUserModel>();
   const startConnection = async () => {
@@ -51,7 +52,7 @@ function App() {
     }
     
     signalRService.onTotalUsers((userName: any) => {
-      console.log("User connected: ", userName);
+     //console.log("User connected: ", userName);
       if(storedJsonCredentials !== null){
         //localStorage.removeItem("OnlineUser");
       }
@@ -76,6 +77,7 @@ function App() {
         startConnection();
         const storedJsonData= jwtDecode<EmployeeUserModel>(storedJsonString);
         userRoleId = storedJsonData.roleId;
+        setDesignationName(storedJsonData?.designationName);
       setUserDetails({
         employeeId:storedJsonData.employeeId,
         lastName:storedJsonData.lastName,
@@ -160,7 +162,7 @@ function App() {
         {/* <div className="page-content-body"> */}
         <Routes>
           <Route path="/employee/list" element={<HomeEmployeeUser/>} />  
-          <Route path="/task/document/list" element={<HomeCreateTask employeeId={employeeId} empToken={storedJsonString ?? ""} deptId={deptId}/>} /> 
+          <Route path="/task/document/list" element={<HomeCreateTask employeeId={employeeId} empToken={storedJsonString ?? ""} deptId={deptId} designationName={designationName}/>} /> 
           <Route path="/task/document/approved/list" element={userDetails ? <HomeApprovedDocuments userDetails={userDetails} empToken={storedJsonString ?? ""}/> : null} /> 
           <Route path="/task/create/form" element={<UserEmpQuery employeeId={employeeId} deptId={deptId}/>} />
           <Route path="/task/create/assignedDepartment" element={<TaskFormAddDepartmentQuery/>} />   

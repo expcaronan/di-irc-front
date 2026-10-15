@@ -25,12 +25,15 @@ const [taskDocumentList, setTaskDocumentList] = useState<taskDocumentAssignedDep
 
 useEffect(() => {
   const handleMessage = (message: any) => {
-    //console.log(message);
-    if (message?.message === "TaskDocumentUpdate" && message?.departmentId == userDetails?.departmentId) {
+//    console.log(message?.message);
+//    console.log(message?.departmentId);
+//    console.log(userDetails?.departmentId);
+    if (message?.message == "TaskDocumentUpdate") {
+         //console.log(message);
          refetch();
     }
     else
-    if (message?.message === "TaskDocument" && message.departmentId == userDetails?.departmentId) {
+    if (message?.message == "TaskDocument" && message.departmentId == userDetails?.departmentId) {
         const taskList = message.data as taskDocumentAssignedDepartmentBaseModel;
 
     setTaskDocumentList(previous => [

@@ -247,7 +247,7 @@ function TaskForm({employeeId,dropdownListData,deptId}:props) {
            </select>  
 </div>
 
-<div className="mb-3">
+<div className="mb-3" hidden={input.forChiefAction === "true"}>
   
 
   <label

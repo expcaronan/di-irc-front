@@ -186,7 +186,7 @@ const handleUserInput = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectEleme
               <option value="">-=Designation=-</option>
               {dropdownListData.designations?.map((option: designationModel, index: number) => (
               <option key={option.id} value={option.id}>
-                  {option.designationName}
+                  {option.details}
               </option>
               ))}
           </select>

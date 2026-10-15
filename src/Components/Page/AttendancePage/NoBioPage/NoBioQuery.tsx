@@ -41,7 +41,7 @@ function NoBioQuery({empId,deptId}:props) {
         <button onClick={() => handleAddNoBio()}className='btn btn-success'>No Bio Application</button>
         </div>
             {
-               !loading ? <NoBioTable attendanceData={attendanceData}/>:<MainLoader/>
+               !loading ? <NoBioTable attendanceData={attendanceData} deptId={deptId}/>:<MainLoader/>
             }
             {
             isModalOpen && <> <NoBioApplication isOpen={isModalOpen} 

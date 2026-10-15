@@ -7,8 +7,9 @@ import ApplyNobio from './Actions/ApplyNoBio';
 
 interface props{
     attendanceData:AttendanceRecordModel[];
+    deptId:number;
 }
-function NoBioTable({attendanceData}:props) {
+function NoBioTable({attendanceData, deptId}:props) {
     //console.log(attendanceData);
     const [attendance, setAttendance] = useState<AttendanceRecordModel | null>();
     const [isModalOpenUpdate, setIsModalOpenUpdate] = useState(false);
@@ -25,7 +26,11 @@ function NoBioTable({attendanceData}:props) {
   return (
      <div>
          {
-        attendance != null && <> <ApplyNobio isOpen={isModalOpenUpdate} closeModal={closeModal} attendance={attendance}/> </>
+        attendance != null && <> <ApplyNobio 
+        isOpen={isModalOpenUpdate} 
+        closeModal={closeModal} 
+        attendance={attendance}
+        deptId={deptId}/> </>
        
         }
            <div>

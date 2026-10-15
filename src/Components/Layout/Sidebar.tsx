@@ -92,17 +92,17 @@ function Sidebar({roleId,approvalCount,noBioCount}:props) {
         </span>
 
         {/* Text */}
-        <span className="sidebar-text">
+        <span style={{marginRight: "35px !important"}} className="sidebar-text">
             Web Attendance
         </span>
 
         {/* Arrow */}
-        <i
-            className={`bi bi-chevron-down ms-auto ${
+        <i 
+            className={`bi bi-chevron-down  ${
                 attendanceOpen ? "rotate-arrow" : ""
             }`}
             style={{
-                transition: "transform 0.2s ease"
+                transition: "transform 0.2s ease",
             }}
         ></i>
     </button>
@@ -189,12 +189,12 @@ function Sidebar({roleId,approvalCount,noBioCount}:props) {
                 <span className="bi bi-card-list"></span>
               </span>
 
-              <span className="sidebar-text text-nowrap ms-2">
+              <span className="text-nowrap">
                 Documents For Approval
               </span>
 
              
-                <span className="badge rounded-pill bg-danger ms-2">
+                <span className="badge rounded-pill bg-danger">
                   {approvalCount}
                 </span>
              
@@ -227,15 +227,9 @@ function Sidebar({roleId,approvalCount,noBioCount}:props) {
                   <span className="sidebar-text">Employees</span>
                 </a>
               </li>
-
-
-
-
-      
-              
-              
-
-
+</>
+  }
+  
               <li className="nav-item">
                 <a href="#" onClick={() => navigate("/task/document/approved/list")} className="nav-link d-flex align-items-center text-truncate ">
                   <span className="sidebar-icon">
@@ -245,9 +239,6 @@ function Sidebar({roleId,approvalCount,noBioCount}:props) {
                   <span className="sidebar-text">Approved Documents</span>
                 </a>
               </li>
-</>
-
-  }
    
 
        

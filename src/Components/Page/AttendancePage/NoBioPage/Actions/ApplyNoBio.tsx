@@ -10,9 +10,9 @@ interface props {
     isOpen: boolean; 
     closeModal: () => void; 
     attendance:AttendanceRecordModel;
-   
+    deptId:number;
   }
-function ApplyNobio({isOpen,closeModal,attendance}:props) {
+function ApplyNobio({isOpen,closeModal,attendance,deptId}:props) {
     const [loading, setLoading] =useState(false);
     const [applyNoBio] =useEmployeeTimeoutMutation();
       const [input, setInput]  = useState({
@@ -59,7 +59,8 @@ function ApplyNobio({isOpen,closeModal,attendance}:props) {
             timeOut: input.timeOut,
             timeIn:input.timeIn,
             isApprove:false,
-            noBioReason:input.noBioReason
+            noBioReason:input.noBioReason,
+            deptId:deptId
           });
         //console.log(input);
         if(response.data?.isSuccess == true){

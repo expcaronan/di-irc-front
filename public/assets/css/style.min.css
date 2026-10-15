@@ -9489,7 +9489,8 @@ fieldset:disabled .btn {
 }
 
 .ms-auto {
-    margin-left: auto !important
+    /* margin-left: auto !important */
+     margin-left: 35px !important
 }
 
 .p-0 {
@@ -17746,7 +17747,7 @@ hr {
     display: flex;
     flex-direction: column;
     min-height: 100%;
-    padding: 0 1rem !important
+    padding: 0 1rem !important;
 }
 
 .page-sidebar .nav-link[data-bs-toggle=collapse]::after,
@@ -17783,6 +17784,7 @@ hr {
 }
 
 .aside-menu {
+    display: flex !important;
     height: 100%;
     overflow-y: auto
 }
@@ -17807,7 +17809,8 @@ hr {
 }
 
 .sidebar-text {
-    margin-left: .5rem
+    margin-left: .1rem;
+    margin-right: 1rem;
 }
 
 .sidebar-dropdown {

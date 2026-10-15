@@ -6,9 +6,9 @@ import HomeFileViewer from '../../../Pages/Viewer/HomeFileViewer';
 import { taskDocumentAssignedDepartmentBaseModel } from '../../../Interfaces/BaseModel/taskDocumentAssignedDepartmentBaseModel';
 import TaskHandleApproveModal from './Actions/TaskHandleApproveModal';
 import TaskHandleDisApproveModal from './Actions/TaskHandleDisApproveModal';
-
 import './CreateTaskTable.css';
 import TaskHandleDeleteModal from './Actions/TaskHandleDeleteModal';
+import LongTextPopover from '../../../Pages/LongTextPopover';
 
 
 interface props{
@@ -16,9 +16,10 @@ interface props{
     employeeId:number
     empToken:string
     deptId:number
+    designationName:string
 }
 
-function CreateTaskTable({taskDocumentList,employeeId, empToken,deptId}:props) {
+function CreateTaskTable({taskDocumentList,employeeId, empToken,deptId,designationName}:props) {
     //console.log(taskDocumentList);
     const [isModalOpenA, setIsModalOpenA] = useState(false);
     const [isModalOpenD, setIsModalOpenD] = useState(false);
@@ -118,7 +119,6 @@ const subscribeToPush = async () => {
     console.error("Push subscription failed:", error);
   }
 };
-
 const savePushSubscription = async (accessToken: string) => {
 
  
@@ -167,8 +167,6 @@ console.error("Push subscription request failed:", error);
 }
 
 };
-
-
 const testPushNotification = async (accessToken: string) => {
 try {
 
@@ -231,15 +229,13 @@ const Token = accessToken
 
   return (
    <div>
-       {
-        isModalOpenDelete && 
+        {
+            isModalOpenDelete && 
             <> <TaskHandleDeleteModal 
             isOpen={isModalOpenDelete} closeModal={closeModal} 
             taskDocumentId={taskDocumentId} />
             </>
-        
-       }
-      
+        }
         {
             isModalOpenD && taskDocumentStatusId &&
             <> <TaskHandleDisApproveModal 
@@ -248,7 +244,7 @@ const Token = accessToken
             deptId={deptId}/>
             </>
         }
-         {
+        {
             isModalOpenA && taskDocumentStatusId &&
             <> <TaskHandleApproveModal 
             isOpen={isModalOpenA} closeModal={closeModal} 
@@ -256,11 +252,8 @@ const Token = accessToken
             deptId={deptId}/>
             </>
         }
-      
-
         {/* table */}
         <div className="task-container">
-        
                 <div className="d-flex gap-5 mb-3">
                     <div className="col-auto">
                         <button
@@ -297,7 +290,7 @@ const Token = accessToken
                         </button>
                     </div>
                 </div> */}
-                 <div className="d-flex gap-5 mb-3">
+                 {/* <div className="d-flex gap-5 mb-3">
                     <div className="col-auto">
                         <button
                             onClick={() => testPushNotification(empToken)}
@@ -308,7 +301,7 @@ const Token = accessToken
                             Push Notifications
                         </button>
                     </div>
-                </div>
+                </div> */}
         
           <div className="task-page">
               <table id="example" className="table table-striped table-hover">
@@ -323,10 +316,7 @@ const Token = accessToken
                 <th>Created Date</th>
             </tr>
         </thead>
-        <tbody
-    style={{ whiteSpace: "nowrap" }}
-    className="position-relative"
->
+        <tbody className="position-relative">
     {taskDocumentList?.map((rowData, rowIndex) => {
 
         const isExpanded = expandedRows.includes(rowData.id);
@@ -414,14 +404,37 @@ const Token = accessToken
                      
 
 
-                        {
-                            rowData.forChiefAction &&
-                             <a className="btn btn-outline-secondary"
-                            style={{ cursor: "pointer" }}
-                            onClick={() => handleShowModal(rowData)}
+                       {
+                        rowData.forChiefAction && (() => {
+                            const hasHeadOrChief =
+                            /head|chief/i.test(designationName ?? "");
+
+                            return (
+                            <a
+                                className={`btn btn-outline-secondary ${
+                                !hasHeadOrChief ? "disabled" : ""
+                                }`}
+                                style={{
+                                cursor: hasHeadOrChief ? "pointer" : "not-allowed",
+                                opacity: hasHeadOrChief ? 1 : 0.5,
+                                pointerEvents: hasHeadOrChief ? "auto" : "none",
+                                }}
+                                onClick={() => {
+                                if (hasHeadOrChief) {
+                                    handleShowModal(rowData);
+                                }
+                                }}
+                                aria-disabled={!hasHeadOrChief}
+                                title={
+                                hasHeadOrChief
+                                    ? "Take action"
+                                    : "Only a Head or Chief can take action"
+                                }
                             >
-                            <i className="bi bi-exclamation-diamond"></i>
+                                <i className="bi bi-exclamation-diamond"></i>
                             </a>
+                            );
+                        })()
                         }
                        
                     </td>
@@ -570,8 +583,17 @@ const Token = accessToken
                                                             dept.taskDocumentStatus?.find((a) => a.isActive === true)?.taskStatus?.documentStatus  
                                                         }
                                                     </td>
-                                                   <td style={{ whiteSpace: "wrap" }}>
-                                                        {dept.remarks}
+                                                   <td>
+                                                    {/* <button type="button" className="btn btn-secondary" 
+                                                            data-container="body" data-toggle="popover" 
+                                                            data-placement="bottom" 
+                                                            data-content="Vivamus
+                                                            sagittis lacus vel augue laoreet rutrum faucibus.">
+                                                            Popover on bottom
+                                                    </button> */}
+                                                       <LongTextPopover
+                                                        text={dept?.remarks}
+                                                        maxWidth="250px"/>
                                                     </td>
 
                                                     <td>
@@ -582,8 +604,11 @@ const Token = accessToken
                                                     <td>
                                                         {(dept.taskDocumentStatus?.length ?? 0) <= 0
                                                             ? ""
-                                                            : 
-                                                            dept.taskDocumentStatus?.find((a) => a.isActive === true)?.assignedRemarks  
+                                                            :
+                                                             <LongTextPopover
+                                                                text={dept.taskDocumentStatus?.find((a) => a.isActive === true)?.assignedRemarks ?? ''}
+                                                                maxWidth="250px"/> 
+                                                           
                                                         }
                                                     </td>
                                                     <td>
