@@ -23,7 +23,7 @@ function DocumentApprovedTable({documentList,employeeId}:props) {
           <table id="example" className="table table-striped table-hover">
           <thead className="thead-light text-nowrap">
             <tr>
-                <th>Action</th>
+                {/* <th>Action</th> */}
                 <th>Status</th>
                 <th>Due Date</th>
                 <th>Section</th>
@@ -50,18 +50,7 @@ function DocumentApprovedTable({documentList,employeeId}:props) {
                             getDocumentWarningColor(rowData.taskDocument.dueDate)
                         }
                 >
-                    <td>{
-                             rowData.taskDocumentStatus?.find(
-                                    (a) => a.isActive === true
-                                )?.taskStatusId === 5 ? "" :
-                        <a style={{cursor:'pointer'}} 
-                            onClick={() => handleViewData(rowData)}>
-                        <i className="bi bi-pencil-square"></i>
-                        {/* <i className="bi bi-trash"></i> */}
-                        </a> 
-                        }
-                       
-                    </td>
+                    
                     <td
                         style={{
                             backgroundColor:

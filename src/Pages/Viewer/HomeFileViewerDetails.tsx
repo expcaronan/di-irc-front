@@ -5,6 +5,7 @@ import formatMonthDayYear from '../../Helpers/formatMonthDayYear';
 import { taskDocumentAssignedDepartmentBaseModel } from '../../Interfaces/BaseModel/taskDocumentAssignedDepartmentBaseModel';
 import { taskDocumentBaseModel } from '../../Interfaces/BaseModel/taskDocumentBaseModel';
 import TaskDocumentStatusModal from '../../Components/Page/Task/Actions/TaskDocumentStatusModal';
+import DocumentPreview from './DocumentPreview';
 interface props {
     filePath: string
     assignedDocument:taskDocumentAssignedDepartmentBaseModel
@@ -175,16 +176,19 @@ return (
 
                         {/* OFFICE DOCUMENT */}
                         {isOffice && (
-                            <iframe
-                                src={`https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(fileUrl)}`}
-                                title={fileName}
-                                style={{
-                                    width: "100%",
-                                    height: "100%",
-                                    border: "none"
-                                }}
-                                allowFullScreen
-                            />
+                            <DocumentPreview
+                                documentUrl={`${fileUrl}`}
+                                fileName={fileName}/>
+                            // <iframe
+                            //     src={`https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(fileUrl)}`}
+                            //     title={fileName}
+                            //     style={{
+                            //         width: "100%",
+                            //         height: "100%",
+                            //         border: "none"
+                            //     }}
+                            //     allowFullScreen
+                            // />
                         )}
 
 

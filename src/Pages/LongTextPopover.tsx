@@ -73,7 +73,20 @@ export default function LongTextPopover({
             </button>
           </div>
 
-          {text || "-"}
+          {text 
+          || "-"}
+          {
+            text &&
+             <button
+              type="button"
+              className="btn btn-sm btn-outline-danger border-0 w-100 text-center"
+              onClick={() => setIsOpen(false)}
+              aria-label="Close full text"
+            >
+             End
+            </button>
+          }
+         
         </div>
       )}
     </div>

@@ -80,11 +80,16 @@ const taskDocumentApi = createApi({
             providesTags:["taskDocuments"]
     }),
      getAllApprovedTaskDocumentsWithAssignedDepartmentById:builder.query({
-            query: (id:number)=> ({
+            query: ({id,pageNumber, pageSize,searchString,fromDate,toDate})=> ({
                 url:'TaskDocumentStatus/approved/list',
-                  params: {
-                  id:id
-              },
+                params : {
+                ...(id && {id}),
+                ...(pageNumber && { pageNumber }),
+                ...(pageSize && { pageSize }),
+                 ...(searchString && { searchString }),
+                ...(fromDate && { fromDate }),
+                ...(toDate && { toDate })
+              }
             }),
             providesTags:["taskDocuments"]
     }),
