@@ -168,9 +168,9 @@ function App() {
           <Route path="/task/create/assignedDepartment" element={<TaskFormAddDepartmentQuery/>} />   
           <Route path="/task/edit/taskDocument" element={<TaskFormEditDocumentQuery/>} />          
           <Route path="*" element= {<NotFound/>} />
-          <Route
-              path="/" element={userDetails && <HomeMonitoringTask userDetails={userDetails} accessToken={storedJsonString ?? ""} /> }
-          />
+          
+          <Route path="/" element={userDetails?.roleId == 3 && <HomeMonitoringTask userDetails={userDetails} accessToken={storedJsonString ?? ""} /> }/>
+
           <Route path="/user/update" element={<HomeUpdateUser/>} />
           <Route path="/homelogin" element= {<HomeLogin empId={employeeId}/>} />   
           <Route path="/attendance/list" element= {<HomeAttendance empId={employeeId}/>} />  
