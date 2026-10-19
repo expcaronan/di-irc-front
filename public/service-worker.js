@@ -5,16 +5,12 @@ self.addEventListener("install", function () {
 
 self.addEventListener("activate", function (event) {
     console.log("Web Push Service Worker activated.");
-
     event.waitUntil(
         self.clients.claim()
     );
 });
-
 self.addEventListener("push", function (event) {
-
     //console.log("PUSH EVENT RECEIVED");
-
     if (!event.data) {
         return;
     }

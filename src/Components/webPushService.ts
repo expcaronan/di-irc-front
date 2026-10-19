@@ -1,9 +1,9 @@
 import axios from "axios";
 import EmployeeUserModel from "../Interfaces/EmployeeUserModel";
 import { jwtDecode } from "jwt-decode";
+import baseUrlString from "../Api/baseUrlString";
 
-const API_URL = "https://localhost:44341/api";
-
+const API_URL = baseUrlString.test;
 function urlBase64ToArrayBuffer(
     base64String: string
 ): ArrayBuffer {
