@@ -12,9 +12,8 @@ class SignalRService {
     try {
      
       this.hubConnection = new HubConnectionBuilder()
-        
-          .withUrl('https://localhost:44341/hubs/sentMessage',{
-        //.withUrl('http://204.64.166.10:8080/irc_di_api/hubs/sentMessage',{
+       
+        .withUrl('http://204.64.166.10:8080/irc_di_api/hubs/sentMessage',{
           accessTokenFactory: () => token,
          })
         .configureLogging(LogLevel.Debug)

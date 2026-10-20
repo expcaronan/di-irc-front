@@ -151,7 +151,7 @@ function TaskForm({employeeId,dropdownListData,deptId}:props) {
             
                   
         } catch (error) {
-                toast.error('something went wrong catch!', {
+                toast.error('something went wrong catch! '+error,  {
                     position: "top-right", 
                     autoClose: 5000, 
                 });

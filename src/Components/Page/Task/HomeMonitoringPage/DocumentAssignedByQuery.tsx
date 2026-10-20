@@ -54,6 +54,7 @@ useEffect(() => {
 useEffect(() =>{
     setLoading(true);
     if(data && !isLoading){
+        console.log(data);
         setTaskDocumentList(data.result);
     }
     setLoading(false);
@@ -63,7 +64,7 @@ useEffect(() =>{
 return (
     <div>
         {
-            !loading && taskDocumentList ? <DocumentAssignedCompare 
+            !loading ? <DocumentAssignedCompare 
             documentList={taskDocumentList} 
             notificationList={notificationList} 
             userDetails={userDetails}

@@ -36,7 +36,7 @@ function DocumentAssignedCompare({
 
 
   const differenceData = useMemo(() => {
-    return documentList.filter(department => {
+    return documentList?.filter(department => {
 
         // Task has no status yet
         const hasNoStatus =
@@ -45,17 +45,17 @@ function DocumentAssignedCompare({
 
         // Task has an active status and is NOT completed
         const hasIncompleteStatus =
-            department.taskDocumentStatus?.some(status =>
-                status.isActive === true &&
-                status.taskStatusId !== 5
+            department?.taskDocumentStatus?.some(status =>
+                status?.isActive === true &&
+                status?.taskStatusId !== 5
             ) ?? false;
 
         // Already notified?
         const alreadyNotified =
-                notificationList.some(notification =>
-                notification.employeeId == userDetails.employeeId &&
-                notification.taskdocumentId == department.taskDocumentId &&
-                formatDate(notification.dateNotified) == formatDate(new Date().toISOString())
+                notificationList?.some(notification =>
+                notification?.employeeId == userDetails?.employeeId &&
+                notification?.taskdocumentId == department?.taskDocumentId &&
+                formatDate(notification?.dateNotified) == formatDate(new Date().toISOString())
                 
             );
         
@@ -78,14 +78,14 @@ function DocumentAssignedCompare({
 
 const newNotifications = useMemo<notifiedUserBaseModel[]>(() => {
 
-    return differenceData.map(department => ({
+    return differenceData?.map(department => ({
         id: 0,
-        employeeId: userDetails.employeeId,
-        taskdocumentId: department.taskDocumentId,
+        employeeId: userDetails?.employeeId,
+        taskdocumentId: department?.taskDocumentId,
         dateNotified:formatDate(new Date().toISOString())
     }));
 
-}, [differenceData, userDetails.employeeId]);
+}, [differenceData, userDetails?.employeeId]);
 
 
 
@@ -147,7 +147,7 @@ const newNotifications = useMemo<notifiedUserBaseModel[]>(() => {
         <div  className='task-container'>
 
 
-        {isModalOpen && differenceData.length > 0 && (
+        {isModalOpen && differenceData?.length > 0 && (
             <NotificationModal
                 isOpen={isModalOpen}
                 closeModal={closeModal} 
@@ -156,11 +156,11 @@ const newNotifications = useMemo<notifiedUserBaseModel[]>(() => {
             />
         )} 
 
-        {differenceData.length == 0 &&(
+        {differenceData?.length == 0 &&(
             <DocumentAssignedTable
                 documentList={documentList}
-                employeeId={userDetails.employeeId}
-                deptId={userDetails.departmentId}
+                employeeId={userDetails?.employeeId}
+                deptId={userDetails?.departmentId}
             />
         )}
 
