@@ -6,6 +6,7 @@ import taskDocumentApi from "../../Api/taskDocumentApi";
 import notificationApi from "../../Api/notificationApi";
 
 import attendanceApi from "../../Api/attendanceApi";
+import aiApi from "../../Api/aiApi";
 
 
 
@@ -20,6 +21,7 @@ reducer:{
     [taskDocumentApi.reducerPath]:taskDocumentApi.reducer,
     [notificationApi.reducerPath]:notificationApi.reducer,
     [attendanceApi.reducerPath]:attendanceApi.reducer,
+    [aiApi.reducerPath]:aiApi.reducer,
     
 },
 middleware:(getDefaultMiddleware) => getDefaultMiddleware()
@@ -28,6 +30,7 @@ middleware:(getDefaultMiddleware) => getDefaultMiddleware()
 .concat(taskDocumentApi.middleware)
 .concat(notificationApi.middleware)
 .concat(attendanceApi.middleware)
+.concat(aiApi.middleware)
 });
 
 

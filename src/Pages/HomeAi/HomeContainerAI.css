@@ -1,0 +1,52 @@
+.container-ai {
+  max-width: 900px;
+  margin: 30px auto;
+  padding: 20px;
+  font-family: system-ui, sans-serif;
+}
+
+section {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 20px 0;
+}
+
+label {
+  display: block;
+  margin: 14px 0;
+}
+
+input, textarea {
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-top: 6px;
+}
+
+button {
+  padding: 10px 16px;
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: wait;
+}
+
+.result {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  background: #f5f5f5;
+  padding: 15px;
+  border-radius: 6px;
+}
+
+article {
+  border-top: 1px solid #ddd;
+  padding: 12px 0;
+}
+
+.error {
+  color: #b00020;
+}

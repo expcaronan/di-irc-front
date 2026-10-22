@@ -26,6 +26,7 @@ import HomeNoBioApproval from '../Pages/AttendancePages/HomeNobioApproval';
 import HomeCalendar from '../Pages/HomeCalendar';
 import signalRService from '../Helpers/SignalR/SignalRService';
 import HomeApprovedDocuments from '../Pages/Task/HomeApprovedDocuments';
+import HomeContainerAI from '../Pages/HomeAi/HomeContainerAI';
 
 
 function App() {
@@ -178,6 +179,7 @@ function App() {
           <Route path="/attendance/nobioapproval" element= {<HomeNoBioApproval deptId={deptId} empId={employeeId}/>} />
 
           <Route path="/calendar" element= {<HomeCalendar/>} />
+          <Route path="/askAi" element= {<HomeContainerAI/>} />
         </Routes>
         {/* </div> */}
       </main>

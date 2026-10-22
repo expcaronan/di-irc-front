@@ -239,6 +239,16 @@ function Sidebar({roleId,approvalCount,noBioCount}:props) {
                   <span className="sidebar-text">Approved Documents</span>
                 </a>
               </li>
+
+              <li className="nav-item">
+                <a href="#" onClick={() => navigate("/askai")} className="nav-link d-flex align-items-center text-truncate ">
+                  <span className="sidebar-icon">
+                  
+                    <i className="bi bi-chat-left-dots"></i>
+                  </span>
+                  <span className="sidebar-text">ASK AI</span>
+                </a>
+              </li>
    
 
        

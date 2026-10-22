@@ -101,7 +101,6 @@ function HomeFileViewer({filePath, onClose}:props) {
                             <div
                                 className="d-flex justify-content-center align-items-center h-100 p-3"
                             >
-                                 
                                <img
                                     src={fileUrl}
                                     alt={fileName}
