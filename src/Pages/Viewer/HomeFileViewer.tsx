@@ -9,15 +9,15 @@ function HomeFileViewer({filePath, onClose}:props) {
     const normalizedPath = filePath
     .replace(/\\/g, "/")
     .replace(/^\/+/, "");
-
-    const fileUrl = `${baseUrlString.test+"/DocumentViewer"}/${normalizedPath}`;
+    const test = "/DocumentViewer/fileserver/DriveQ/cy2026/";
+    const fileUrl = `${baseUrlString.test+test}${normalizedPath}`;
     // Get filename
     const fileName =
-        filePath.split(/[\\/]/).pop() || "DocumentViewer";
+        filePath.split(/[\\/]/).pop();
 
     // Get extension
     const extension =
-        fileName.split(".").pop()?.toLowerCase() || "";
+        fileName?.split(".").pop()?.toLowerCase() || "";
 
     const imageExtensions = [
         "jpg",
@@ -101,7 +101,8 @@ function HomeFileViewer({filePath, onClose}:props) {
                             <div
                                 className="d-flex justify-content-center align-items-center h-100 p-3"
                             >
-                                <img
+                                 
+                               <img
                                     src={fileUrl}
                                     alt={fileName}
                                     style={{
@@ -109,7 +110,7 @@ function HomeFileViewer({filePath, onClose}:props) {
                                         maxHeight: "100%",
                                         objectFit: "contain"
                                     }}
-                                />
+                                /> 
                             </div>
                         )}
 
@@ -118,7 +119,7 @@ function HomeFileViewer({filePath, onClose}:props) {
                         {isOffice && (
                             <DocumentPreview
                                     documentUrl={`${fileUrl}`}
-                                    fileName={fileName}
+                                    fileName={fileName ?? ""}
                                 />
                             // <iframe
                             //     src={`https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(fileUrl)}`}

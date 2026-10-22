@@ -19,7 +19,8 @@ function HomeFileViewerDetails({filePath,assignedDocument,employeeId,onClose, de
     .replace(/\\/g, "/")
     .replace(/^\/+/, "");
 
-    const fileUrl = `${baseUrlString.test+"/DocumentViewer"}/${normalizedPath}`;
+   const test = "/DocumentViewer/fileserver/DriveQ/cy2026/";
+    const fileUrl = `${baseUrlString.test+test}${normalizedPath}`;
     // Get filename
     const fileName =
         filePath.split(/[\\/]/).pop() || "DocumentViewer";

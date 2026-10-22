@@ -9,7 +9,6 @@ interface props{
   empToken:string
 }
 function DocumentApprovedQuery({userDetails,empToken}:props) {
-
 const [filters, setFilters] = useState({ 
   searchString: "",
   fromDate:"",

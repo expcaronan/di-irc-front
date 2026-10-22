@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { DocViewer } from "anyview";
 import "anyview/styles";
+import MainLoader from "../../Components/Common/MainLoader";
 
 interface DocumentPreviewProps {
     documentUrl: string;
@@ -67,7 +68,7 @@ export default function DocumentPreview({
     }
 
     if (!file) {
-        return <div>Loading document...</div>;
+        return <MainLoader/>;
     }
 
     return (

@@ -10,6 +10,7 @@ import apiResponse from '../Interfaces/apiResponse';
 import { setLoggedInUser } from '../Storage/Slice/userAuthSlice';
 import { jwtDecode } from 'jwt-decode';
 import signalRService from '../Helpers/SignalR/SignalRService';
+import EmployeeUserModel from '../Interfaces/EmployeeUserModel';
 
 interface props{
     onLogin: boolean
@@ -17,26 +18,43 @@ interface props{
 
 
 function Login({onLogin}: props) {
+
+ 
+ const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
+
+  const storedJsonString = localStorage.getItem('Credentials');
+  const hasLocalStorageData = !!localStorage.getItem('Credentials');
+  const[shiftId, setShiftId] = useState(0);
+  const[deptId, setDeptId] = useState(0);
+  const [getRoleId, setGetRoleId] = useState(0);
+  const[employeeId, setEmployeeId]=useState(0);
+  const[designationName, setDesignationName] = useState("");
+
+  const[userDetails, setUserDetails]=useState<EmployeeUserModel>();
+  
+
 const startConnection = async () => {
   try {
-    const storedJsonCredentials = localStorage.getItem('OnlineUser')
+    const storedJsonCredentials = localStorage.getItem('Credentials')
     if(storedJsonCredentials !== null){
       const storedJsonData = JSON.parse(storedJsonCredentials);
-      //setUserName(storedJsonData)
-      //setUserName(storedJsonData)
+
+      await signalRService.startConnection(storedJsonData);
+      //dispatch(setOnlineUser(storedJsonData))
     }
     
     signalRService.onTotalUsers((userName: any) => {
-      console.log("User connected: ", userName);
+     //console.log("User connected: ", userName);
       if(storedJsonCredentials !== null){
-        localStorage.removeItem("OnlineUser");
+        //localStorage.removeItem("OnlineUser");
       }
       //setUserName(userName);
       //  console.log(userName);
       const jsonArray = JSON.stringify(userName);
-      localStorage.setItem("OnlineUser",jsonArray);
-    
-      // dispatch(setOnlineUser(userName))
+      //localStorage.setItem("OnlineUser",jsonArray);
+     
+      //dispatch(setOnlineUser(userName))
 
     });
   } catch (error) {
@@ -45,15 +63,68 @@ const startConnection = async () => {
  
 }
 
- 
-  const hasLocalStorageData = !!localStorage.getItem('Credentials');
-
-  const navigate = useNavigate();
-  useEffect(() => {
-    if(hasLocalStorageData){
-      navigate('/homelogin');
-    }
-  }, []); 
+    useEffect(() => {
+      //console.log(isLoggedIn);
+      var userRoleId =0;
+      if (hasLocalStorageData) {
+        if (storedJsonString !== null) {
+          startConnection();
+          const storedJsonData= jwtDecode<EmployeeUserModel>(storedJsonString);
+          userRoleId = storedJsonData.roleId;
+          setDesignationName(storedJsonData?.designationName);
+        setUserDetails({
+          employeeId:storedJsonData.employeeId,
+          lastName:storedJsonData.lastName,
+          firstName:storedJsonData.firstName,
+          roleName:storedJsonData.roleName,
+          roleId:storedJsonData.roleId,
+          designationName:storedJsonData.designationName,
+          designationId:storedJsonData.designationId,
+          departmentName:storedJsonData.departmentName,
+          departmentId:storedJsonData.departmentId,
+          rankId:storedJsonData.rankId,
+          rankName:storedJsonData.rankName,
+          email:storedJsonData.email,
+          userName:storedJsonData.userName,
+        });
+         // console.log(storedData);
+         // const storedJsonData  = JSON.parse(storedData); 
+        //console.log(storedJsonData);
+         setEmployeeId(storedJsonData.employeeId);
+         //setShiftId(storedJsonData.shiftId);
+         setDeptId(storedJsonData.departmentId);
+         setGetRoleId(storedJsonData.roleId);
+          setIsLoggedIn(true)
+                dispatch(setLoggedInUser({
+                      firstName: storedJsonData.firstName,
+                      lastName: storedJsonData.lastName,
+                      departmentName: storedJsonData.departmentName,
+                      roleName: storedJsonData.roleName,  
+                      userName:storedJsonData.userName,
+                      rankName:storedJsonData.rankName,
+                      designationName: storedJsonData.designationName, // typo preserved if backend sends "postitionName"
+                      employeeId: storedJsonData.employeeId
+               }))
+        
+       
+        } else {
+          setIsLoggedIn(false)
+          
+           if(userRoleId == 3){
+                   navigate("/"); 
+              }else{
+                //console.log("id"+userRoleId)
+                 navigate("/task/document/list");
+            }
+          
+          // navigate("/login");
+        }
+      }else{
+        setIsLoggedIn(false)
+        navigate("/login");
+       
+      }
+    }, [storedJsonString,hasLocalStorageData]); 
  
 
   const [error, setError] = useState("");
@@ -205,7 +276,7 @@ const startConnection = async () => {
                                                     {/* <a href="page-auth-recover-pass.html" className="small">Forget Password?</a> */}
                                                 </div>
                                             </div>
-                                            <button className="w-100 btn btn-lg btn-primary" type="submit">Sign In</button>
+                                            <button disabled={loading} className="w-100 btn btn-lg btn-primary" type="submit">Sign In</button>
                                             <hr className="mt-4 mb-3"/>
                                            
                                             <div className="d-flex align-items-center pb-3">
