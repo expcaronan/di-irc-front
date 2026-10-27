@@ -12,8 +12,10 @@ interface props {
     employeeId:number
     onClose: () => void
     deptId:number
+    taskDocumentId:number
+    documentTitle:string
 }
-function HomeFileViewerDetails({filePath,assignedDocument,employeeId,onClose, deptId}:props) {
+function HomeFileViewerDetails({filePath,assignedDocument,employeeId,onClose, deptId, taskDocumentId,documentTitle}:props) {
    //console.log(employeeId)
   const normalizedPath = filePath
     .replace(/\\/g, "/")
@@ -80,6 +82,9 @@ return (
         assignedDocument={assignedDocument} 
         employeeId={employeeId}
         deptId={deptId}
+        taskdocumentId={taskDocumentId}
+        documentTitle={documentTitle}
+
         />
        </>
 }

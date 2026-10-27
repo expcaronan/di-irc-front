@@ -91,7 +91,7 @@ useEffect(() => {
 useEffect(() =>{
     setLoading(true);
     if(data && !isLoading){
-        //console.log(data);
+        console.log(data);
         setTaskDocumentList(data?.result);
     }
     setLoading(false);

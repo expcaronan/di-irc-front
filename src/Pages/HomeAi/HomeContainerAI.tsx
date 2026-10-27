@@ -1,115 +1,158 @@
 import React, { useState } from 'react';
 import './HomeContainerAI.css';
 import { useCallAskAiMutation } from '../../Api/aiApi';
+import { ChatMessage } from '../../Interfaces/chatModel/ChatMessage';
+import { userModel } from '../../Interfaces/BaseModel/userModel';
+import EmployeeUserModel from '../../Interfaces/EmployeeUserModel';
+interface props{
+  userDetails: EmployeeUserModel
+}
+function HomeContainerAI({userDetails}:props) {
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [input, setInput] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+ const [keyId, setKeyId]= useState(0);
+const [createChatMessage] = useCallAskAiMutation();
+  const sendMessage = async () => {
+    const question = input.trim();
+    setKeyId(prev => prev + 1);
+    if (!question || isLoading) return;
 
-function HomeContainerAI() {
-        const [title, setTitle] = useState("Fictional Library Notice");
-        const [content, setContent] = useState(
-            "The community library opens at 9 AM on Monday. " +
-            "A maintenance inspection is scheduled for Wednesday. " +
-            "The library will remain open during normal business hours."
-        );
-        const [question, setQuestion] = useState(
-            "When is the maintenance inspection?"
-        );
-        const [documentId, setDocumentId] = useState("");
-        const [summary, setSummary] = useState("");
-        const [answer, setAnswer] = useState("");
-        const [sources, setSources] = useState([]);
-        const [error, setError] = useState("");
-        const [busy, setBusy] = useState(false);
+    const userMessage: ChatMessage = {
+      id: userDetails.departmentId,
+      //ole: "user",
+      question: question,
+      //createdAt: new Date(),
+    };
 
-        const [askAi] = useCallAskAiMutation();
+    setMessages((previous) => [...previous, userMessage]);
+    setInput("");
+    setIsLoading(true);
+
+    
+    try {
+      // Connect your ASP.NET Core AI endpoint here.
+      // Replace this placeholder with your actual API call.
+
+      const data = await createChatMessage(userMessage).unwrap();
+
+      if(data){
+        //console.log(data);
+     
+      
+      const assistantMessage: ChatMessage = {
+        id: userDetails.departmentId,
+        question: data.answer,
+      };
+
+      setMessages((previous) => [...previous, assistantMessage]);
+    }
+    } catch (error) {
+      console.error("AI chat error:", error);
+
+      setMessages((previous) => [
+        ...previous,
+        {
+          id: userDetails.departmentId,
+          question:
+            "Sorry, I couldn't process your request. Please try again.",
+         
+        },
+      ]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+
+
+        
   return (
-    <div className="container-ai">
-      <h1>Local AI Document Assistant</h1>
-      <p>Prototype using React, ASP.NET Core and Ollama.</p>
-
-      {error && <p role="alert" className="error">{error}</p>}
-
-      <section>
-        <h2>1. Add a synthetic document</h2>
-
-        <label>
-          Document title
-          <input
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-        </label>
-
-        <label>
-          Document text
-          <textarea
-            rows={6}
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-          />
-        </label>
-
-        <button disabled={busy} 
-        //onClick={() => run(addDocument)}
-        >
-          {busy ? "Processing..." : "Index document"}
-        </button>
-
-        {documentId && (
-          <p>Indexed document ID: {documentId}</p>
-        )}
-      </section>
-
-      <section>
-        <h2>2. Summarize</h2>
+    // <div className="ai-chat-layout">
+    <div className="task-page">
+      <aside className="ai-chat-sidebar">
         <button
-          disabled={busy || !documentId}
-          //onClick={() => run(summarize)}
+          className="new-chat-button"
+          onClick={() => setMessages([])}
         >
-          Generate summary
+          + New chat
         </button>
 
-        {summary && <pre className="result">{summary}</pre>}
-      </section>
+        <div className="sidebar-label">Your AI Assistant</div>
+      </aside>
 
-      <section>
-        <h2>3. Ask the documents</h2>
+      <main className="ai-chat-main">
+        <header className="ai-chat-header">
+          <span>My AI Assistant</span>
+        </header>
 
-        <label>
-          Your question
-          <input
-            value={question}
-            onChange={(e) => setQuestion(e.target.value)}
-          />
-        </label>
+        <section className="ai-chat-content">
+          {messages.length === 0 ? (
+            <div className="ai-chat-welcome">
+              <h1>How can I help you today?</h1>
+              <p>Ask a question to get started.</p>
+            </div>
+          ) : (
+            <div className="ai-chat-messages">
 
-        <button disabled={busy} 
-        //onClick={() => run(askQuestion)}
-        >
-          Search and answer
-        </button>
+              {messages.map((message) => (
+                <div
+                 key={crypto.randomUUID()}
+                  className={`ai-message`}
+                >
+                  <div className="ai-message-role">
+                    {/* {message.role === "user" ? "You" : "AI"} */}
+                  </div>
 
-        {answer && (
-          <>
-            <h3>Answer</h3>
-            <pre className="result">{answer}</pre>
+                  <div className="ai-message-content">
+                    {message.question}
+                  </div>
+                </div>
+              ))}
 
-            <h3>Retrieved sources</h3>
-            {sources.map((source) => (
-              <article 
-              //key={source.citation}
+              {isLoading && (
+                <div className="ai-typing-indicator">
+                  AI is thinking...
+                </div>
+              )}
+            </div>
+          )}
+
+          <div className="ai-chat-input-container">
+            <div className="ai-chat-input-wrapper">
+              <textarea
+                value={input}
+                onChange={(event) => setInput(event.target.value)}
+                onKeyDown={(event) => {
+                  if (
+                    event.key === "Enter" &&
+                    !event.shiftKey &&
+                    !event.nativeEvent.isComposing
+                  ) {
+                    event.preventDefault();
+                    void sendMessage();
+                  }
+                }}
+                placeholder="Ask anything..."
+                rows={1}
+                disabled={isLoading}
+              />
+
+              <button
+                onClick={() => void sendMessage()}
+                disabled={!input.trim() || isLoading}
+                aria-label="Send message"
               >
-                {/* <strong>
-                  [{source.citation}] {source.title}
-                </strong>
-                <p>{source.excerpt}</p>
-                <small>
-                  Chunk {source.chunkIndex}; similarity{" "}
-                  {source.similarity}
-                </small> */}
-              </article>
-            ))}
-          </>
-        )}
-      </section>
+                ↑
+              </button>
+            </div>
+
+            <small>
+              AI-generated responses may not always be accurate.
+            </small>
+          </div>
+        </section>
+      </main>
     </div>
   )
 }

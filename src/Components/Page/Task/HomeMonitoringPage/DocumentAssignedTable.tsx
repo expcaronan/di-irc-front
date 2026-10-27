@@ -173,6 +173,8 @@ const handleViewData = (data: taskDocumentAssignedDepartmentBaseModel) => {
                 employeeId={employeeId}
                 onClose={() => setSelectedFile(null)}
                 deptId={deptId}
+                taskDocumentId={selectedData.taskDocumentId}
+                documentTitle={selectedData?.taskDocument?.documentTitle ?? ""}
             />
         )}
         </div>  

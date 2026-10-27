@@ -11,11 +11,13 @@ import { registrySectionModel } from '../../../../Interfaces/BaseModel/registryS
 import getTestNotifications from '../../../../Helpers/getTestNotifications';
 import getLocalStorage from '../../../../Helpers/getLocalStorage';
 import { taskDocumentAssignedDepartmentBaseModel } from '../../../../Interfaces/BaseModel/taskDocumentAssignedDepartmentBaseModel';
+import MainLoader from '../../../Common/MainLoader';
  interface props {
         employeeId:number,
         dropdownListData:taskDocumentDropdown,
         deptId:number,
 }
+
 function TaskForm({employeeId,dropdownListData,deptId}:props) {
     //console.log(dropdownListData.offices);
     const [loading, setLoading] = useState(false);
@@ -419,10 +421,11 @@ function TaskForm({employeeId,dropdownListData,deptId}:props) {
                     {file && ( <div className="mt-2"> <small className="text-muted"> Selected file: {file.name} </small> </div> )} 
                 </div>
              
-                <button type="submit" className="btn btn-primary w-100">
+                <button type="submit" className="btn btn-primary w-100" disabled={loading}>
                   Submit
                 </button>
               </form>
+              {loading && <MainLoader/>}
         </div>  
     </div>
 

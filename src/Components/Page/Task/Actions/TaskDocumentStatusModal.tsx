@@ -13,8 +13,10 @@ interface Props {
   assignedDocument: taskDocumentAssignedDepartmentBaseModel;
   employeeId: number,
   deptId:number,
+  taskdocumentId:number,
+  documentTitle: string,
 }
-function TaskDocumentStatusModal({ isOpen, closeModal, onSuccess, assignedDocument, employeeId, deptId }: Props) {
+function TaskDocumentStatusModal({ isOpen, closeModal, onSuccess, assignedDocument, employeeId, deptId, taskdocumentId, documentTitle }: Props) {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [createTaskDocumentStatus] = useCreateTaskDocumentStatusMutation();
@@ -27,6 +29,8 @@ function TaskDocumentStatusModal({ isOpen, closeModal, onSuccess, assignedDocume
     employeeId: employeeId,
     taskStatusId: 0,
     isActive: true,
+    taskDocumentId:taskdocumentId,
+    documentTitle: documentTitle,
   });
   const handleUserInput = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -50,9 +54,11 @@ function TaskDocumentStatusModal({ isOpen, closeModal, onSuccess, assignedDocume
       formData.append("taskDocumentAssignedDepartmentId", input.taskDocumentAssignedDepartmentId.toString());
       formData.append("dateUpdate", input.dateUpdate);
       formData.append("assignedRemarks", input.assignedRemarks);
+      formData.append("documentTitle", input.documentTitle);
       formData.append("employeeId", input.employeeId.toString());
       formData.append("taskStatusId", input.taskStatusId.toString());
       formData.append("isActive", input.isActive.toString());
+      formData.append("taskDocumentId", input.taskDocumentId.toString());
       formData.append("file", file != null ? file : new Blob());
     
       const response = await createTaskDocumentStatus({deptId: deptId,taskDocumentStatusData: formData,}).unwrap();

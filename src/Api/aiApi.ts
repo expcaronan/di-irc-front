@@ -11,7 +11,7 @@ const aiApi = createApi({
   endpoints: (builder) => ({
     callAskAi: builder.mutation({
       query: (req) => ({
-        url: "documents/ask",
+        url: `DocumentChatAi`,
         method: "POST",
         headers: {
           "content-type": "application/json",

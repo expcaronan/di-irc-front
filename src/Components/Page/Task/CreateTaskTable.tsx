@@ -77,18 +77,20 @@ function CreateTaskTable({taskDocumentList,employeeId, empToken,deptId,designati
     };
     const [selectedFile, setSelectedFile] = useState<string | null>(null);
     const [taskDocumentStatusId, setTaskDocumentStatusId] = useState(0)
-    const [taskDocumentId, setTaskDocumentId] = useState(0);
-    const handleApproved = ((id:number)=>{
+    const [getTaskDocumentId, setGetTaskDocumentId] = useState(0);
+    const handleApproved = ((id:number, taskDocumentId:number)=>{
          setIsModalOpenA(true);
          setTaskDocumentStatusId(id)
+         setGetTaskDocumentId(taskDocumentId)
     })
-    const handleDisApproved = ((id:number)=>{
+    const handleDisApproved = ((id:number,taskDocumentId:number)=>{
          setIsModalOpenD(true);
          setTaskDocumentStatusId(id)
+         setGetTaskDocumentId(taskDocumentId)
     })
     const handleDelete = ((id:number)=>{
          setIsModalOpenDelete(true);
-         setTaskDocumentId(id)
+         setGetTaskDocumentId(id)
     })
   
 const subscribeToPush = async () => {
@@ -233,7 +235,7 @@ const Token = accessToken
             isModalOpenDelete && 
             <> <TaskHandleDeleteModal 
             isOpen={isModalOpenDelete} closeModal={closeModal} 
-            taskDocumentId={taskDocumentId} />
+            taskDocumentId={getTaskDocumentId} />
             </>
         }
         {
@@ -241,7 +243,9 @@ const Token = accessToken
             <> <TaskHandleDisApproveModal 
             isOpen={isModalOpenD} closeModal={closeModal} 
             taskDocumentStatusId={taskDocumentStatusId} employeeId={employeeId}
-            deptId={deptId}/>
+            deptId={deptId}
+            taskDocumentId={getTaskDocumentId}
+            />
             </>
         }
         {
@@ -249,7 +253,8 @@ const Token = accessToken
             <> <TaskHandleApproveModal 
             isOpen={isModalOpenA} closeModal={closeModal} 
             taskDocumentStatusId={taskDocumentStatusId} employeeId={employeeId}
-            deptId={deptId}/>
+            deptId={deptId}
+            taskDocumentId={getTaskDocumentId}/>
             </>
         }
         {/* table */}
@@ -524,7 +529,7 @@ const Token = accessToken
                                                             className="btn btn-sm btn-outline-primary me-2"
                                                             onClick={() => handleApproved(
                                                                         dept.taskDocumentStatus?.find(
-                                                                        (a) => a.isActive === true)?.id ?? 0)
+                                                                        (a) => a.isActive === true)?.id ?? 0, dept.taskDocumentId)
                                                                     }
                                                         >
                                                         <i className="bi bi-check-circle"></i>
@@ -534,7 +539,7 @@ const Token = accessToken
                                                             className="btn btn-sm btn-outline-danger"
                                                             onClick={() => handleDisApproved(
                                                                         dept.taskDocumentStatus?.find(
-                                                                        (a) => a.isActive === true)?.id ?? 0)
+                                                                        (a) => a.isActive === true)?.id ?? 0,dept.taskDocumentId)
                                                                     }
                                                         >
                                                         <i className="bi bi-x-circle"></i>

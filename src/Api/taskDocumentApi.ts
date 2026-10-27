@@ -20,18 +20,18 @@ const taskDocumentApi = createApi({
     }),
 
       createTaskDocumentStatus: builder.mutation({
-      query: ({
-        deptId,
-        taskDocumentStatusData,
-      }: {
-        deptId: number;
-        taskDocumentStatusData: FormData;
-      }) => ({
-        url: `taskdocumentstatus/create/${deptId}`,
-        method: "POST",
-        body: taskDocumentStatusData,
-      }),
-      invalidatesTags: ["taskDocuments"],
+        query: ({
+          deptId,
+          taskDocumentStatusData,
+        }: {
+          deptId: number;
+          taskDocumentStatusData: FormData;
+        }) => ({
+          url: `taskdocumentstatus/create/${deptId}`,
+          method: "POST",
+          body: taskDocumentStatusData,
+        }),
+        invalidatesTags: ["taskDocuments"],
     }),
     updateTaskDocumentStatus: builder.mutation({
     query: ({deptId, taskDocumentStatusData}:{deptId:number,taskDocumentStatusData:any }) => ({

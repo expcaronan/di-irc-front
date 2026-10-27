@@ -10,16 +10,18 @@ interface Props {
     isOpen: boolean; 
     closeModal: () => void; 
     taskDocumentStatusId:number,
+    taskDocumentId:number,
     employeeId:number,
     deptId:number
   }
-  function TaskHandleApproveModal({ isOpen, closeModal,taskDocumentStatusId,employeeId,deptId }: Props) {
+  function TaskHandleApproveModal({ isOpen, closeModal,taskDocumentStatusId,employeeId,deptId,taskDocumentId }: Props) {
 const [loading, setLoading] =useState(false);
 const navigate = useNavigate();
 const [updateTaskDocumentStatus] = useUpdateTaskDocumentStatusMutation();
 
 const [input, setInput] = useState({
     taskDocumentStatusId:taskDocumentStatusId,
+    taskDocumentId:taskDocumentId,
     taskStatusId:5,
     employeeId:employeeId,
     remarks:""
@@ -32,11 +34,13 @@ const handleUserInput = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectEleme
     [name]: processedValue
   }));
 };
+
   const [taskData, setTaskData] = useState({
           taskDocumentStatusId:taskDocumentStatusId,
           taskStatusId:5,
           employeeId:employeeId,
           remarks:input.remarks,
+          taskDocumentId:taskDocumentId,
       });
 
 const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) =>{

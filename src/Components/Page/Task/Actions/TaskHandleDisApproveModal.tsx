@@ -10,9 +10,10 @@ interface Props {
     closeModal: () => void; 
     taskDocumentStatusId:number,
     employeeId:number,
-    deptId:number
+    deptId:number,
+    taskDocumentId:number
   }
-function TaskHandleDisApproveModal({ isOpen, closeModal,taskDocumentStatusId,employeeId,deptId}: Props) {
+function TaskHandleDisApproveModal({ isOpen, closeModal,taskDocumentStatusId,employeeId,deptId,taskDocumentId}: Props) {
 const [loading, setLoading] =useState(false);
 const navigate = useNavigate();
 const [updateTaskDocumentStatus] = useUpdateTaskDocumentStatusMutation();
@@ -21,7 +22,8 @@ const [input, setInput] = useState({
     taskDocumentStatusId:taskDocumentStatusId,
     taskStatusId:6,
     employeeId:employeeId,
-    remarks:""
+    remarks:"",
+    taskDocumentId:taskDocumentId
 });
 const handleUserInput = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
   const { name, value } = e.target;
@@ -36,6 +38,7 @@ const handleUserInput = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectEleme
               taskStatusId:6,
               employeeId:employeeId,
               remarks:input.remarks,
+              taskDocumentId:taskDocumentId,
           });
 const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) =>{
     e.preventDefault();

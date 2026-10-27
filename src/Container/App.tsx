@@ -179,7 +179,7 @@ function App() {
           <Route path="/attendance/nobioapproval" element= {<HomeNoBioApproval deptId={deptId} empId={employeeId}/>} />
 
           <Route path="/calendar" element= {<HomeCalendar/>} />
-          <Route path="/askAi" element= {<HomeContainerAI/>} />
+          <Route path="/askAi" element= {userDetails ? <HomeContainerAI userDetails={userDetails}/> : null} />
         </Routes>
         {/* </div> */}
       </main>
