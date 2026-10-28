@@ -80,7 +80,7 @@ const handleViewData = (data: taskDocumentAssignedDepartmentBaseModel) => {
                             backgroundColor:
                                 rowData.taskDocumentStatus?.find(
                                     (a) => a.isActive === true
-                                )?.taskStatusId === 3
+                                )?.taskStatusId === 2
                                     ? "yellow"
                                     : rowData.taskDocumentStatus?.find(
                                         (a) => a.isActive === true
@@ -106,7 +106,7 @@ const handleViewData = (data: taskDocumentAssignedDepartmentBaseModel) => {
                         }}
                     >
                         {(rowData.taskDocumentStatus?.length ?? 0) <= 0
-                            ? "Not Yet Started"
+                            ? "Pending"
                             :
                             rowData.taskDocumentStatus?.find((a) => a.isActive === true)?.taskStatus?.documentStatus
                         }

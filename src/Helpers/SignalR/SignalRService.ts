@@ -10,10 +10,10 @@ class SignalRService {
 
   startConnection = async (token:any) => {
     try {
-     
+    
       this.hubConnection = new HubConnectionBuilder()
        
-        .withUrl('http://204.64.166.10:8080/irc_di_api/hubs/sentMessage',{
+        .withUrl('https://ircdi.com/irc_di_api/hubs/sentMessage',{
           accessTokenFactory: () => token,
          })
         .configureLogging(LogLevel.Debug)

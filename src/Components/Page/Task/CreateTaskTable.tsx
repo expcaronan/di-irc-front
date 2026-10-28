@@ -50,6 +50,7 @@ function CreateTaskTable({taskDocumentList,employeeId, empToken,deptId,designati
                 employeeId: employeeId,
             }
         });
+        
         setIsNotClick(false);
     })
       const handleEdit = ((data:taskDocumentBaseModel)=>{
@@ -583,7 +584,7 @@ const Token = accessToken
                                                         }}
                                                         >
                                                         {(dept.taskDocumentStatus?.length ?? 0) <= 0
-                                                            ? "Not Yet Started"
+                                                            ? "Pending"
                                                             : 
                                                             dept.taskDocumentStatus?.find((a) => a.isActive === true)?.taskStatus?.documentStatus  
                                                         }

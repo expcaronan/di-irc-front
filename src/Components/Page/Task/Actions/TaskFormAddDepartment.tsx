@@ -14,7 +14,6 @@ import HomeFileViewer from '../../../../Pages/Viewer/HomeFileViewer';
         employeeId:number,
         dropdownListData:taskDocumentDropdown,
         taskDocumentData: taskDocumentBaseModel,
-       
 }
 function TaskFormAddDepartment({employeeId,dropdownListData,taskDocumentData}:props) {
     //console.log(employeeId);
