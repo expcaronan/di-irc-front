@@ -156,7 +156,7 @@ const handleUserInput = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectEleme
             </div>
             <div className='col'>
                <div className="mb-3">
-         <label htmlFor="recipient-name" className="col-form-label">Select Department</label>
+         <label htmlFor="recipient-name" className="col-form-label">Select Section</label>
             <select
               required
               className="form-group form-select"
@@ -164,7 +164,7 @@ const handleUserInput = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectEleme
               value={input.departmentId}
               onChange={handleUserInput}
               >
-              <option value="">-=Department=-</option>
+              <option value="">-=Section=-</option>
               {dropdownListData.departments?.map((option: departmentModel, index: number) => (
               <option key={option.id} value={option.id}>
                   {option.departmentName}
@@ -209,36 +209,6 @@ const handleUserInput = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectEleme
               ))}
           </select>     
          </div>
-            {/* <label htmlFor="recipient-name" className="col-form-label">Select Role</label>
-            <select
-              required
-              className="form-group form-select"
-              name='roleId'
-              value={input.roleId}
-              onChange={handleUserInput}
-              >
-              <option value="">-=Roles=-</option>
-              {dropdownListData.roles?.map((option: roleModel, index: number) => (
-              <option key={option.id} value={option.id}>
-                  {option.roleName}
-              </option>
-              ))}
-          </select>      */}
-           {/* <label htmlFor="group" className="col-form-label">Select Group</label>
-            <select
-              required
-              className="form-group form-select"
-              name='groupId'
-              value={input.groupId}
-              onChange={handleUserInput}
-              >
-              <option value="">-=Groups=-</option>
-              {dropdownListData.groups?.map((option: groupModel, index: number) => (
-              <option key={option.id} value={option.id}>
-                  {option.groupName}
-              </option>
-              ))}
-          </select>      */}
   <div className="mb-3">
           <label htmlFor="birthDay" className="col-form-label">Birthday</label>
           <input
