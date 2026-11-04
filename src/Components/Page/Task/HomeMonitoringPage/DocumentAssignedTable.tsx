@@ -23,7 +23,7 @@ const [selectedData, setSelectedData] = useState<taskDocumentAssignedDepartmentB
 
 const handleViewData = (data: taskDocumentAssignedDepartmentBaseModel) => {
         setSelectedData(data);
-        setSelectedFile(data?.taskDocument.documentFilePath ?? null)
+        setSelectedFile(data?.taskDocument?.documentFilePath ?? null)
 };
 
 
@@ -52,25 +52,24 @@ const handleViewData = (data: taskDocumentAssignedDepartmentBaseModel) => {
             </tr>
         </thead>
          <tbody className='position-relative'>
-            {documentList.map((rowData, rowIndex) => (
+            {documentList?.filter(rowData => rowData != null).map((rowData, rowIndex) => (
                 <tr key={rowIndex}
                   className={
-                    rowData.taskDocumentStatus?.find(
+                    rowData?.taskDocumentStatus?.find(
                                             (a) => a.isActive === true
                                         )?.taskStatusId == 5
                             ? ""
                             : 
-                            getDocumentWarningColor(rowData.taskDocument.dueDate)
+                            getDocumentWarningColor(rowData?.taskDocument.dueDate)
                         }
                 >
                     <td>{
-                             rowData.taskDocumentStatus?.find(
+                             rowData?.taskDocumentStatus?.find(
                                     (a) => a.isActive === true
                                 )?.taskStatusId === 5 ? "" :
                         <a style={{cursor:'pointer'}} 
                             onClick={() => handleViewData(rowData)}>
                         <i className="bi bi-pencil-square"></i>
-                        {/* <i className="bi bi-trash"></i> */}
                         </a> 
                         }
                        
@@ -78,37 +77,37 @@ const handleViewData = (data: taskDocumentAssignedDepartmentBaseModel) => {
                     <td
                         style={{
                             backgroundColor:
-                                rowData.taskDocumentStatus?.find(
+                                rowData?.taskDocumentStatus?.find(
                                     (a) => a.isActive === true
                                 )?.taskStatusId === 2
                                     ? "yellow"
-                                    : rowData.taskDocumentStatus?.find(
+                                    : rowData?.taskDocumentStatus?.find(
                                         (a) => a.isActive === true
                                     )?.taskStatusId === 1
                                         ? "#FFC107" // Amber
-                                        : rowData.taskDocumentStatus?.find(
+                                        : rowData?.taskDocumentStatus?.find(
                                             (a) => a.isActive === true
                                         )?.taskStatusId === 4
                                             ? "#B19CD9"
-                                            : rowData.taskDocumentStatus?.find(
+                                            : rowData?.taskDocumentStatus?.find(
                                                 (a) => a.isActive === true
                                             )?.taskStatusId === 5
                                                 ? "lightgreen"
-                                                : rowData.taskDocumentStatus?.find(
+                                                : rowData?.taskDocumentStatus?.find(
                                                     (a) => a.isActive === true
                                                 )?.taskStatusId === 7
                                                     ? "green"
-                                                    : rowData.taskDocumentStatus?.find(
+                                                    : rowData?.taskDocumentStatus?.find(
                                                         (a) => a.isActive === true
                                                     )?.taskStatusId === 6
                                                         ? "#FF474C"
                                                         : "orange",
                         }}
                     >
-                        {(rowData.taskDocumentStatus?.length ?? 0) <= 0
+                        {(rowData?.taskDocumentStatus?.length ?? 0) <= 0
                             ? "Pending"
                             :
-                            rowData.taskDocumentStatus?.find((a) => a.isActive === true)?.taskStatus?.documentStatus
+                            rowData?.taskDocumentStatus?.find((a) => a.isActive === true)?.taskStatus?.documentStatus
                         }
                     </td>
                     <td>{formatMonthDayYear(rowData?.taskDocument.dueDate)}</td>

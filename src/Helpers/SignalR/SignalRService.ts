@@ -13,7 +13,7 @@ class SignalRService {
     
       this.hubConnection = new HubConnectionBuilder()
        
-        .withUrl('https://ircdi.com/irc_di_api/hubs/sentMessage',{
+        .withUrl('https://svr.burncar.local/irc_di_api/hubs/sentMessage',{
           accessTokenFactory: () => token,
          })
         .configureLogging(LogLevel.Debug)

@@ -29,8 +29,8 @@ useEffect(() => {
     //console.log(message);
     if (message?.message == "TaskDocumentStatusIsApprovedCount" && message?.departmentId == departmentId) {
          //console.log(message);
-        setApprovalCount(p => p + Number(message.taskCount))
-        setNoBioCount(p => p + Number(message.bioCount))
+        setApprovalCount(p => p + Number(message?.taskCount))
+        setNoBioCount(p => p + Number(message?.bioCount))
          //console.log(Number(message.documentId));
     }else{
          return;
@@ -45,8 +45,8 @@ useEffect(() => {
 useEffect(() => {
     if (!isLoading && data) {
       //console.log(data.result);
-        setApprovalCount(data.result.approvalCount);
-        setNoBioCount(data.result.noBioCount);
+        setApprovalCount(data?.result?.approvalCount);
+        setNoBioCount(data?.result?.noBioCount);
     }
 }, [data, isLoading]);
 

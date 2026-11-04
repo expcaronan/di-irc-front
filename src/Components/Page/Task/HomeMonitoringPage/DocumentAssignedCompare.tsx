@@ -34,44 +34,48 @@ function DocumentAssignedCompare({
         setIsModalOpen(false);
     };
 
+console.log(documentList);
 
-  const differenceData = useMemo(() => {
+const differenceData = useMemo(() => {
+
     return documentList?.filter(department => {
 
+
+        // Skip undefined or null entries
+        if (!department) return false;
+
+        const taskStatus = department.taskDocumentStatus ?? [];
+
         // Task has no status yet
-        const hasNoStatus =
-            department.taskDocumentStatus === null ||
-            department.taskDocumentStatus.length === 0;
+        const hasNoStatus = taskStatus.length === 0;
 
         // Task has an active status and is NOT completed
-        const hasIncompleteStatus =
-            department?.taskDocumentStatus?.some(status =>
-                status?.isActive === true &&
-                status?.taskStatusId !== 5
-            ) ?? false;
+        const hasIncompleteStatus = taskStatus.some(status =>
+            status?.isActive === true &&
+            status?.taskStatusId !== 5
+        );
 
         // Already notified?
         const alreadyNotified =
-                notificationList?.some(notification =>
+            notificationList?.some(notification =>
                 notification?.employeeId == userDetails?.employeeId &&
-                notification?.taskdocumentId == department?.taskDocumentId &&
-                formatDate(notification?.dateNotified) == formatDate(new Date().toISOString())
-                
-            );
-        
-            //console.log(department.taskDocumentId+" "+employeeId);
-           // console.log(alreadyNotified);
+                notification?.taskdocumentId == department.taskDocumentId &&
+                formatDate(notification?.dateNotified) ===
+                formatDate(new Date().toISOString())
+            ) ?? false;
+
         // Show only if incomplete AND not notified
         return (
             (hasNoStatus || hasIncompleteStatus) &&
             !alreadyNotified
         );
-    });
+    }) ?? [];
 }, [
     documentList,
     notificationList,
-    userDetails.employeeId
+    userDetails?.employeeId
 ]);
+
 
 //console.log(difference);
 //console.log(notificationList);

@@ -10,7 +10,9 @@ interface props{
 }
 function UserEmpQuery({employeeId,deptId}:props) {
     const[loading, setLoading] = useState(false);
+
     const{data, isLoading} = useGetDeptRrsOfficeDropdownListQuery(null);
+    
     const[dropdownListData, setDropdownListData] = useState<taskDocumentDropdown>();
     useEffect(() =>{
 

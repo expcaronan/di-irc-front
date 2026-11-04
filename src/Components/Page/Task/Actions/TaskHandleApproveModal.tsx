@@ -148,7 +148,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) =>{
                 </div>
                 </div>
                  <h4 className="text-primary">
-                      Do you want to approve this task?
+                      Are you sure you want to approve this task?
                  </h4>
                    
                 </div>

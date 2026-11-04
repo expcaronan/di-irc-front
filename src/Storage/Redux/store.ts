@@ -7,6 +7,7 @@ import notificationApi from "../../Api/notificationApi";
 
 import attendanceApi from "../../Api/attendanceApi";
 import aiApi from "../../Api/aiApi";
+import leaveApplicationApi from "../../Api/leaveApplicationApi";
 
 
 
@@ -22,6 +23,7 @@ reducer:{
     [notificationApi.reducerPath]:notificationApi.reducer,
     [attendanceApi.reducerPath]:attendanceApi.reducer,
     [aiApi.reducerPath]:aiApi.reducer,
+    [leaveApplicationApi.reducerPath]:leaveApplicationApi.reducer
     
 },
 middleware:(getDefaultMiddleware) => getDefaultMiddleware()
@@ -31,6 +33,7 @@ middleware:(getDefaultMiddleware) => getDefaultMiddleware()
 .concat(notificationApi.middleware)
 .concat(attendanceApi.middleware)
 .concat(aiApi.middleware)
+.concat(leaveApplicationApi.middleware)
 });
 
 

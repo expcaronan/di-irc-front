@@ -67,8 +67,8 @@ useEffect(() => {
          refetch();
     }
     else
-    if (message?.message == "TaskDocument" && message.departmentId == userDetails?.departmentId) {
-        const taskList = message.data as taskDocumentAssignedDepartmentBaseModel;
+    if (message?.message == "TaskDocument" && message?.departmentId == userDetails?.departmentId) {
+        const taskList = message?.data as taskDocumentAssignedDepartmentBaseModel;
 
     if(taskDocumentList != null){
         setTaskDocumentList(previous => [
@@ -91,7 +91,7 @@ useEffect(() => {
 useEffect(() =>{
     setLoading(true);
     if(data && !isLoading){
-        console.log(data);
+        //console.log(data);
         setTaskDocumentList(data?.result);
     }
     setLoading(false);

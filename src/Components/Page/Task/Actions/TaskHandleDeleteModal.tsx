@@ -111,7 +111,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) =>{
 
                  
                 </div>
-                <h4 className="text-warning"> Do you want to delete this document? </h4> 
+                <h4 className="text-warning"> Are you sure you want to delete this task? </h4> 
                 <p className="text-muted mb-0"> Deleting this document will permanently remove it from the system. This action cannot be undone. </p> 
                 <p className="text-danger mt-2 mb-0"> Please make sure you no longer need this document before continuing. </p>
                    

@@ -1,7 +1,9 @@
+import baseUrlString from "../Api/baseUrlString";
 import { taskDocumentAssignedDepartmentBaseModel } from "../Interfaces/BaseModel/taskDocumentAssignedDepartmentBaseModel";
 
 const getTestNotifications = async (accessToken: string, departmentId:number,differenceData: taskDocumentAssignedDepartmentBaseModel[]) => {
 try {
+const API_URL = baseUrlString.test;
 const Token = accessToken
     ? JSON.parse(accessToken).replace(/^"|"$/g, "")
     : null;
@@ -10,12 +12,11 @@ const Token = accessToken
         alert("JWT token not found in stored login data.");
         return;
     }
-
     // Use the employee ID belonging to the subscribed employee.
     //const employeeId = 8;
-
+    
     const response = await fetch(
-        `https://localhost:44341/api/PushSubscription/test/${departmentId}`,
+        `${API_URL}/PushSubscription/test/${departmentId}`,
         {
             method: "POST",
             headers: {

@@ -124,8 +124,7 @@ function Sidebar({roleId,approvalCount,noBioCount}:props) {
         <li className="sidebar-item">
                 <a href="#" onClick={() => navigate("/attendance/list")} className="nav-link d-flex align-items-center text-truncate ">
                   <span className="sidebar-icon">
-                  
-                
+                                  
                   </span>
                   <span className="sidebar-text">Attendance List</span>
                 </a>
@@ -164,11 +163,11 @@ function Sidebar({roleId,approvalCount,noBioCount}:props) {
               }
                <>
                  <li className="nav-item">
-                <a href="#" onClick={() => navigate("/leaveapplication")} className="nav-link d-flex align-items-center text-truncate ">
+                <a href="#" onClick={() => navigate("/leavestatus/list")} className="nav-link d-flex align-items-center text-truncate ">
                   <span className="sidebar-icon">
                   <span className="bi bi-check2-square"></span>
                   </span>
-                  <span className="sidebar-text">Leave Application</span>
+                  <span className="sidebar-text">Leave Applications</span>
                  
                 </a>
               </li>

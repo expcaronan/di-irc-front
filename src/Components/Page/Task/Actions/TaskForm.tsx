@@ -111,12 +111,13 @@ function TaskForm({employeeId,dropdownListData,deptId}:props) {
                   
               ];
 
-                getTestNotifications(getLocalStorage() ?? "", input.assignedDepartmenIds[0] , data );
-
+               
                 toast.success('Task Document Created Successfully!', {
                     position: "top-right", 
                     autoClose: 5000, 
                 });
+                
+                getTestNotifications(getLocalStorage() ?? "", input.assignedDepartmenIds[0] , data );
 
 
                 const today = new Date().toISOString().split('T')[0];
@@ -152,11 +153,22 @@ function TaskForm({employeeId,dropdownListData,deptId}:props) {
 
             
                   
-        } catch (error) {
-                toast.error('something went wrong catch! '+error,  {
-                    position: "top-right", 
-                    autoClose: 5000, 
-                });
+        } catch (error: any) {
+            console.error("Create Document Error:", error);
+
+            if (error?.data) {
+                console.error("Backend Error Response:", error.data);
+                toast.error(
+                    error.data.errorMessages?.join(", ") ||
+                    error.data.title ||
+                    "Server error occurred."
+                );
+            } else if (error?.status) {
+                console.error("HTTP Status:", error.status);
+                toast.error(`Request failed: ${error.status}`);
+            } else {
+                toast.error(error?.message || "An unexpected error occurred.");
+            }
         } finally
         {
             
