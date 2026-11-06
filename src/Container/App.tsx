@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import { setLoggedInUser } from '../Storage/Slice/userAuthSlice';
+import {setToken} from '../Storage/Slice/authTokenSlice';
 import Home from '../Components/Layout/Home';
 import Footer from '../Components/Layout/Footer';
 import HeaderNew from '../Components/Layout/HeaderNew';
@@ -77,10 +78,11 @@ function App() {
     if (hasLocalStorageData) {
       if (storedJsonString !== null) {
         startConnection();
+        dispatch(setToken(storedJsonString));
         const storedJsonData= jwtDecode<EmployeeUserModel>(storedJsonString);
         userRoleId = storedJsonData.roleId;
         setDesignationName(storedJsonData?.designationName);
-      setUserDetails({
+        setUserDetails({
         employeeId:storedJsonData.employeeId,
         lastName:storedJsonData.lastName,
         firstName:storedJsonData.firstName,

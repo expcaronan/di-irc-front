@@ -106,7 +106,8 @@ function TaskForm({employeeId,dropdownListData,deptId}:props) {
                        taskDocumentAssignedDepartment:[] ,
                        taskDocumentStatus:null,
                        taskSupervisorComment: null,
-                       isActive: true
+                       isActive: true,
+                       dueDate: input.dueDate,
                   },
                   
               ];
@@ -117,7 +118,7 @@ function TaskForm({employeeId,dropdownListData,deptId}:props) {
                     autoClose: 5000, 
                 });
                 
-                getTestNotifications(getLocalStorage() ?? "", input.assignedDepartmenIds[0] , data );
+                // getTestNotifications(getLocalStorage() ?? "", input.assignedDepartmenIds[0] , data );
 
 
                 const today = new Date().toISOString().split('T')[0];

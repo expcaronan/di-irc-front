@@ -1,14 +1,24 @@
 
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import baseUrlString from "./baseUrlString";
+import { RootState } from "../Storage/Redux/store";
 const taskDocumentApi = createApi({
   reducerPath: "taskDocumentApi",
   baseQuery: fetchBaseQuery({
 
-  baseUrl : baseUrlString.test 
+  baseUrl : baseUrlString.test,
+   prepareHeaders: (headers, { getState }) => {
+          const token = (getState() as RootState).authTokenStore.token;
+            if (token) {
+                headers.set('Authorization', `Bearer ${token}`);
+            }
+            return headers;
+        }, 
   }),
+
   tagTypes:["taskDocuments"],
   endpoints: (builder) => ({
+
     createTaskDocument: builder.mutation({
     query: ({deptId, formData}:{deptId:number,formData:FormData }) => ({
         url: `taskdocument/create/formdata/${deptId}`,
@@ -17,6 +27,7 @@ const taskDocumentApi = createApi({
     }),
         invalidatesTags:['taskDocuments'],
     }),
+
       createTaskDocumentStatus: builder.mutation({
         query: ({
           deptId,

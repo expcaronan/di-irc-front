@@ -203,7 +203,15 @@ function Sidebar({roleId,approvalCount,noBioCount}:props) {
 
        }
 
-            
+              <li className="nav-item">
+                <a href="#" onClick={() => navigate("/task/document/approved/list")} className="nav-link d-flex align-items-center text-truncate ">
+                  <span className="sidebar-icon">
+                  
+                    <span className="bi bi-card-list"></span>
+                  </span>
+                  <span className="sidebar-text">Approved Documents</span>
+                </a>
+              </li>
               
             {
                 roleId  == 1 &&<>
@@ -229,15 +237,21 @@ function Sidebar({roleId,approvalCount,noBioCount}:props) {
 </>
   }
   
-              <li className="nav-item">
-                <a href="#" onClick={() => navigate("/task/document/approved/list")} className="nav-link d-flex align-items-center text-truncate ">
-                  <span className="sidebar-icon">
-                  
-                    <span className="bi bi-card-list"></span>
+            
+
+               <li className="nav-item">
+                <a
+                    href="http://204.64.166.253:80/irc_di_api/api/user/download-agent"
+                   className="nav-link d-flex align-items-center text-truncate "
+                >
+                   <span className="sidebar-icon">
+                  <i className="bi bi-download"></i>
                   </span>
-                  <span className="sidebar-text">Approved Documents</span>
+                     <span className="sidebar-text"> Download Notification Agent</span>
+                  
                 </a>
               </li>
+
 
               <li className="nav-item">
                 <a href="#" onClick={() => navigate("/askai")} className="nav-link d-flex align-items-center text-truncate ">

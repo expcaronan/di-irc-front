@@ -6,13 +6,17 @@ export const emptyUserState : EmployeeUserModel ={
     employeeId: 0,
     lastName: "",
     firstName: "",
-    roleName:"",
-    departmentName:"",
-    designationName:"",
-    rankName:"",
-    userName:"",
-    email:"",
-  }
+    roleName: "",
+    departmentName: "",
+    designationName: "",
+    rankName: "",
+    userName: "",
+    email: "",
+    roleId: 0,
+    departmentId: 0,
+    designationId: 0,
+    rankId: 0
+}
 
 
 export const userAuthSlice = createSlice({
@@ -29,6 +33,10 @@ export const userAuthSlice = createSlice({
             state.rankName = action.payload.rankName;
             state.userName = action.payload.userName;
             state.email = action.payload.email;
+            state.roleId = action.payload.roleId;
+            state.departmentId = action.payload.departmentId;
+            state.designationId = action.payload.designationId;
+            state.rankId = action.payload.rankId;
         },
     },
 });

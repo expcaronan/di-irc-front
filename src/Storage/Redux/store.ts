@@ -8,6 +8,7 @@ import notificationApi from "../../Api/notificationApi";
 import attendanceApi from "../../Api/attendanceApi";
 import aiApi from "../../Api/aiApi";
 import leaveApplicationApi from "../../Api/leaveApplicationApi";
+import { authTokenReducer } from "../Slice/authTokenSlice";
 
 
 
@@ -16,6 +17,7 @@ const store = configureStore({
 reducer:{
     
     userAuthStore: userAuthReducer,
+    authTokenStore: authTokenReducer,
     
     [authApi.reducerPath]: authApi.reducer,
     [userEmpApi.reducerPath]:userEmpApi.reducer,
