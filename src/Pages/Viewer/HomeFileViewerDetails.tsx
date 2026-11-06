@@ -16,7 +16,7 @@ interface props {
     documentTitle:string
 }
 function HomeFileViewerDetails({filePath,assignedDocument,employeeId,onClose, deptId, taskDocumentId,documentTitle}:props) {
-   //console.log(employeeId)
+//console.log(assignedDocument)
   const normalizedPath = filePath
     .replace(/\\/g, "/")
     .replace(/^\/+/, "");
@@ -26,7 +26,7 @@ function HomeFileViewerDetails({filePath,assignedDocument,employeeId,onClose, de
     // Get filename
     const fileName =
         filePath.split(/[\\/]/).pop() || "DocumentViewer";
-console.log(fileUrl);
+    //console.log(fileUrl);
     // Get extension
     const extension =
         fileName.split(".").pop()?.toLowerCase() || "";

@@ -13,8 +13,10 @@ interface Props {
     taskDocumentId:number,
     employeeId:number,
     deptId:number
+    documentRefNumber:string,
+    dueDate:string
   }
-  function TaskHandleApproveModal({ isOpen, closeModal,taskDocumentStatusId,employeeId,deptId,taskDocumentId }: Props) {
+  function TaskHandleApproveModal({ isOpen, closeModal,taskDocumentStatusId,employeeId,deptId,taskDocumentId,documentRefNumber,dueDate }: Props) {
 const [loading, setLoading] =useState(false);
 const navigate = useNavigate();
 const [updateTaskDocumentStatus] = useUpdateTaskDocumentStatusMutation();
@@ -24,7 +26,10 @@ const [input, setInput] = useState({
     taskDocumentId:taskDocumentId,
     taskStatusId:5,
     employeeId:employeeId,
-    remarks:""
+    remarks:"",
+    documentRefNumber:documentRefNumber,
+    dueDate:dueDate,
+
 });
 const handleUserInput = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
   const { name, value } = e.target;
@@ -35,13 +40,7 @@ const handleUserInput = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectEleme
   }));
 };
 
-  const [taskData, setTaskData] = useState({
-          taskDocumentStatusId:taskDocumentStatusId,
-          taskStatusId:5,
-          employeeId:employeeId,
-          remarks:input.remarks,
-          taskDocumentId:taskDocumentId,
-      });
+
 
 const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) =>{
     e.preventDefault();
@@ -49,7 +48,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) =>{
     setLoading(true);
     try {
 
-    const response = await updateTaskDocumentStatus({deptId: deptId, taskDocumentStatusData: taskData}).unwrap();
+    const response = await updateTaskDocumentStatus({deptId: deptId, taskDocumentStatusData: input}).unwrap();
    
      if(response?.isSuccess == true){
      

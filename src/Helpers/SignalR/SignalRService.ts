@@ -1,5 +1,7 @@
 import { HubConnection, HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
+import baseUrlString from '../../Api/baseUrlString';
 
+const signalUrl:string = baseUrlString.buildSignal;
 class SignalRService {
   private hubConnection: HubConnection | null = null;
   private receiveMessageCallback: ((message: string) => void) | null = null;
@@ -8,12 +10,14 @@ class SignalRService {
   private totalUsersCallback: ((message: any) => void) | null = null;
   private onConnectedMessageCallback: ((userId: string, myUserName: string) => void) | null = null;
 
+ 
+
   startConnection = async (token:any) => {
+   
     try {
-    
       this.hubConnection = new HubConnectionBuilder()
        
-        .withUrl('https://svr.burncar.local/irc_di_api/hubs/sentMessage',{
+        .withUrl(signalUrl,{
           accessTokenFactory: () => token,
          })
         .configureLogging(LogLevel.Debug)

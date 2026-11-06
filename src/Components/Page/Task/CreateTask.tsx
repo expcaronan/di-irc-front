@@ -25,8 +25,8 @@ function CreateTask({employeeId,empToken,deptId,designationName}:props) {
 
 useEffect(() => {
   const handleMessage = (message: any) => {
-    console.log(message);
-    if (message?.message === "TaskDocumentStatusIsApproved" && message?.departmentId == deptId) {
+    //console.log(message);
+    if (message?.message === "TaskDocumentStatusIsApproved" && message?.empRoleId <= 2) {
         refetch()
     }else{
          return;

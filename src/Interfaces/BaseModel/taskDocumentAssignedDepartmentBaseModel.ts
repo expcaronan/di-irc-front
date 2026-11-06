@@ -12,6 +12,7 @@ export interface taskDocumentAssignedDepartmentBaseModel {
   taskDocumentId: number;
   taskDocument:taskDocumentBaseModel;
   assignedDate: string;
+  dueDate: string;
   remarks: string;
   taskDocumentAssignedDepartment?: taskDocumentAssignedDepartmentBaseModel[] | null;
   taskDocumentStatus:taskDocumentStatusBaseModel[] | null;

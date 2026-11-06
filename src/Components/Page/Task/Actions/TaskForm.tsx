@@ -223,7 +223,7 @@ function TaskForm({employeeId,dropdownListData,deptId}:props) {
                   />
                 </div>
         
-                <div className="mb-3">
+                {/* <div className="mb-3">
                   <label className="form-label">Document Description</label>
                   <input
                     type="documentDescription"
@@ -233,7 +233,7 @@ function TaskForm({employeeId,dropdownListData,deptId}:props) {
                     onChange={handleUserInput}
                     required
                   />
-                </div>
+                </div> */}
                 <div className="mb-3">
                   <label htmlFor="birthDay" className="col-form-label">Due Date</label>
                   <input

@@ -36,7 +36,8 @@ function HomeMonitoringTask({userDetails,accessToken}:props) {
   return (
     <div>
       
-       <EnablePushNotifications/>
+       {/* <EnablePushNotifications/> */}
+
         <DocumentAssignedByQuery userDetails={userDetails}
                                   notificationList={notificationList}
                                    accessToken={accessToken}/>

@@ -16,6 +16,7 @@ interface Props {
   taskdocumentId:number,
   documentTitle: string,
 }
+
 function TaskDocumentStatusModal({ isOpen, closeModal, onSuccess, assignedDocument, employeeId, deptId, taskdocumentId, documentTitle }: Props) {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -31,6 +32,7 @@ function TaskDocumentStatusModal({ isOpen, closeModal, onSuccess, assignedDocume
     isActive: true,
     taskDocumentId:taskdocumentId,
     documentTitle: documentTitle,
+    dueDate: assignedDocument.taskDocument?.dueDate ?? new Date().toISOString(),
   });
   const handleUserInput = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -49,10 +51,11 @@ function TaskDocumentStatusModal({ isOpen, closeModal, onSuccess, assignedDocume
     if (loading) return;
       setLoading(true);
     try {
-      console.log("Selected file:", file);
+      
       const formData = new FormData();
       formData.append("taskDocumentAssignedDepartmentId", input.taskDocumentAssignedDepartmentId.toString());
       formData.append("dateUpdate", input.dateUpdate);
+      formData.append("dueDate", input.dueDate);
       formData.append("assignedRemarks", input.assignedRemarks);
       formData.append("documentTitle", input.documentTitle);
       formData.append("employeeId", input.employeeId.toString());
@@ -60,11 +63,13 @@ function TaskDocumentStatusModal({ isOpen, closeModal, onSuccess, assignedDocume
       formData.append("isActive", input.isActive.toString());
       formData.append("taskDocumentId", input.taskDocumentId.toString());
       formData.append("file", file != null ? file : new Blob());
-    
+
+      console.log("Selected file:", input);
+
       const response = await createTaskDocumentStatus({deptId: deptId,taskDocumentStatusData: formData,}).unwrap();
 
-      console.log(response);
-
+      //console.log(response);
+    
         if (response.isSuccess == true) {
 
           const modal = document.getElementById('exampleModalAddEmp');

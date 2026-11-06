@@ -34,7 +34,7 @@ function DocumentAssignedCompare({
         setIsModalOpen(false);
     };
 
-console.log(documentList);
+console.log(documentList+"assignedcompare");
 
 const differenceData = useMemo(() => {
 

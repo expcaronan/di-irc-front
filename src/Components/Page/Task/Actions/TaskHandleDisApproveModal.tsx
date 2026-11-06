@@ -12,8 +12,10 @@ interface Props {
     employeeId:number,
     deptId:number,
     taskDocumentId:number
+    documentRefNumber:string
+    dueDate:string
   }
-function TaskHandleDisApproveModal({ isOpen, closeModal,taskDocumentStatusId,employeeId,deptId,taskDocumentId}: Props) {
+function TaskHandleDisApproveModal({ isOpen, closeModal,taskDocumentStatusId,employeeId,deptId,taskDocumentId,documentRefNumber,dueDate}: Props) {
 const [loading, setLoading] =useState(false);
 const navigate = useNavigate();
 const [updateTaskDocumentStatus] = useUpdateTaskDocumentStatusMutation();
@@ -23,8 +25,13 @@ const [input, setInput] = useState({
     taskStatusId:6,
     employeeId:employeeId,
     remarks:"",
-    taskDocumentId:taskDocumentId
+    taskDocumentId:taskDocumentId,
+    documentRefNumber:documentRefNumber,
+    dueDate:dueDate,
 });
+
+   
+
 const handleUserInput = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
   const { name, value } = e.target;
   let processedValue: any = value;
@@ -33,21 +40,17 @@ const handleUserInput = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectEleme
     [name]: processedValue
   }));
 };
-     const [taskData, setTaskData] = useState({
-              taskDocumentStatusId:taskDocumentStatusId,
-              taskStatusId:6,
-              employeeId:employeeId,
-              remarks:input.remarks,
-              taskDocumentId:taskDocumentId,
-          });
+
 const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) =>{
     e.preventDefault();
     if (loading) return;
     setLoading(true);
     try {
+      //console.log(input);
+      const response = await updateTaskDocumentStatus({deptId: deptId, taskDocumentStatusData: input}).unwrap();
+      
+     
 
-       const response = await updateTaskDocumentStatus({deptId: deptId, taskDocumentStatusData: taskData}).unwrap();
-       console.log(response);
      if(response.isSuccess == true){
      
         const modal = document.getElementById('exampleModalAddEmp');
@@ -135,7 +138,6 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) =>{
                   <div className="mb-3">
                   <label htmlFor="birthDay" className="col-form-label">Remarks</label>
                   <textarea
-                    
                     className="form-control"
                     name="remarks"
                     required

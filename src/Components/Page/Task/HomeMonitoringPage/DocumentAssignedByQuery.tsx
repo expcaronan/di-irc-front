@@ -59,26 +59,31 @@ const [apiFilters, setApiFilters] = useState({
 
 useEffect(() => {
   const handleMessage = (message: any) => {
-//    console.log(message?.message);
+    console.log(taskDocumentList);
 //    console.log(message?.departmentId);
 //    console.log(userDetails?.departmentId);
+    if(taskDocumentList?.length <= 0 ){
+       //console.log("refetch")
+        refetch();
+    }
     if (message?.message == "TaskDocumentUpdate") {
-         //console.log(message);
+          console.log("refetch update")
          refetch();
     }
     else
-    if (message?.message == "TaskDocument" && message?.departmentId == userDetails?.departmentId) {
+    if (message?.message == "TaskDocument" && message?.departmentId == userDetails?.departmentId && taskDocumentList.length <= 0) {
         const taskList = message?.data as taskDocumentAssignedDepartmentBaseModel;
-
-    if(taskDocumentList != null){
-        setTaskDocumentList(previous => [
-            taskList,
-            ...previous?.filter(item => item?.id !== taskList?.id)
-        ]);
-    }    
+         console.log("new")
+        if(taskDocumentList != null){
+            setTaskDocumentList(previous => [
+                taskList,
+                ...previous?.filter(item => item?.id !== taskList?.id)
+            ]);
+        }    
    
     }    
     else{
+        //console.log("new return")
          return;
     }
   };
@@ -91,7 +96,7 @@ useEffect(() => {
 useEffect(() =>{
     setLoading(true);
     if(data && !isLoading){
-        //console.log(data);
+        console.log(data);
         setTaskDocumentList(data?.result);
     }
     setLoading(false);
