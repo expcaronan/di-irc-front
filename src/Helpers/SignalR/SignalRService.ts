@@ -7,6 +7,7 @@ class SignalRService {
   private receiveMessageCallback: ((message: string) => void) | null = null;
   private receiveCountMessageCallback: ((message: string) => void) | null = null;
   private receiveUpdateMessageCallback: ((message: string) => void) | null = null;
+  private receiveApprovalUpdateMessageCallback: ((message: string) => void) | null = null;
   private totalUsersCallback: ((message: any) => void) | null = null;
   private onConnectedMessageCallback: ((userId: string, myUserName: string) => void) | null = null;
 
@@ -38,6 +39,12 @@ class SignalRService {
         this.handleReceivedMessageUpdate(message);
       });
 
+      this.hubConnection.on('SendMessageForLeaveApproval', (message: any) => {
+        //console.log(message);
+        this.handleReceivedMessageApprovalUpdate(message);
+      });
+
+      
 
 
 
@@ -101,12 +108,21 @@ class SignalRService {
       this.receiveCountMessageCallback(message);
     }
   };
+
+ private handleReceivedMessageApprovalUpdate = (message: string) => {
+    //console.log(`Received message: ${message}`);
+    if (this.receiveApprovalUpdateMessageCallback) {
+      this.receiveApprovalUpdateMessageCallback(message);
+    }
+  };
+
   private handleReceivedMessageUpdate = (message: string) => {
     //console.log(`Received message: ${message}`);
     if (this.receiveUpdateMessageCallback) {
       this.receiveUpdateMessageCallback(message);
     }
   };
+
 
   onReceiveMessage = (callback: (message: string) => void) => {
     this.receiveMessageCallback = callback;
@@ -118,6 +134,10 @@ class SignalRService {
 
    onReceiveMessageUpdate = (callback: (message: string) => void) => {
     this.receiveUpdateMessageCallback = callback;
+  };
+
+    onReceiveMessageLeaveApprovalUpdate = (callback: (message: string) => void) => {
+    this.receiveApprovalUpdateMessageCallback = callback;
   };
 
   

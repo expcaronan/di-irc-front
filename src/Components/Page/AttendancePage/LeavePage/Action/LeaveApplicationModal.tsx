@@ -94,7 +94,7 @@ const [input, setInput] = useState({
    dateApplication:new Date(),
    startDate:"",
    endDate:"",
-   leaveTypeId:0,
+   leaveTypeId:1,
    status:false,
    approverId:0,
    reason:"",

@@ -7,14 +7,15 @@ interface props{
   roleId:number
   approvalCount:number 
   noBioCount:number
+  leaveApprovalCount:number
 }
 
-function Sidebar({roleId,approvalCount,noBioCount}:props) {
+function Sidebar({roleId,approvalCount,noBioCount,leaveApprovalCount}:props) {
 
   
-  const navigate = useNavigate();
- const [financeOpen, setFinanceOpen] = useState(false);
- const [attendanceOpen, setAttendanceOpen] = useState(false);
+const navigate = useNavigate();
+const [financeOpen, setFinanceOpen] = useState(false);
+const [attendanceOpen, setAttendanceOpen] = useState(false);
   return (
     
     <div className="d-flex flex-column flex-root">
@@ -129,6 +130,18 @@ function Sidebar({roleId,approvalCount,noBioCount}:props) {
                   <span className="sidebar-text">Attendance List</span>
                 </a>
           </li>
+
+
+          <li className="nav-item">
+                <a href="#" onClick={() => navigate("/leavestatus/list")} className="nav-link d-flex align-items-center text-truncate ">
+                  <span className="sidebar-icon">
+                  
+                  </span>
+                  <span className="sidebar-text">Leave Applications</span>
+                 
+                </a>
+              </li>
+              
          <li className="sidebar-item">
                 <a href="#" onClick={() => navigate("/attendance/nobio")} className="nav-link d-flex align-items-center text-truncate ">
                   <span className="sidebar-icon">
@@ -159,20 +172,7 @@ function Sidebar({roleId,approvalCount,noBioCount}:props) {
 
               
               {
-               
-              }
-               <>
-                 <li className="nav-item">
-                <a href="#" onClick={() => navigate("/leavestatus/list")} className="nav-link d-flex align-items-center text-truncate ">
-                  <span className="sidebar-icon">
-                  <span className="bi bi-check2-square"></span>
-                  </span>
-                  <span className="sidebar-text">Leave Applications</span>
-                 
-                </a>
-              </li>
-                </>
-       {
+         
         roleId != 3 &&
            <>
                 <li className="nav-item">
@@ -216,12 +216,15 @@ function Sidebar({roleId,approvalCount,noBioCount}:props) {
             {
                 roleId  == 1 &&<>
                  <li className="nav-item">
-                <a href="#" onClick={() => navigate("/leaveForApproval")} className="nav-link d-flex align-items-center text-truncate ">
+                <a href="#" onClick={() => navigate("/leaveStatus/forApproval")} className="nav-link d-flex align-items-center text-truncate ">
                   <span className="sidebar-icon">
                   
-                    <span className="bi bi-person-lines-fill"></span>
+                    <span className="bi bi-calendar-check"></span>
                   </span>
                   <span className="sidebar-text">Leave For Approval</span>
+                  <span className="badge rounded-pill bg-danger">
+                  {leaveApprovalCount}
+                </span>
                 </a>
               </li>
 

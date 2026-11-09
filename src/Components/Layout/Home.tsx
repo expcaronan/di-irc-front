@@ -15,8 +15,9 @@ function Home({roleId,departmentId,empId}:props) {
   
 const [noBioCount, setNoBioCount] = useState<number>(0);
 const [approvalCount, setApprovalCount] = useState<number>(0);
+const [leaveApprovalCount, setLeaveApprovalCount] = useState<number>(0);
 const [iParam, setIParam] = useState("");
-const { data, isLoading} = useGetApprovalCountQuery(
+const { data, isLoading, refetch} = useGetApprovalCountQuery(
   { deptId:departmentId ?? 0,
     empId:empId ?? 0
   });
@@ -26,27 +27,32 @@ const [loading, setLoading] = useState(false);
 
 useEffect(() => {
   const handleMessage = (message: any) => {
-    //console.log(message);
+    console.log(message);
+    if(message?.priority == "Normal"){
+      refetch();
+    }else
     if (message?.message == "TaskDocumentStatusIsApprovedCount" && message?.departmentId == departmentId) {
+      refetch();
          //console.log(message);
-        setApprovalCount(p => p + Number(message?.taskCount))
-        setNoBioCount(p => p + Number(message?.bioCount))
+        //setApprovalCount(p => p + Number(message?.taskCount))
+        //setNoBioCount(p => p + Number(message?.bioCount))
          //console.log(Number(message.documentId));
     }else{
          return;
     }
   };
   signalRService.onReceiveMessageCount(handleMessage);
-   return () => {
-    //signalRService.stopConnection();
-  };
-}, [approvalCount]);
+  
+}, [refetch]);
+
+ 
 
 useEffect(() => {
     if (!isLoading && data) {
       //console.log(data.result);
         setApprovalCount(data?.result?.approvalCount);
         setNoBioCount(data?.result?.noBioCount);
+        setLeaveApprovalCount(data?.result?.leaveApprovalCount)
     }
 }, [data, isLoading]);
 
@@ -56,6 +62,7 @@ return (
   !isLoading ?  <Sidebar roleId={roleId ?? 0} 
                         approvalCount={Number(approvalCount)} 
                         noBioCount={Number(noBioCount)}
+                        leaveApprovalCount={Number(leaveApprovalCount)}
                         /> : <MainLoader/>
 } 
 </div>

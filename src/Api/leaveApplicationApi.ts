@@ -45,6 +45,56 @@ const leaveApplicationApi = createApi({
       providesTags:["leaveApplication"]
     }),
 
+     getAllLeaveForApprovals:builder.query({
+            query: ({employeeId,leaveTypeId,pageNumber, statusId, pageSize,searchString,fromDate,toDate})=> ({
+                url:'leaveApplication/forApproval/list',
+                params : {
+                ...(employeeId && {employeeId}),
+                ...(leaveTypeId && {leaveTypeId}),
+                ...(statusId && { statusId }),
+                ...(pageNumber && { pageNumber }),
+                ...(pageSize && { pageSize }),
+                ...(searchString && { searchString }),
+                ...(fromDate && { fromDate }),
+                ...(toDate && { toDate })
+              }
+            }),
+            providesTags:["leaveApplication"]
+    }),
+    createLeaveApplicationApproved: builder.mutation({
+      query: (data) => ({
+        url: "leaveApplication/approved",
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: data,
+      }),
+      invalidatesTags:['leaveApplication'],
+    }),
+    createLeaveApplicationDisApproved: builder.mutation({
+      query: (data) => ({
+        url: "leaveApplication/disapproved",
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: data,
+      }),
+      invalidatesTags:['leaveApplication'],
+    }),
+    updateLeaveApplicationApprove: builder.mutation({
+      query: (data) => ({
+        url: "leaveApplication/approval/update",
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: data,
+      }),
+      invalidatesTags:['leaveApplication'],
+    }),
+
 
   }),
 });
@@ -54,6 +104,10 @@ useCreateLeaveApplicationMutation,
 useUpdateLeaveApplicationMutation,
 useDeleteLeaveApplicationByIdMutation,
 useGetLeaveStatusByEmpIdQuery,
+useGetAllLeaveForApprovalsQuery,
+useCreateLeaveApplicationApprovedMutation,
+useCreateLeaveApplicationDisApprovedMutation,
+useUpdateLeaveApplicationApproveMutation
 
 } = leaveApplicationApi;
 export default leaveApplicationApi;

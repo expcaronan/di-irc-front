@@ -174,8 +174,8 @@ const handleUserInput = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectEleme
   </div>
 
 
-  <div className="mb-3">
-           <label htmlFor="recipient-name" className="col-form-label">Select Designation</label>
+            <div className="mb-3">
+            <label htmlFor="recipient-name" className="col-form-label">Select Designation</label>
             <select
               required
               className="form-group form-select"

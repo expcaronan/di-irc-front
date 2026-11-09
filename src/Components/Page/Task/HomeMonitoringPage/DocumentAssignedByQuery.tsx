@@ -18,10 +18,6 @@ interface props{
 }
 function DocumentAssignedByQuery({userDetails, notificationList, accessToken}:props) {
 
-
-
-
-
 const [loading, setLoading] = useState(false);
 const [taskDocumentList, setTaskDocumentList] = useState<taskDocumentAssignedDepartmentBaseModel[]>([])
 const [filters, setFilters] = useState({ 
@@ -33,7 +29,7 @@ const [filters, setFilters] = useState({
 const [totalRecords, setTotalRecords] = useState(0);
 const [pageOptions, setPageOptions] = useState({
     pageNumber: 1,
-    pageSize: 10,
+    pageSize: 20,
 });
 const [currentPageSize, setCurrentPageSize] = useState(pageOptions.pageSize);
 
@@ -145,8 +141,7 @@ useEffect(() =>{
 
 
 return (
-    <div>
-
+  <div>
   <div className="row g-2 align-items-end mb-3">
 
         {/* From Date */}
@@ -250,9 +245,6 @@ return (
                   <i className="bi bi-chevron-right"></i>
                 </button>
               </div>
-
-
-
     </div>
 )
 

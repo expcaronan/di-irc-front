@@ -11,7 +11,7 @@ interface props{
     leaveData:leaveApplicationModel[]
 }
 function LeaveStatusTable({userDetails,leaveData}:props) {
-    //console.log(leaveData);
+    console.log(leaveData);
     const[isNotClick, setIsNotClick] = useState(false);
     const[isModalOpen, setIsModalOpen] = useState(false);
     const[leaveApplicationId, setLeaveApplicationId] = useState(0);
@@ -61,15 +61,17 @@ function LeaveStatusTable({userDetails,leaveData}:props) {
                 <th>Type Of Leave</th>
                 <th>Reason</th>
                 <th>Total Days</th>
-                <th>Remarks</th>
+                <th>Status</th>
+                <th>Approver</th>
+                <th>Approver Remarks</th>
             </tr>
         </thead>
          <tbody style={{whiteSpace:'nowrap'}} className='position-relative'>
             {leaveData?.map((rowData, rowIndex) => (
                 <tr key={rowIndex}>
                     <td>
-                         <a style={{cursor:'pointer'}} onClick={() => handleDelete(rowData.id)}><i className="bi bi-trash"></i></a>
-                           <a style={{cursor:'pointer'}} 
+                         <a hidden={rowData?.leaveStatus == "Approved"} style={{cursor:'pointer'}} onClick={() => handleDelete(rowData.id)}><i className="bi bi-trash"></i></a>
+                           <a hidden={rowData?.leaveStatus == "Approved"}style={{cursor:'pointer'}} 
                             onClick={() => handleUpdateData(rowData)}>
                             <i className="bi bi-pencil-square"></i>
                             </a> 
@@ -81,7 +83,9 @@ function LeaveStatusTable({userDetails,leaveData}:props) {
                     <td>{rowData?.leaveType?.leaveName}</td>
                     <td>{rowData.reason}</td>
                     <td>{getDifferenceInDays(formatDate(rowData.startDate),formatDate(rowData.endDate))}</td>
-                    <td>{rowData?.status == false ? "Not Approved" : "Approved" }</td>
+                    <td>{rowData?.leaveStatus == "" ? "Not Approved" : rowData?.leaveStatus}</td>
+                    <td>{rowData?.approverName}</td>
+                    <td>{rowData?.approverComments}</td>
                    
                 </tr>
                 

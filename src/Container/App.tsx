@@ -29,6 +29,7 @@ import signalRService from '../Helpers/SignalR/SignalRService';
 import HomeApprovedDocuments from '../Pages/Task/HomeApprovedDocuments';
 import HomeContainerAI from '../Pages/HomeAi/HomeContainerAI';
 import HomeLeaveStatus from '../Pages/AttendancePages/HomeLeaveStatus';
+import HomeLeaveApprovals from '../Pages/AttendancePages/HomeLeaveApprovals';
 
 
 function App() {
@@ -182,6 +183,7 @@ function App() {
           <Route path="/attendance/nobioapproval" element= {<HomeNoBioApproval deptId={deptId} empId={employeeId}/>} />
 
           <Route path="/leaveStatus/list" element= {userDetails && <HomeLeaveStatus userDetails={userDetails}/>} />
+          <Route path="/leaveStatus/forApproval" element= {userDetails && <HomeLeaveApprovals userDetails={userDetails}/>} />
           <Route path="/calendar" element= {<HomeCalendar/>} />
           <Route path="/askAi" element= {userDetails ? <HomeContainerAI userDetails={userDetails}/> : null} />
         </Routes>
