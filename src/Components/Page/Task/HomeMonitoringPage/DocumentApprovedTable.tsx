@@ -9,6 +9,7 @@ interface props{
   employeeId:number
 }
 function DocumentApprovedTable({documentList,employeeId}:props) {
+    console.log(documentList)
     const [selectedFile, setSelectedFile] = useState<string | null>(null);
     //const [selectedFileDetails, setSelectedFileDetails] = useState<string | null>(null);
     const [selectedData, setSelectedData] = useState<taskDocumentAssignedDepartmentBaseModel>();
@@ -140,6 +141,9 @@ function DocumentApprovedTable({documentList,employeeId}:props) {
                 assignedDocument={selectedData}
                 employeeId={employeeId}
                 onClose={() => setSelectedFile(null)}
+                deptId={selectedData?.assignedToDepartmentId ?? 0}
+                taskDocumentId={selectedData?.taskDocumentId ?? 0}
+                documentTitle={selectedData?.taskDocument?.documentTitle ?? ""} 
             />
         )}
         </div>  

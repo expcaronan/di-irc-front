@@ -2,84 +2,105 @@ import React, { useState } from 'react';
 import './HomeContainerAI.css';
 import { useCallAskAiMutation } from '../../Api/aiApi';
 import { ChatMessage } from '../../Interfaces/chatModel/ChatMessage';
-import { userModel } from '../../Interfaces/BaseModel/userModel';
 import EmployeeUserModel from '../../Interfaces/EmployeeUserModel';
-interface props{
-  userDetails: EmployeeUserModel
+
+interface props {
+  userDetails: EmployeeUserModel;
 }
-function HomeContainerAI({userDetails}:props) {
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
-  const [input, setInput] = useState("");
+
+interface ChatMessageWithId extends ChatMessage {
+  messageId: string;
+}
+
+function HomeContainerAI({ userDetails }: props) {
+  const [messages, setMessages] = useState<ChatMessageWithId[]>([]);
+  const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
- const [keyId, setKeyId]= useState(0);
-const [createChatMessage] = useCallAskAiMutation();
+
+  const [createChatMessage] = useCallAskAiMutation();
+
+  // Generate a stable ID when a message is created.
+  const generateMessageId = () =>
+    `${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
+
   const sendMessage = async () => {
     const question = input.trim();
-    setKeyId(prev => prev + 1);
+
     if (!question || isLoading) return;
 
-    const userMessage: ChatMessage = {
+    const userMessage: ChatMessageWithId = {
       id: userDetails.departmentId,
-      //ole: "user",
+      messageId: generateMessageId(),
       question: question,
-      //createdAt: new Date(),
     };
 
     setMessages((previous) => [...previous, userMessage]);
-    setInput("");
+    setInput('');
     setIsLoading(true);
 
-    
     try {
-      // Connect your ASP.NET Core AI endpoint here.
-      // Replace this placeholder with your actual API call.
+      const data = await createChatMessage({
+        id: userMessage.id,
+        question: userMessage.question,
+      }).unwrap();
 
-      const data = await createChatMessage(userMessage).unwrap();
+      if (data) {
+        const assistantMessage: ChatMessageWithId = {
+          id: userDetails.departmentId,
+          messageId: generateMessageId(),
+          question: data.answer,
+        };
 
-      if(data){
-        //console.log(data);
-     
-      
-      const assistantMessage: ChatMessage = {
-        id: userDetails.departmentId,
-        question: data.answer,
-      };
-
-      setMessages((previous) => [...previous, assistantMessage]);
-    }
+        setMessages((previous) => [
+          ...previous,
+          assistantMessage,
+        ]);
+      }
     } catch (error) {
-      console.error("AI chat error:", error);
+      console.error('AI chat error:', error);
+
+      const errorMessage: ChatMessageWithId = {
+        id: userDetails.departmentId,
+        messageId: generateMessageId(),
+        question:
+          "Sorry, I couldn't process your request. Please try again.",
+      };
 
       setMessages((previous) => [
         ...previous,
-        {
-          id: userDetails.departmentId,
-          question:
-            "Sorry, I couldn't process your request. Please try again.",
-         
-        },
+        errorMessage,
       ]);
     } finally {
       setIsLoading(false);
     }
   };
 
+  const handleNewChat = () => {
+    if (isLoading) return;
 
+    setMessages([]);
+    setInput('');
+  };
 
-        
   return (
-    // <div className="ai-chat-layout">
-    <div className="task-page">
-      <aside className="ai-chat-sidebar">
+    <div>
+
+   <aside className="ai-chat-sidebar">
         <button
           className="new-chat-button"
-          onClick={() => setMessages([])}
+          onClick={handleNewChat}
+          disabled={isLoading}
         >
           + New chat
         </button>
 
-        <div className="sidebar-label">Your AI Assistant</div>
+        {/* <div className="sidebar-label">
+          Your AI Assistant
+        </div> */}
       </aside>
+    <div className="task-page">
+      
+      
 
       <main className="ai-chat-main">
         <header className="ai-chat-header">
@@ -94,16 +115,11 @@ const [createChatMessage] = useCallAskAiMutation();
             </div>
           ) : (
             <div className="ai-chat-messages">
-
               {messages.map((message) => (
                 <div
-                 key={crypto.randomUUID()}
-                  className={`ai-message`}
+                  key={message.messageId}
+                  className="ai-message"
                 >
-                  <div className="ai-message-role">
-                    {/* {message.role === "user" ? "You" : "AI"} */}
-                  </div>
-
                   <div className="ai-message-content">
                     {message.question}
                   </div>
@@ -122,10 +138,12 @@ const [createChatMessage] = useCallAskAiMutation();
             <div className="ai-chat-input-wrapper">
               <textarea
                 value={input}
-                onChange={(event) => setInput(event.target.value)}
+                onChange={(event) =>
+                  setInput(event.target.value)
+                }
                 onKeyDown={(event) => {
                   if (
-                    event.key === "Enter" &&
+                    event.key === 'Enter' &&
                     !event.shiftKey &&
                     !event.nativeEvent.isComposing
                   ) {
@@ -154,7 +172,8 @@ const [createChatMessage] = useCallAskAiMutation();
         </section>
       </main>
     </div>
-  )
+     </div>
+  );
 }
 
-export default HomeContainerAI
+export default HomeContainerAI;

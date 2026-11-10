@@ -123,7 +123,6 @@ class SignalRService {
     }
   };
 
-
   onReceiveMessage = (callback: (message: string) => void) => {
     this.receiveMessageCallback = callback;
   };

@@ -35,6 +35,7 @@ const {data, isLoading, refetch} = useGetAllApprovedTaskDocumentsWithAssignedDep
       fromDate:apiFilters.fromDate,
       toDate:apiFilters.toDate,
     }),
+    roleId:userDetails.roleId,
     id:userDetails.departmentId,  
   });
 

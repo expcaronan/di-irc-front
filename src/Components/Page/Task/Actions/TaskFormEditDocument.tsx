@@ -10,6 +10,8 @@ import officeBaseModel from '../../../../Interfaces/BaseModel/officeBaseModel';
 import { registrySectionModel } from '../../../../Interfaces/BaseModel/registrySectionModel';
 import { taskDocumentBaseModel } from '../../../../Interfaces/BaseModel/taskDocumentBaseModel';
 import HomeFileViewer from '../../../../Pages/Viewer/HomeFileViewer';
+import { MainLoader } from '../../../Common/Index';
+
  interface props {
         employeeId:number,
         dropdownListData:taskDocumentDropdown,
@@ -82,7 +84,6 @@ function TaskFormEditDocument({employeeId,dropdownListData,taskDocumentData}:pro
             //console.log(formData);
 
             const response:apiResponse =  await createDocument(formData) 
-            
             if(response.data?.isSuccess == true){
                 toast.success('Task Document Created Successfully!', {
                     position: "top-right", 
@@ -149,8 +150,13 @@ function TaskFormEditDocument({employeeId,dropdownListData,taskDocumentData}:pro
 
    
   return (
-    <div className='container mb-3 pb-5'>
-         <h3>Document Creation</h3>
+   <div className="task-form-container">
+    
+    <div className="task-form-header">
+      <h3>Document Creation</h3>
+    </div>
+
+    <div className="task-page">
               <form onSubmit={handleSubmit} className="p-3 border rounded">
                 <div className="mb-3">
                   <label className="form-label">Document Ref Number</label>
@@ -170,25 +176,25 @@ function TaskFormEditDocument({employeeId,dropdownListData,taskDocumentData}:pro
                     type="text"
                     name="documentTitle"
                     className="form-control"
-                    value={input.documentTitle ?? ""}
+                    value={input?.documentTitle ?? ""}
                     onChange={handleUserInput}
                     required
                   />
                 </div>
         
-                <div className="mb-3">
+                {/* <div className="mb-3">
                   <label className="form-label">Document Description</label>
                   <input
                     type="documentDescription"
                     name="documentDescription"
                     className="form-control"
-                    value={input.documentDescription ?? ""}
+                    value={input.documentDescription}
                     onChange={handleUserInput}
                     required
                   />
-                </div>
+                </div> */}
                 <div className="mb-3">
-                  <label htmlFor="dueDate" className="col-form-label">Due Date</label>
+                  <label htmlFor="birthDay" className="col-form-label">Due Date</label>
                   <input
                     type="date"
                     className="form-control datepicker"
@@ -205,7 +211,7 @@ function TaskFormEditDocument({employeeId,dropdownListData,taskDocumentData}:pro
                required
                className="form-group form-select"
                name='forChiefAction'
-               value={input?.forChiefAction == true ? "true" : "false"}
+               value={input?.forChiefAction ? "true" : "false"}
                onChange={handleUserInput}
                >
                <option value="">-=Chief Approval=-</option>
@@ -214,101 +220,93 @@ function TaskFormEditDocument({employeeId,dropdownListData,taskDocumentData}:pro
            </select>  
 </div>
 
-        <div className="mb-3">
-          <label
-            htmlFor="assignedEmployeeIds"
-            className="col-form-label"
-          >
-            Assign Sections
-          </label>
+<div className="mb-3" hidden={input?.forChiefAction == true}>
+  
 
-          {/* Dropdown */}
-          <select
-            id="assignedEmployeeIds"
-              className={`form-select ${
-                loading && input.assignedDepartmenIds.length === 0
-                  ? "is-invalid"
-                  : ""
-              }`}
-            value=""
-            onChange={(e) => {
-              const selectedId = Number(e.target.value);
+  <label
+    htmlFor="assignedEmployeeIds"
+    className="col-form-label"
+  >
+    Assign Sections
+  </label>
 
-              if (!selectedId) return;
+  {/* Dropdown */}
+  <select
+    id="assignedEmployeeIds"
+    className="form-select"
+    value=""
+    onChange={(e) => {
+      const selectedId = Number(e.target.value);
 
+      if (!selectedId) return;
+
+      setInput((prev) => ({
+        ...prev,
+        assignedDepartmenIds: [
+          ...prev.assignedDepartmenIds,
+          selectedId
+        ]
+      }));
+    }}
+  >
+    <option value="">Select Sections...</option>
+
+    {dropdownListData.departments
+      ?.filter(
+        (dept: departmentModel) =>
+          !input.assignedDepartmenIds.includes(dept.id)
+      )
+      .map((dept: departmentModel) => (
+        <option
+          key={dept.id}
+          value={dept.id}
+        >
+          {dept.departmentName}
+        </option>
+      ))}
+  </select>
+
+  {/* Selected departments */}
+  <div className="mt-2 d-flex flex-wrap gap-2">
+    {input.assignedDepartmenIds.map((id) => {
+      const dpt = dropdownListData.departments.find(
+        (dpt: departmentModel) => dpt.id === id
+      );
+
+      if (!dpt) return null;
+
+      return (
+        <div
+          key={dpt.id}
+          className="border rounded px-2 py-1 d-flex align-items-center bg-light"
+        >
+          {/* X button */}
+          <button
+            type="button"
+            className="btn btn-sm p-0 me-2 text-danger"
+            onClick={() => {
               setInput((prev) => ({
                 ...prev,
-                assignedDepartmenIds: [
-                  ...prev.assignedDepartmenIds,
-                  selectedId
-                ]
+                assignedDepartmenIds:
+                  prev.assignedDepartmenIds.filter(
+                    (dptId) => dptId !== id
+                  )
               }));
             }}
           >
-          <option value="">Select Sections...</option>
-            {dropdownListData.departments
-              ?.filter(
-                (dept: departmentModel) =>
-                  !input.assignedDepartmenIds.includes(dept.id)
-              )
-              .map((dept: departmentModel) => (
-                <option
-                  key={dept.id}
-                  value={dept.id}
-                >
-                  {dept.departmentName}
-                </option>
-              ))}
-          </select>
-           {/* {loading && input.assignedDepartmenIds.length === 0 && (
-            <div className="invalid-feedback">
-              Please select at least one section.
-            </div>
-          )}
-            */}
-          {/* Selected departments */}
-          <div className="mt-2 d-flex flex-wrap gap-2">
-            {input.assignedDepartmenIds.map((id) => {
-              const dpt = dropdownListData.departments.find(
-                (dpt: departmentModel) => dpt.id === id
-              );
+            ×
+          </button>
 
-              if (!dpt) return null;
-
-              return (
-                <div
-                  key={dpt.id}
-                  className="border rounded px-2 py-1 d-flex align-items-center bg-light"
-                >
-                  {/* X button */}
-                  <button
-                    type="button"
-                    className="btn btn-sm p-0 me-2 text-danger"
-                    onClick={() => {
-                      setInput((prev) => ({
-                        ...prev,
-                        assignedDepartmenIds:
-                          prev.assignedDepartmenIds.filter(
-                            (dptId) => dptId !== id
-                          )
-                      }));
-                    }}
-                  >
-                    ×
-                  </button>
-
-                  {/* Employee name */}
-                  <span>
-                    {dpt.departmentName}
-                  </span>
-
-                </div>
-              );
-            })}
-          </div>
-
-         
+          {/* Employee name */}
+          <span>
+            {dpt.departmentName}
+          </span>
         </div>
+      );
+    })}
+  </div>
+</div>
+
 
     <label htmlFor="recipient-name" className="col-form-label">Select Office</label>
              <select
@@ -388,7 +386,7 @@ function TaskFormEditDocument({employeeId,dropdownListData,taskDocumentData}:pro
 
 
 
-                <div className="mb-3"> 
+             <div className="mb-3"> 
                     <label htmlFor="documentFile" className="form-label" > Document File :{" "}</label> 
                      {input.documentFilePath && (
                         <a
@@ -404,21 +402,21 @@ function TaskFormEditDocument({employeeId,dropdownListData,taskDocumentData}:pro
                     <input type="file"  id="documentFile" name="file" className="form-control" onChange={handleFileChange}/> 
                     {file && ( <div className="mt-2"> <small className="text-muted"> Selected file: {file.name} </small> </div> )} 
                 </div>
+
              
-                <button type="submit" className="btn btn-primary w-100 mb-5" disabled={loading}>
+                <button type="submit" className="btn btn-primary w-100" disabled={loading}>
                   Submit
                 </button>
               </form>
-
-            {selectedFile && (
+              {loading && <MainLoader/>}
+        </div>  
+          {selectedFile && (
             <HomeFileViewer
                 filePath={selectedFile}
                 onClose={() => setSelectedFile(null)}
             />
             )}
-
     </div>
-
   )
 }
 

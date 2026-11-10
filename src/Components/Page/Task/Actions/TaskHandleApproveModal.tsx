@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import MainLoader from '../../../Common/MainLoader';
-import { taskDocumentAssignedDepartmentBaseModel } from '../../../../Interfaces/BaseModel/taskDocumentAssignedDepartmentBaseModel';
 import { useUpdateTaskDocumentStatusMutation } from '../../../../Api/taskDocumentApi';
 import { toast } from 'react-toastify';
-import apiResponse from '../../../../Interfaces/apiResponse';
 
 interface Props {
     isOpen: boolean; 
@@ -22,14 +20,13 @@ const navigate = useNavigate();
 const [updateTaskDocumentStatus] = useUpdateTaskDocumentStatusMutation();
 
 const [input, setInput] = useState({
-    taskDocumentStatusId:taskDocumentStatusId,
-    taskDocumentId:taskDocumentId,
+    taskDocumentStatusId:Number(taskDocumentStatusId),
     taskStatusId:5,
-    employeeId:employeeId,
+    employeeId:Number(employeeId),
     remarks:"",
+    taskDocumentId:Number(taskDocumentId),
     documentRefNumber:documentRefNumber,
     dueDate:dueDate,
-
 });
 const handleUserInput = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
   const { name, value } = e.target;
@@ -47,8 +44,16 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) =>{
     if (loading) return;
     setLoading(true);
     try {
-
-    const response = await updateTaskDocumentStatus({deptId: deptId, taskDocumentStatusData: input}).unwrap();
+      console.log("input",dueDate);
+    const response = await updateTaskDocumentStatus({deptId: deptId, taskDocumentStatusData: {
+        taskDocumentStatusId: input.taskDocumentStatusId,
+        taskStatusId: input.taskStatusId,
+        employeeId: input.employeeId,
+        remarks: input.remarks,
+        taskDocumentId: input.taskDocumentId,
+        documentRefNumber: input.documentRefNumber,
+        dueDate: input.dueDate,
+    }}).unwrap();
    
      if(response?.isSuccess == true){
      

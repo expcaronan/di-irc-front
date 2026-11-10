@@ -20,7 +20,7 @@ interface props{
 }
 
 function CreateTaskTable({taskDocumentList,employeeId, empToken,deptId,designationName}:props) {
-    //console.log(taskDocumentList);
+    console.log(taskDocumentList);
     const [isModalOpenA, setIsModalOpenA] = useState(false);
     const [isModalOpenD, setIsModalOpenD] = useState(false);
     const [isModalOpenDelete, setIsModalOpenDelete] = useState(false);
@@ -83,6 +83,7 @@ function CreateTaskTable({taskDocumentList,employeeId, empToken,deptId,designati
     const [getDocumentRefNumber, setGetDocumentRefNumber] = useState("");
     const [getDueDate, setGetDueDate] = useState("");
     const handleApproved = ((id:number, taskDocumentId:number,deptId:number,documentRefNumber:string, dueDate:string)=>{
+        console.log(dueDate);
          setIsModalOpenA(true);
          setTaskDocumentStatusId(id)
          setGetTaskDocumentId(taskDocumentId)
@@ -333,7 +334,7 @@ const Token = accessToken
             <tr >
                 <th></th>
                 <th>Document Ref Number</th>
-                <th>Document Description</th>
+                 {/*  <th>Document Description</th>*/}
                 <th>Document Title</th>
                 <th>Document File Path</th>
                 <th>Due Date</th>
@@ -467,9 +468,9 @@ const Token = accessToken
                         {rowData?.documentRefNumber}
                     </td>
 
-                    <td>
+                    {/* <td>
                         {rowData?.documentDescription}
-                    </td>
+                    </td> */}
 
                     <td>
                         {rowData?.documentTitle}
@@ -551,7 +552,7 @@ const Token = accessToken
                                                                         (a) => a.isActive === true)?.id ?? 0, dept.taskDocumentId,
                                                                         dept?.assignedToDepartmentId ?? 0,
                                                                         dept?.taskDocument?.documentRefNumber ?? "",
-                                                                        dept?.taskDocument?.dueDate ?? "")
+                                                                        rowData?.dueDate ?? "")
                                                                     }
                                                         >
                                                         <i className="bi bi-check-circle"></i>
@@ -566,7 +567,6 @@ const Token = accessToken
                                                                         dept?.assignedToDepartmentId ?? 0,
                                                                         rowData?.documentRefNumber ?? "",
                                                                         rowData?.dueDate ?? ""
-                                                                        
                                                                     )
                                                                     }
                                                         >
