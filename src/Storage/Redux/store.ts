@@ -9,6 +9,7 @@ import attendanceApi from "../../Api/attendanceApi";
 import aiApi from "../../Api/aiApi";
 import leaveApplicationApi from "../../Api/leaveApplicationApi";
 import { authTokenReducer } from "../Slice/authTokenSlice";
+import calendarEventApi from "../../Api/calendarEventApi";
 
 
 
@@ -25,7 +26,8 @@ reducer:{
     [notificationApi.reducerPath]:notificationApi.reducer,
     [attendanceApi.reducerPath]:attendanceApi.reducer,
     [aiApi.reducerPath]:aiApi.reducer,
-    [leaveApplicationApi.reducerPath]:leaveApplicationApi.reducer
+    [leaveApplicationApi.reducerPath]:leaveApplicationApi.reducer,
+    [calendarEventApi.reducerPath]:calendarEventApi.reducer,
     
 },
 middleware:(getDefaultMiddleware) => getDefaultMiddleware()
@@ -36,6 +38,7 @@ middleware:(getDefaultMiddleware) => getDefaultMiddleware()
 .concat(attendanceApi.middleware)
 .concat(aiApi.middleware)
 .concat(leaveApplicationApi.middleware)
+.concat(calendarEventApi.middleware)
 });
 
 

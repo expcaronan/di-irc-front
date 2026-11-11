@@ -1,12 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify';
+import { useGetDetailsDropdownListQuery } from '../../../../Api/calendarEventApi';
+import calendarEmployeeModel from '../../../../Interfaces/CalendarModel/calendarEmployeeModel';
+import departmentModel from '../../../../Interfaces/BaseModel/departmentModel';
+import calendarDepartmentModel from '../../../../Interfaces/CalendarModel/calendarDepartmentModel';
+import calendarDeptEmpModel from '../../../../Interfaces/CalendarModel/calendarDeptEmpModel';
+import AddEventForm from './AddEventForm';
+import MainLoader from '../../../Common/MainLoader';
 interface Props {
     isOpen: boolean; 
     closeModal: () => void; 
   }
 
 function AddEvent({ isOpen, closeModal }: Props) {
-      const [loading, setLoading] =useState(false);
+   const[loading, setLoading] = useState(false);
        useEffect(() => {
           if (isOpen) {
             // Manually trigger modal to open
@@ -27,32 +34,21 @@ function AddEvent({ isOpen, closeModal }: Props) {
               }
             }
         }, [isOpen]);
+        const [isStatusModalOpen, setIsStatusModalOpen] =useState(false);
+        const {data, isLoading} = useGetDetailsDropdownListQuery(null);
+        const [calendarDeptData, setCalendarDeptData] = useState<calendarDeptEmpModel>();
+        const handleStatusSuccess = () => {
+            setIsStatusModalOpen(false); // Close child modal
+            closeModal();                   // Close parent modal
+        };
+        useEffect(() =>{
+          setLoading(true);
+          if(data && !isLoading){
+            setCalendarDeptData(data.result);
+          }
+          setLoading(false);
+        },[data])
 
-            const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) =>{
-            e.preventDefault();
-              if (loading) return; // Prevent multiple clicks
-           // if(input.invoiceNUmber == "") return;
-            setLoading(true);
-            try {
-              // Your async operation here, e.g., adding to the database
-              //console.log(input);
-              
-            } catch (error) {
-              console.error('Error:', error);
-             
-            } finally {
-              setLoading(false);
-            }
-        }
-
-
-            const handleUserInput = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-              const { name, value } = e.target;
-            
-              let processedValue: any = value;
-            
-            };
-            
 
   return (
    <div className={`modal fade ${isOpen ? 'show' : ''}`} id="exampleModalAddEmp" tabIndex={-1} role="dialog" aria-labelledby="exampleModalLabel" aria-hidden={!isOpen}>
@@ -64,67 +60,9 @@ function AddEvent({ isOpen, closeModal }: Props) {
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <div className="modal-body">
-              <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                   
-                  <label htmlFor="firstName" className="col-form-label">First Name</label>
-                  <input type="text" className="form-control" 
-                  required
-                   name='firstName'
-                   value={"b"}
-                   onChange={handleUserInput}
-                  />
-                   <label htmlFor="lastName" className="col-form-label">Last Name</label>
-                  <input type="text" className="form-control" 
-                  required
-                   name='lastName'
-                   value={"c"}
-                   onChange={handleUserInput}
-                  />
-                   <label htmlFor="serviceTypeName" className="col-form-label">Password</label>
-                  <input type="text" className="form-control" 
-                  required
-                   name='passwordHash'
-                   value={"d"}
-                   onChange={handleUserInput}
-                  />
-                 
-                    <label htmlFor="recipient-name" className="col-form-label">Birthday</label>
-                      </div>
-                      <div className='col-md-8'>
-                        <input type="date" className="form-control datepicker"
-                          name='birthDay'
-                          required
-                          value={"e"}
-                          onChange={handleUserInput}
-                    />
-                    
-                    <label htmlFor="recipient-name" className="col-form-label">Date Hired</label>
-                      </div>
-                      <div className='col-md-8'>
-                        <input type="date" className="form-control datepicker"
-                          name='dateHired'
-                          required
-                          value={"f"}
-                          onChange={handleUserInput}
-                    />
-                    
-                </div>
-
-
-               
-            
-                 <div className="modal-footer">
-                 {
-                 <button type="submit" className="btn btn-primary" disabled={loading}>Submit</button>
-                  
-              }{
-                //loading && <Loader/>
-              }
-            </div>
-              </form>
-            </div>
+               <div className="modal-body">
+                  { calendarDeptData ? <AddEventForm calendarDeptData={calendarDeptData}  onSuccess={handleStatusSuccess} />  : <MainLoader/>}
+               </div>
            
           </div>
         </div>

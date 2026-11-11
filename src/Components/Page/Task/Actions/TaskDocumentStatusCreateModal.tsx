@@ -4,7 +4,6 @@ import MainLoader from '../../../Common/MainLoader';
 import { taskDocumentAssignedDepartmentBaseModel } from '../../../../Interfaces/BaseModel/taskDocumentAssignedDepartmentBaseModel';
 import { useCreateTaskDocumentStatusMutation } from '../../../../Api/taskDocumentApi';
 import { toast } from 'react-toastify';
-import apiResponse from '../../../../Interfaces/apiResponse';
 
 interface Props {
   isOpen: boolean;

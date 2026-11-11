@@ -8,7 +8,7 @@ import formatDate from "../../../Helpers/formatDate";
 import toDateOnly from "../../../Helpers/toDateOnly";
 
 interface props{
-  events: calendarEventModel[]
+  events: calendarEventModel[];
   weekDays:any[];
   year:any;
   month:any;
@@ -16,6 +16,10 @@ interface props{
 
 function CalendarTable({events, weekDays, year, month}:props) {
 
+
+
+
+//console.log("Events is Array:", Array.isArray(events));
 const getCalendarDays = (year: number, month: number) => {
   
   const firstDay = new Date(year, month, 1);
@@ -61,6 +65,7 @@ const closeModal = () => {
 
 const handleAddEvent = async() =>{
       setIsModalOpen(true);
+      //console.log("evetns"+getEventSegments(calendarDays));
 }
 
 const eventsOverlap = (
@@ -129,10 +134,8 @@ const getEventSegments = (
   for (let week = 0; week < 5; week++) {
     const weekStartIndex = week * 7;
     const weekEndIndex = weekStartIndex + 6;
-    const weekStart =
-      calendarDays[weekStartIndex].date;
-    const weekEnd =
-      calendarDays[weekEndIndex].date;
+    const weekStart = calendarDays[weekStartIndex].date;
+    const weekEnd = calendarDays[weekEndIndex].date;
     //const currentMonth = calendarDays[week].currentMonth;
     /*
      * Get events that appear during this week
@@ -140,17 +143,18 @@ const getEventSegments = (
     const weekEvents = events.filter((event) => {
       const eventStart = toDateOnly(event.dateStart);
       const eventEnd = toDateOnly(event.dateEnd);
-      return (
-        eventStart <= weekEnd &&
-        eventEnd >= weekStart
-      );
+        return (
+          eventStart <= weekEnd &&
+          eventEnd >= weekStart
+        );
     });
     /*
      * Assign vertical lanes
      */
+    //console.log("start"+weekEvents);
     const laneResults =
       assignEventLanes(weekEvents);
-    laneResults.forEach(({ event, lane }) => {
+      laneResults.forEach(({ event, lane }) => {
       const eventStart =
         toDateOnly(event.dateStart);
       const eventEnd =
@@ -203,6 +207,7 @@ const getEventSegments = (
           row: 0
       });
     });
+   // console.log("lanesReulst", laneResults);
   }
 
   return segments;
@@ -260,19 +265,15 @@ const getEventSegments = (
               );
             }
           )}
-
         </div>
-
-
         {/* Event layer */}
-
-
         <div className="events-layer">
+      
           {getEventSegments(calendarDays).map(
             (segment, index) => {
               const event = segment.event;
               const currentMonth = segment.currentMonth;
-              console.log(currentMonth);
+             
               return (
                 // currentMonth &&
                 <div
@@ -281,17 +282,14 @@ const getEventSegments = (
                   style={{
                     gridColumn: `${segment.startIndex + 1
                       } / span ${segment.span}`,
-
                     gridRow:
                       segment.week + 1,
-
                     top:
                       34 +
                       segment.lane * 24,
                   }}
                 >
                   <span className="event-title">
-                    
                     {event.title}
                   </span>
 
@@ -301,9 +299,6 @@ const getEventSegments = (
                     </span>
                   )}
                 </div>
-
-
-
               );
             }
           )}

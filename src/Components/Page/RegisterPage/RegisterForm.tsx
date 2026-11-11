@@ -171,7 +171,7 @@ const handleUserInput = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectEleme
               </option>
               ))}
           </select>
-  </div>
+        </div>
 
 
             <div className="mb-3">

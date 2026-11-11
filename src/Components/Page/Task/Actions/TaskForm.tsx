@@ -292,7 +292,6 @@ function TaskForm({employeeId,dropdownListData,deptId}:props) {
     }}
   >
     <option value="">Select Sections...</option>
-
     {dropdownListData.departments
       ?.filter(
         (dept: departmentModel) =>

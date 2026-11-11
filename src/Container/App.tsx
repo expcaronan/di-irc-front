@@ -184,7 +184,7 @@ function App() {
 
           <Route path="/leaveStatus/list" element= {userDetails && <HomeLeaveStatus userDetails={userDetails}/>} />
           <Route path="/leaveStatus/forApproval" element= {userDetails && <HomeLeaveApprovals userDetails={userDetails}/>} />
-          <Route path="/calendar" element= {<HomeCalendar/>} />
+          <Route path="/calendar" element= {userDetails && <HomeCalendar userDetails={userDetails}/>} />
           <Route path="/askAi" element= {userDetails ? <HomeContainerAI userDetails={userDetails}/> : null} />
         </Routes>
         {/* </div> */}
