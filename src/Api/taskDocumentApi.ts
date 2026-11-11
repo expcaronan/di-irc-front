@@ -28,7 +28,7 @@ const taskDocumentApi = createApi({
         invalidatesTags:['taskDocuments'],
     }),
 
-      createTaskDocumentStatus: builder.mutation({
+    createTaskDocumentStatus: builder.mutation({
         query: ({
           deptId,
           taskDocumentStatusData,
@@ -42,6 +42,7 @@ const taskDocumentApi = createApi({
         }),
         invalidatesTags: ["taskDocuments"],
     }),
+    
     updateTaskDocumentStatus: builder.mutation({
     query: ({deptId, taskDocumentStatusData}:{deptId:number,taskDocumentStatusData:any }) => ({
         url: `taskdocumentstatus/update/status/${deptId}`,

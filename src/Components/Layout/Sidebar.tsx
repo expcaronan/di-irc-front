@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Link } from "react-router-dom";
 import './SideBar.css';
+import baseUrlString from '../../Api/baseUrlString';
+import DownloadModal from './DownloadModal';
 
 interface props{
   roleId:number
@@ -11,14 +13,26 @@ interface props{
 }
 
 function Sidebar({roleId,approvalCount,noBioCount,leaveApprovalCount}:props) {
-
-  
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const closeModal = () => {
+  setIsModalOpen(false);
+  };
+  const openModal = () => {
+    setIsModalOpen(true);
+  }
 const navigate = useNavigate();
 const [financeOpen, setFinanceOpen] = useState(false);
 const [attendanceOpen, setAttendanceOpen] = useState(false);
   return (
     
-    <div className="d-flex flex-column flex-root">
+<div className="d-flex flex-column flex-root">
+   {
+            isModalOpen && 
+            <> <DownloadModal 
+            isOpen={isModalOpen} closeModal={closeModal} 
+            />
+            </>
+        }
   <div className="page d-flex flex-row flex-column-fluid">
     <aside className="page-sidebar">
 
@@ -243,9 +257,9 @@ const [attendanceOpen, setAttendanceOpen] = useState(false);
             
 
                <li className="nav-item">
-                <a
-                    href="http://204.64.166.253:80/irc_di_api/api/user/download-agent"
-                   className="nav-link d-flex align-items-center text-truncate "
+                <a href="#"
+                  onClick={() => openModal()}
+                    className="nav-link d-flex align-items-center text-truncate"
                 >
                    <span className="sidebar-icon">
                   <i className="bi bi-download"></i>

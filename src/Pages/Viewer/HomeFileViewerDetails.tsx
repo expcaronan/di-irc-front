@@ -1,11 +1,9 @@
 import React, { useState } from 'react'
-import { taskDocumentAssignedEmployeeBaseModel } from '../../Interfaces/BaseModel/taskDocumentAssignedEmployeeBaseModel';
 import baseUrlString from '../../Api/baseUrlString';
 import formatMonthDayYear from '../../Helpers/formatMonthDayYear';
 import { taskDocumentAssignedDepartmentBaseModel } from '../../Interfaces/BaseModel/taskDocumentAssignedDepartmentBaseModel';
-import { taskDocumentBaseModel } from '../../Interfaces/BaseModel/taskDocumentBaseModel';
-import TaskDocumentStatusModal from '../../Components/Page/Task/Actions/TaskDocumentStatusModal';
 import DocumentPreview from './DocumentPreview';
+import TaskDocumentStatusCreateModal from '../../Components/Page/Task/Actions/TaskDocumentStatusCreateModal';
 interface props {
     filePath: string
     assignedDocument:taskDocumentAssignedDepartmentBaseModel
@@ -76,7 +74,7 @@ return (
     }}
 >
 {
-        isModalOpen && <> <TaskDocumentStatusModal 
+        isModalOpen && <> <TaskDocumentStatusCreateModal 
         isOpen={isModalOpen} closeModal={closeModal} 
         onSuccess={handleStatusSuccess}
         assignedDocument={assignedDocument} 

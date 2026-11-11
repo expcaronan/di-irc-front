@@ -17,7 +17,7 @@ interface Props {
   documentTitle: string,
 }
 
-function TaskDocumentStatusModal({ isOpen, closeModal, onSuccess, assignedDocument, employeeId, deptId, taskdocumentId, documentTitle }: Props) {
+function TaskDocumentStatusCreateModal({ isOpen, closeModal, onSuccess, assignedDocument, employeeId, deptId, taskdocumentId, documentTitle }: Props) {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [createTaskDocumentStatus] = useCreateTaskDocumentStatusMutation();
@@ -197,4 +197,4 @@ function TaskDocumentStatusModal({ isOpen, closeModal, onSuccess, assignedDocume
   )
 }
 
-export default TaskDocumentStatusModal
+export default TaskDocumentStatusCreateModal
